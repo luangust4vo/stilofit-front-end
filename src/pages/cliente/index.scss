@@ -1,0 +1,64 @@
+.container {
+  display: flex;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+
+  .lista-container {
+    width: 300px;
+    background-color: #e0e0e0;
+    padding: 20px;
+    border-right: 1px solid #999;
+    overflow-y: auto;
+  }
+
+  .formulario {
+    flex: 1;
+    padding: 30px;
+    background-color: #f1f1f1;
+    overflow-y: auto;
+
+    .bloco {
+      background-color: #cfcfcf;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+
+      h3 {
+        background-color: #a0a0a0;
+        color: white;
+        padding: 8px 12px;
+        margin: -20px -20px 20px -20px;
+        font-size: 16px;
+      }
+    }
+
+    label {
+      display: block;
+      margin-bottom: 12px;
+      font-weight: bold;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 6px;
+      margin-top: 4px;
+      border: 1px solid #999;
+      border-radius: 3px;
+      background-color: white;
+    }
+
+    .btn-salvar {
+      padding: 10px 20px;
+      background-color: #00ad25;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #00ad25;
+      }
+    }
+  }
+}

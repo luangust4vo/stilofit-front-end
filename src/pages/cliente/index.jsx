@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { info } from 'sass';
+import './index.scss';
 const Cadastro = () => {
   const [cliente, setCliente] = useState({
     nome: '',
@@ -95,7 +95,7 @@ const Cadastro = () => {
 
   return (
     <div className="container">
-      <div className="lista-container"></div>
+      <div className="lista-container"><p>Lista de clientes</p></div>
       <main className="formulario">
         <form onSubmit={handleSubmit}>
           <div className="bloco">
