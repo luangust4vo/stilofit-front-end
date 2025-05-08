@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 const Cadastro = () => {
   const [cliente, setCliente] = useState({
     nome: '',
@@ -22,7 +22,33 @@ const Cadastro = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Cliente cadastrado!")
+    const obrigatorios = ['nome', 'dataNascimento', 'sexo', 'cpf'];
+    const faltando = obrigatorios.find((campo) => !cliente[campo]);
+    if (faltando) {
+      alert('Preencha todos os campos obrigatórios!');
+      return;
+    }
+    const clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+    const novoCliente = { ...cliente, id: crypto.randomUUID() };
+    localStorage.setItem('clientes', JSON.stringify([...clientes, novoCliente]));
+    alert('Cliente cadastrado!');
+  };
+
+  const buscarEndereco = async () => {
+    const cep = cliente.cep.replace(/\D/g, '');
+    if (cep.length === 8) {
+      const res = await fetch(`https://viacep.com.br/ws/${cliente.cep}/json/`);
+      const dados = await res.json();
+      if (!dados.erro) {
+        setCliente((prev) => ({
+          ...prev,
+          endereco: dados.logradouro,
+          bairro: dados.bairro,
+          cidade: dados.localidade,
+          uf: dados.uf,
+        }));
+      }
+    }
   };
 
   return (
@@ -33,10 +59,11 @@ const Cadastro = () => {
           <div className="bloco">
             <h3></h3>
             <label>
-              Nome*: <input name="nome" onChange={handleChange}/>
+              Nome*: <input name="nome" onChange={handleChange} />
             </label>
             <label>
-              Data de nascimento*: <input type="date" name="dataNascimento" onChange={handleChange}/>
+              Data de nascimento*:{' '}
+              <input type="date" name="dataNascimento" onChange={handleChange} />
             </label>
             <label>
               Sexo*:
@@ -47,21 +74,21 @@ const Cadastro = () => {
               </select>
             </label>
             <label>
-              CPF*: <input name="cpf" onChange={handleChange}/>
+              CPF*: <input name="cpf" onChange={handleChange} />
             </label>
           </div>
 
           <div className="bloco">
             <h3>Dados de contato</h3>
             <label>
-              Email: <input name="email" onChange={handleChange}/>
+              Email: <input name="email" onChange={handleChange} />
             </label>
           </div>
 
           <div className="bloco">
             <h3>Dados de Residência</h3>
             <label>
-              CEP: <input name="cep" onChange={handleChange}/>
+              CEP: <input name="cep" onBlur={buscarEndereco} onChange={handleChange}/>
             </label>
             <label>
               Endereço: <input value={cliente.endereco} disabled />
@@ -76,10 +103,10 @@ const Cadastro = () => {
               UF: <input value={cliente.uf} disabled />
             </label>
             <label>
-              Número: <input name="numero" onChange={handleChange}/>
+              Número: <input name="numero" onChange={handleChange} />
             </label>
             <label>
-              Complemento: <input name="complemento" onChange={handleChange}/>
+              Complemento: <input name="complemento" onChange={handleChange} />
             </label>
           </div>
           <button className="btn-salvar" type="submit">
