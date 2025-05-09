@@ -1,118 +1,123 @@
 import React, { useState } from 'react';
+import validationSchema from '../../utils/validation';
+import { fetchAddressByCEP } from '../../utils/cep';
 import './index.scss';
+
 const Cadastro = () => {
-  const [cliente, setCliente] = useState({
-    nome: '',
-    dataNascimento: '',
-    sexo: '',
+  const [client, setClient] = useState({
+    name: '',
+    birthDate: '',
+    gender: '',
     cpf: '',
     rg: '',
-    estadoCivil: '',
-    vencimenteExameMed: '',
+    maritalStatus: '',
+    medicalExamDueDate: '',
     email: '',
-    nomeResponsavel: '',
-    cpfResponsavel: '',
-    telefoneResponsavel: '',
-    contatoEmergencia: '',
-    telefoneEmergencia: '',
-    observacoes: '',
-    contatos: '',
+    guardianName: '',
+    guardianCpf: '',
+    guardianPhone: '',
+    emergencyContact: '',
+    emergencyPhone: '',
+    notes: '',
+    contactMethods: '',
     cep: '',
-    tipoEndereco: '',
-    endereco: '',
-    bairro: '',
-    cidade: '',
-    uf: '',
-    numero: '',
-    complemento: '',
-    informacoes: '',
-    consultor: '',
+    addressType: '',
+    address: '',
+    district: '',
+    city: '',
+    state: '',
+    number: '',
+    complement: '',
+    additionalInfo: '',
+    consultant: '',
   });
+
+  const [editableFields, setEditableFields] = useState({
+    address: true,
+    district: true,
+    city: true,
+    state: true,
+  });
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCliente({ ...cliente, [name]: value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const obrigatorios = ['nome', 'dataNascimento', 'sexo', 'cpf'];
-    const faltando = obrigatorios.find((campo) => !cliente[campo]);
-    if (faltando) {
-      alert('Preencha todos os campos obrigatórios!');
-      return;
-    }
-    if (!validarCPF(cliente.cpf)) {
-      alert('CPF inválido!');
-      return;
-    }
-    if (cliente.email && !validarEmail(cliente.email)) {
-      alert('Email inválido!');
-      return;
-    }
-    const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-    const novoCliente = { ...cliente, id: crypto.randomUUID() };
-    localStorage.setItem('clientes', JSON.stringify([...clientes, novoCliente]));
-    alert('Cliente cadastrado!');
+    setClient({ ...client, [name]: value });
   };
 
   const buscarEndereco = async () => {
-    const cep = cliente.cep.replace(/\D/g, '');
+    const cep = client.cep.replace(/\D/g, '');
     if (cep.length === 8) {
-      const res = await fetch(`https://viacep.com.br/ws/${cliente.cep}/json/`);
-      const dados = await res.json();
-      if (!dados.erro) {
-        setCliente((prev) => ({
+      const data = await fetchAddressByCEP(cep);
+      if (data) {
+        setClient((prev) => ({
           ...prev,
-          endereco: dados.logradouro,
-          bairro: dados.bairro,
-          cidade: dados.localidade,
-          uf: dados.uf,
+          address: data.logradouro || '',
+          district: data.bairro || '',
+          city: data.localidade || '',
+          state: data.uf || '',
         }));
+        setEditableFields({
+            address: false,
+            district: false,
+            city: false,
+            state: false,
+          });
+        } else {
+          setEditableFields({
+            address: true,
+            district: true,
+            city: true,
+            state: true,
+          });
+
       }
     }
   };
 
-  function validarCPF(cpf) {
-    cpf = cpf.replace(/[^\d]+/g, '');
-    if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
-    let soma = 0;
-    for (let i = 0; i < 9; i++) soma += parseInt(cpf[i]) * (10 - i);
-    let resto = (soma * 10) % 11;
-    if (resto === 10 || resto === 11) resto = 0;
-    if (resto !== parseInt(cpf[9])) return false;
-    soma = 0;
-    for (let i = 0; i < 10; i++) soma += parseInt(cpf[i]) * (11 - i);
-    resto = (soma * 10) % 11;
-    if (resto === 10 || resto === 11) resto = 0;
-    return resto === parseInt(cpf[10]);
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  function validarEmail(email) {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  }
+    try {
+      await validationSchema.validate(client, { abortEarly: false });
+
+      const clients = JSON.parse(localStorage.getItem('clientes')) || [];
+      const newClient = { ...client, id: crypto.randomUUID() };
+      localStorage.setItem('clientes', JSON.stringify([...clients, newClient]));
+      alert('Cliente cadastrado!');
+    } catch (error) {
+      if (error.inner) {
+        const msg = error.inner.map((err) => err.message).join('\n');
+        alert(msg);
+      } else {
+        alert('Erro ao validar dados!');
+      }
+    }
+  };
+
 
   return (
     <div className="container">
-      <div className="lista-container"><p>Lista de clientes</p></div>
-      <main className="formulario">
+      <div className="list-container">
+        <p>Lista de clientes</p>
+      </div>
+      <main className="form">
         <form onSubmit={handleSubmit}>
-          <div className="bloco">
+          <div className="block">
             <h3>Dados do Cliente</h3>
             <label>
-              Nome*: <input name="nome" onChange={handleChange} />
+              Nome*: <input name="name" onChange={handleChange} />
             </label>
             <label>
               Email: <input name="email" onChange={handleChange} />
             </label>
             <label>
               Data de nascimento*:{' '}
-              <input type="date" name="dataNascimento" onChange={handleChange} />
+              <input type="date" name="birthDate" onChange={handleChange} />
             </label>
             <label>
               Sexo*:
-              <select name="sexo" onChange={handleChange}>
+              <select name="gender" onChange={handleChange}>
                 <option value="">Selecione</option>
                 <option value="M">Masculino</option>
                 <option value="F">Feminino</option>
@@ -125,96 +130,119 @@ const Cadastro = () => {
               RG: <input name="rg" onChange={handleChange} />
             </label>
             <label>
-              Estado Civil: <input name="estadoCivil" onChange={handleChange} />
+              Estado Civil: <input name="maritalStatus" onChange={handleChange} />
             </label>
             <label>
               Vencimento Exame Médico:{' '}
-              <input type="date" name="vencimentoExameMed" onChange={handleChange} />
+              <input type="date" name="medicalExamDueDate" onChange={handleChange} />
             </label>
           </div>
 
-          <div className="bloco">
+          <div className="block">
             <h3>Responsável pelo cliente</h3>
             <label>
-              Nome: <input name="nomeResponsavel" onChange={handleChange} />
+              Nome: <input name="guardianName" onChange={handleChange} />
             </label>
             <label>
-              CPF: <input name="cpfResponsavel" onChange={handleChange} />
+              CPF: <input name="guardianCpf" onChange={handleChange} />
             </label>
             <label>
-              Telefone: <input name="telefoneResponsavel" onChange={handleChange} />
+              Telefone: <input name="guardianPhone" onChange={handleChange} />
             </label>
           </div>
 
-          <div className="bloco">
+          <div className="block">
             <h3>Dados de emergência</h3>
             <label>
-              Nome do Contato: <input name="contatoEmergencia" onChange={handleChange} />
+              Nome do Contato: <input name="emergencyContact" onChange={handleChange} />
             </label>
             <label>
-              Telefone: <input name="telefoneEmergencia" onChange={handleChange} />
+              Telefone: <input name="emergencyPhone" onChange={handleChange} />
             </label>
             <label>
-              Observações: <textarea name="observacoes" onChange={handleChange} />
+              Observações: <textarea name="notes" onChange={handleChange} />
             </label>
           </div>
 
-          <div className="bloco">
+          <div className="block">
             <h3>Dados de contato</h3>
             <label>
-              Formas de contato: <input name="contatos" onChange={handleChange} />
+              Formas de contato: <input name="contactMethods" onChange={handleChange} />
             </label>
           </div>
 
-          <div className="bloco">
+          <div className="block">
             <h3>Dados de Residência</h3>
             <label>
               Tipo:
-              <select name="tipoEndereco" onChange={handleChange}>
+              <select name="addressType" onChange={handleChange}>
                 <option value="">Selecione</option>
-                <option value="Residencial">Residencial</option>
-                <option value="Comercial">Comercial</option>
+                <option value="Residential">Residencial</option>
+                <option value="Commercial">Comercial</option>
               </select>
             </label>
             <label>
               CEP: <input name="cep" onBlur={buscarEndereco} onChange={handleChange} />
             </label>
             <label>
-              Endereço: <input value={cliente.endereco} disabled />
+              Endereço:
+              <input
+                name="address"
+                value={client.address}
+                onChange={handleChange}
+                disabled={!editableFields.address}
+              />
             </label>
             <label>
-              Bairro: <input value={cliente.bairro} disabled />
+              Bairro:
+              <input
+                name="district"
+                value={client.district}
+                onChange={handleChange}
+                disabled={!editableFields.district}
+              />
             </label>
             <label>
-              Cidade: <input value={cliente.cidade} disabled />
+              Cidade:
+              <input
+                name="city"
+                value={client.city}
+                onChange={handleChange}
+                disabled={!editableFields.city}
+              />
             </label>
             <label>
-              UF: <input value={cliente.uf} disabled />
+              UF:
+              <input
+                name="state"
+                value={client.state}
+                onChange={handleChange}
+                disabled={!editableFields.state}
+              />
+            </label>
+
+            <label>
+              Número: <input name="number" onChange={handleChange} />
             </label>
             <label>
-              Número: <input name="numero" onChange={handleChange} />
-            </label>
-            <label>
-              Complemento: <input name="complemento" onChange={handleChange} />
+              Complemento: <input name="complement" onChange={handleChange} />
             </label>
           </div>
 
-          <div className="bloco">
+          <div className="block">
             <h3>Informações Adicionais</h3>
             <label>
-              <textarea name="informacoes" onChange={handleChange} />
+              <textarea name="additionalInfo" onChange={handleChange} />
             </label>
           </div>
 
-          <div className="bloco">
+          <div className="block">
             <h3>Responsabilidade</h3>
             <label>
-              Consultor: <input name="consultor" onChange={handleChange} />
+              Consultor: <input name="consultant" onChange={handleChange} />
             </label>
           </div>
-          <button className="btn-salvar" type="submit">
-            Salvar
-          </button>
+          <button className='btn'>Salvar</button>
         </form>
       </main>
     </div>
