@@ -1,10 +1,13 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import classNames from 'classnames';
-import './textarea.scss';
+import './components.scss';
 
 const Textarea = ({ name, label, ...rest }) => {
-  const { register, formState: { errors } } = useFormContext();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
   return (
     <div className={classNames('form-group', { 'has-error': errors[name] })}>
       {label && <label htmlFor={name}>{label}</label>}

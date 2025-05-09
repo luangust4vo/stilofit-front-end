@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { ToastContainer, toast } from 'react-toastify';
 import validationSchema from '../../utils/validation';
 import { fetchAddressByCEP } from '../../utils/cep';
 import Button from '../../components/button';
 import Input from '../../components/input';
 import Textarea from '../../components/textarea';
+import Select from '../../components/select';
 import './index.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
   const methods = useForm({
@@ -54,7 +57,7 @@ const Register = () => {
     const clients = JSON.parse(localStorage.getItem('clientes')) || [];
     const newClient = { ...data, id: crypto.randomUUID() };
     localStorage.setItem('clientes', JSON.stringify([...clients, newClient]));
-    alert('Cliente cadastrado!');
+    toast.success('Cliente cadastrado!');
   };
 
   return (
@@ -67,18 +70,15 @@ const Register = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="block">
               <h3>Dados do Cliente</h3>
-              <Input label="Nome*" name="name" />
+              <Input label="Nome" name="name" required/>
               <Input label="Email" name="email" />
-              <Input label="Data de nascimento*" name="birthDate" type="date" />
-              <label>
-                Sexo*:
-                <select {...methods.register('gender')}>
-                  <option value="">Selecione</option>
-                  <option value="M">Masculino</option>
-                  <option value="F">Feminino</option>
-                </select>
-              </label>
-              <Input label="CPF*" name="cpf" />
+              <Input label="Data de nascimento" name="birthDate" type="date" required/>
+              <Select label="Sexo" name="gender" required>
+                <option value="">Selecione</option>
+                <option value="M">Masculino</option>
+                <option value="F">Feminino</option>
+              </Select>
+              <Input label="CPF" name="cpf" required/>
               <Input label="RG" name="rg" />
               <Input label="Estado Civil" name="maritalStatus" />
               <Input label="Vencimento Exame Médico" name="medicalExamDueDate" type="date" />
@@ -105,14 +105,11 @@ const Register = () => {
 
             <div className="block">
               <h3>Dados de Residência</h3>
-              <label>
-                Tipo:
-                <select {...methods.register('addressType')}>
-                  <option value="">Selecione</option>
-                  <option value="Residential">Residencial</option>
-                  <option value="Commercial">Comercial</option>
-                </select>
-              </label>
+              <Select label="Tipo de Residência" name="residenceType">
+                <option value="">Selecione</option>
+                <option value="Residential">Residencial</option>
+                <option value="Commercial">Comercial</option>
+              </Select>
               <Input label="CEP" name="cep" onBlur={searchAddress} />
               <Input label="Endereço" name="address" disabled={!editableFields.address} />
               <Input label="Bairro" name="district" disabled={!editableFields.district} />
@@ -135,6 +132,7 @@ const Register = () => {
             <Button>Salvar</Button>
           </form>
         </FormProvider>
+        <ToastContainer position="top-right" autoClose={3000} />
       </main>
     </div>
   );

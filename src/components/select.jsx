@@ -3,7 +3,7 @@ import { useFormContext } from 'react-hook-form';
 import classNames from 'classnames';
 import './components.scss';
 
-const Input = ({ name, label, required, ...rest }) => {
+const Select = ({ name, label, children, required, ...rest }) => {
   const {
     register,
     formState: { errors },
@@ -17,9 +17,11 @@ const Input = ({ name, label, required, ...rest }) => {
           {errors[name] && <span className="error-message"> {errors[name].message}</span>}
         </label>
       )}
-      <input id={name} {...register(name)} {...rest} />
+      <select id={name} {...register(name)} {...rest}>
+        {children}
+      </select>
     </div>
   );
 };
 
-export default Input;
+export default Select;
