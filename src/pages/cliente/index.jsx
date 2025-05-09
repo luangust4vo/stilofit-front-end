@@ -58,6 +58,7 @@ const Register = () => {
     const newClient = { ...data, id: crypto.randomUUID() };
     localStorage.setItem('clientes', JSON.stringify([...clients, newClient]));
     toast.success('Cliente cadastrado!');
+    useForm.reset();
   };
 
   return (
@@ -80,7 +81,14 @@ const Register = () => {
               </Select>
               <Input label="CPF" name="cpf" required/>
               <Input label="RG" name="rg" />
-              <Input label="Estado Civil" name="maritalStatus" />
+              <Select label="Estado Civil" name="maritalStatus">
+                <option value="">Selecione</option>
+                <option value="Solteiro">Solteiro</option>
+                <option value="Casado">Casado</option>
+                <option value="Divorciado">Divorciado</option>
+                <option value="Viúvo">Viúvo</option>
+                <option value="Separado">Separado</option>
+              </Select>
               <Input label="Vencimento Exame Médico" name="medicalExamDueDate" type="date" />
             </div>
 

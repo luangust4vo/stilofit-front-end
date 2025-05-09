@@ -33,8 +33,20 @@
   .error-message {
     color: red;
     font-size: 0.8rem;
-    margin-top: 0.25rem;
     font-weight: normal;
     margin-left: 1rem;
+  }
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #000080;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #100053e7;
   }
 }
