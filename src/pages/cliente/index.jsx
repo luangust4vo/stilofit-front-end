@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { ToastContainer, toast } from 'react-toastify';
 import validationSchema from '../../utils/validation';
 import { fetchAddressByCEP } from '../../utils/cep';
+import MaskedInput from '../../components/inputMask';
 import Button from '../../components/button';
 import Input from '../../components/input';
 import Textarea from '../../components/textarea';
@@ -73,14 +74,14 @@ const Register = () => {
               <h3>Dados do Cliente</h3>
               <Input label="Nome" name="name" required/>
               <Input label="Email" name="email" />
-              <Input label="Data de nascimento" name="birthDate" type="date" required/>
+              <MaskedInput label="Data de Nascimento" name="birthDate" mask="00/00/0000" required />
               <Select label="Sexo" name="gender" required>
                 <option value="">Selecione</option>
                 <option value="M">Masculino</option>
                 <option value="F">Feminino</option>
               </Select>
-              <Input label="CPF" name="cpf" required/>
-              <Input label="RG" name="rg" />
+              <MaskedInput label="CPF" name="cpf" mask="000.000.000-00" required />
+              <MaskedInput label="RG" name="rg" mask="00.000.000-0"/>
               <Select label="Estado Civil" name="maritalStatus">
                 <option value="">Selecione</option>
                 <option value="Solteiro">Solteiro</option>
@@ -89,26 +90,27 @@ const Register = () => {
                 <option value="Viúvo">Viúvo</option>
                 <option value="Separado">Separado</option>
               </Select>
-              <Input label="Vencimento Exame Médico" name="medicalExamDueDate" type="date" />
+              <MaskedInput label="Vencimento Exame Médico" name="medicalExamDueDate" mask="00/00/0000" />
             </div>
 
             <div className="block">
               <h3>Responsável pelo cliente</h3>
               <Input label="Nome" name="guardianName" />
-              <Input label="CPF" name="guardianCpf" />
-              <Input label="Telefone" name="guardianPhone" />
-            </div>
+              <MaskedInput label="CPF" name="guardianCpf" mask="000.000.000-00"/>
+              <MaskedInput label="Telefone" name="guardianPhone" mask="(00) 00000-0000" />
+              </div>
 
             <div className="block">
               <h3>Dados de emergência</h3>
               <Input label="Nome do Contato" name="emergencyContact" />
-              <Input label="Telefone" name="emergencyPhone" />
+              <MaskedInput label="Telefone" name="emergencyPhone"  mask="(00) 00000-0000"/>
               <Textarea label="Observações" name="notes" />
             </div>
 
             <div className="block">
               <h3>Dados de contato</h3>
-              <Input label="Formas de contato" name="contactMethods" />
+              <Input label="Email" name="email" />
+              <MaskedInput label="Celular" name="cellphone"  mask="(00) 00000-0000"/>
             </div>
 
             <div className="block">
@@ -118,7 +120,7 @@ const Register = () => {
                 <option value="Residential">Residencial</option>
                 <option value="Commercial">Comercial</option>
               </Select>
-              <Input label="CEP" name="cep" onBlur={searchAddress} />
+              <MaskedInput label="CEP" name="cep" mask="00000-000" onBlur={searchAddress} />
               <Input label="Endereço" name="address" disabled={!editableFields.address} />
               <Input label="Bairro" name="district" disabled={!editableFields.district} />
               <Input label="Cidade" name="city" disabled={!editableFields.city} />
