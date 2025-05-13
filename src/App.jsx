@@ -6,7 +6,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path='/register-contracts' element={<RegisterContractrContract/>} />
+        <Route path='/register-contract' element={<RegisterContract/>} />
       </Routes>
     </Router>
   )
