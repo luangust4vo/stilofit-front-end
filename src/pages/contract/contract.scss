@@ -16,5 +16,21 @@
         padding: 30px;
         background-color: #f1f1f1;
         overflow-y: auto;
+
+        .block {
+            background-color: #cfcfcf;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+      
+            h3 {
+              background-color: #000080;
+              color: white;
+              padding: 8px 12px;
+              margin: -20px -20px 20px -20px;
+              font-size: 16px;
+              border-radius:10px 10px 0 0;
+            }
+        }
     }
 }
