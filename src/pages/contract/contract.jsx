@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
+import './contract.scss';
 
 const RegisterContract = () => {
   return (
     <div className="container">
-        <h1>Estou na página Register Contract</h1>
+        <div className="list-container">
+            <p>Lista de clientes</p>
+        </div>
+        <main className="form">
+            <h1>Olá</h1>
+        </main>
     </div>
   );
 };
