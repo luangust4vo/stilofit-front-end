@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+
+  .list-container {
+    width: 300px;
+    background-color: #e0e0e0;
+    padding: 20px;
+    border-right: 1px solid #999;
+    overflow-y: auto;
+  }
+
+  .form {
+    flex: 1;
+    padding: 30px;
+    background-color: #f1f1f1;
+    overflow-y: auto;
+
+    .block {
+      background-color: #cfcfcf;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+
+      h3 {
+        background-color: #000080;
+        color: white;
+        padding: 8px 12px;
+        margin: -20px -20px 20px -20px;
+        font-size: 16px;
+        border-radius:10px 10px 0 0;
+      }
+    }
+  }
+}

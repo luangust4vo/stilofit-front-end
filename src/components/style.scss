@@ -1,0 +1,52 @@
+.form-group {
+  margin-bottom: 1rem;
+
+  label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: bold;
+    gap: 1rem;
+
+    .required-asterisk {
+      color: red;
+      margin-left: 0.2rem;
+    }
+  }
+
+  input,
+  select,
+  textarea {
+    resize: none;
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  &.has-error select,
+  &.has-error input {
+    border-color: red;
+  }
+
+  .error-message {
+    color: red;
+    font-size: 0.8rem;
+    font-weight: normal;
+    margin-left: 1rem;
+  }
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #000080;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #100053e7;
+  }
+}
