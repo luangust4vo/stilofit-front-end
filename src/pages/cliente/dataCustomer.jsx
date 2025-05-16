@@ -21,15 +21,15 @@ const DataCustomer = () => {
       </div>
 
       <div className="client-container">
-        <div className="client-lateral">
+        <div className="client-side">
           <Button className='btn'>Status</Button>
           <img src={selectedClient?.photo || ''} alt="Foto" className="photo-user" />
           <p className="client-name">{selectedClient ? selectedClient.name : 'Nome'}</p>
           <Button>Anexos</Button>
         </div>
 
-        <div className="client-conteudo">
-          <div className="abas">
+        <div className="client-content">
+          <div className="tabs">
             <Button>Dados</Button>
             <Button>Venda</Button>
             <Button>Pagamento</Button>
