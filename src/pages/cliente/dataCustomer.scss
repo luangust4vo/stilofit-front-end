@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  font-family: Arial, sans-serif;
+  width: 100vw;
+  height: 100vh;
+
+  .client-container {
+    flex: 1;
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+    height: 100%;
+
+    .client-lateral {
+      width: 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .photo-user {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: #888;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+
+      .client-name {
+        font-weight: bold;
+        margin: 5px 0;
+      }
+    }
+
+    .client-conteudo {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      flex: 1;
+      height: 100%;
+
+      .abas {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .box-info {
+        background: #ccc;
+        padding: 20px;
+        flex-grow: 1;
+      }
+
+      .edit {
+        align-self: flex-end;
+      }
+    }
+  }
+
+  
+}
