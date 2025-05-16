@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { ToastContainer, toast } from 'react-toastify';
 import validationSchema from '../../utils/validation';
 import { fetchAddressByCEP } from '../../utils/cep';
-import List from './list';
+import ListClient from './listClient';
 import MaskedInput from '../../components/inputMask';
 import Button from '../../components/button';
 import Input from '../../components/input';
@@ -66,7 +66,7 @@ const Register = () => {
   return (
     <div className="container">
       <div className="list-container">
-        <List />
+        <ListClient/>
       </div>
       <main className="form">
         <FormProvider {...methods}>
@@ -110,7 +110,7 @@ const Register = () => {
 
             <div className="block">
               <h3>Dados de contato</h3>
-              <Input label="Email" name="email" />
+              <Input label="Email" name="email_contact" />
               <MaskedInput label="Celular" name="cellphone"  mask="(00) 00000-0000"/>
             </div>
 

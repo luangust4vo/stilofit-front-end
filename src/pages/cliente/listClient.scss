@@ -2,7 +2,7 @@
   width: 73px;
   background-color: #cfcfcf;
   transition: width 0.3s ease;
-  height: 100vh;
+  height: 100%;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -40,6 +40,7 @@
     align-items: center;
     padding: 8px 5px;
     gap: 10px;
+    cursor: pointer;
   }
 
   .icon-user {
