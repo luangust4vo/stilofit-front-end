@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './listClient.scss';
+import Button from '../../components/button';
 import { useNavigate } from 'react-router-dom';
 
-const List = ({onClientSelect}) => {
+const List = ({ onClientSelect }) => {
   const [expanded, setExpanded] = React.useState(false);
   const [clients, setClients] = React.useState([]);
   const [filteredClients, setFilteredClients] = useState([]);
@@ -17,7 +18,7 @@ const List = ({onClientSelect}) => {
   };
 
   const goRegistration = () => {
-    navigate("../cadastro");
+    navigate('../cadastro');
   };
 
   const changeExpanded = () => {
@@ -46,39 +47,62 @@ const List = ({onClientSelect}) => {
     }
   }, [search, clients]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const bottom = window.innerHeight + window.scrollY >= document.body.offsetHeight;
+      if (bottom) {
+        setOffset((prev) => prev + limit);
+      }
+    };
+
+    if (expanded) {
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
+  }, [expanded]);
+
   const handleLoadMore = () => {
     setOffset((prev) => prev + limit);
   };
 
   return (
-    <div className={`sidebar ${expanded ? 'expanded' : ''}`}>
+    <div
+      className={`sidebar ${expanded ? 'expanded' : ''}`}
+      onClick={() => !expanded && setExpanded(true)}
+    >
       <div className="top-bar">
-        <button className="btn-icon" onClick={changeExpanded}>
-          ☰
-        </button>
+        <div className="search-row">
+          {expanded && (
+            <input
+              className="field-search"
+              placeholder="Buscar..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          )}
+        </div>
         {expanded && (
-          <input
-            className="field-search"
-            placeholder="Buscar..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+          <button className="btn-icon">
+            <i className="bi bi-funnel-fill"></i>
+          </button>
         )}
-        {expanded && <button className="btn-icon">⎘</button>}
-        {expanded && <button className="btn-icon" onClick={goRegistration}>+</button>}
+        {expanded && (
+          <button className="btn-icon" onClick={goRegistration}>
+            <i className="bi-person-fill-add"></i>
+          </button>
+        )}
       </div>
 
       {(search ? filteredClients : clients).map((client) => (
         <div className="user" key={client.id} onClick={() => handleClientClick(client)}>
-          <img className="icon-user" src={client.photo || ''} alt="foto" />
+          {client.photo ? (
+            <img className="icon-user" src={client.photo} alt="foto" />
+          ) : (
+            <i className="bi bi-person-fill icon-user"></i>
+          )}
           {expanded && <span>{client.name}</span>}
         </div>
       ))}
-      {expanded && (
-        <button className="btn-icon" onClick={handleLoadMore}>
-          Carregar mais
-        </button>
-      )}
     </div>
   );
 };

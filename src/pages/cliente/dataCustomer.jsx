@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ListClient from './listClient';
 import Button from '../../components/button';
@@ -22,8 +22,13 @@ const DataCustomer = () => {
 
       <div className="client-container">
         <div className="client-side">
-          <Button className='btn'>Status</Button>
-          <img src={selectedClient?.photo || ''} alt="Foto" className="photo-user" />
+          <Button className="btn">Status</Button>
+          {selectedClient?.photo ? (
+            <img src={selectedClient.photo} alt="Foto" className="photo-user" />
+          ) : (
+            <i className="bi bi-person-fill photo-user"></i>
+          )}
+
           <p className="client-name">{selectedClient ? selectedClient.name : 'Nome'}</p>
           <Button>Anexos</Button>
         </div>

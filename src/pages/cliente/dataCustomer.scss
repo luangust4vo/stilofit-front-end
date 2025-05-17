@@ -7,28 +7,36 @@
   .client-container {
     flex: 1;
     display: flex;
-    padding: 20px;
+    padding: 30px;
     gap: 20px;
-    height: 100%;
+    align-items: flex-start;
+    justify-content: space-between;
 
     .client-side {
-      width: 150px;
+      width: 250px;
       display: flex;
       flex-direction: column;
       align-items: center;
 
       .photo-user {
-        width: 100px;
-        height: 100px;
+        width: 200px;
+        height: 200px;
         border-radius: 50%;
-        background: #888;
-        margin-top: 10px;
-        margin-bottom: 10px;
+        background: #cfcfcf;
+        object-fit: cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 130px;
+        color: #000080;
+        margin-top: 15px;
+        margin-bottom: 15px;
       }
 
       .client-name {
         font-weight: bold;
-        margin: 5px 0;
+        font-size: 20px;
+        margin: 5px 0 13px;
       }
     }
 
@@ -46,7 +54,7 @@
       }
 
       .box-info {
-        background: #ccc;
+        background: #cfcfcf;
         padding: 20px;
         flex-grow: 1;
       }
@@ -56,6 +64,4 @@
       }
     }
   }
-
-  
 }
