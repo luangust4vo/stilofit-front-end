@@ -1,14 +1,8 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import Register from './pages/cliente/index'
+import AppRoutes from './routes/AppRoutes'
+
 const App = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/cadastro" element={<Register />} />
-      </Routes>
-    </Router>
-  )
+  return <AppRoutes />
 }
 
 export default App
