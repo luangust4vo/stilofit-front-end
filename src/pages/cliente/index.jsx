@@ -2,14 +2,10 @@ import React, { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ToastContainer, toast } from 'react-toastify';
-import validationSchema from '../../utils/validation';
-import { fetchAddressByCEP } from '../../utils/cep';
-import MaskedInput from '../../components/inputMask';
-import Button from '../../components/button';
-import Input from '../../components/input';
-import Textarea from '../../components/textarea';
-import Select from '../../components/select';
-import './index.scss';
+import { validationSchema, fetchAddressByCEP} from '../../utils/validation';
+import { MaskedInput, Button, Input, Textarea, Select } from '../../components';
+
+import './styles.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
