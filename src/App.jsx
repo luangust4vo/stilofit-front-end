@@ -1,16 +1,8 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import Register from './pages/cliente/index'
-import DataCustomer from './pages/cliente/dataCustomer'
+import AppRoutes from './routes/AppRoutes'
+
 const App = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/cadastro" element={<Register />} />
-        <Route path="/cliente/:id" element={<DataCustomer />} />
-      </Routes>
-    </Router>
-  )
+  return <AppRoutes />
 }
 
 export default App
