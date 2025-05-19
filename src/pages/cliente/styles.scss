@@ -2,12 +2,12 @@
   display: flex;
   font-family: Arial, sans-serif;
   overflow: hidden;
+  width: 100%;
 
   .form {
-    flex: 1;
-    padding: 30px;
-    background-color: #f1f1f1;
+    flex:1;
     overflow-y: auto;
+    margin-bottom: 40px;
 
     .block {
       background-color: #cfcfcf;

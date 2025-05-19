@@ -4,7 +4,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { ToastContainer, toast } from 'react-toastify';
 import { validationSchema, fetchAddressByCEP} from '../../utils/validation';
 import { MaskedInput, Button, Input, Textarea, Select } from '../../components';
-import ListClient from './listClient';
 
 import './styles.scss';
 import 'react-toastify/dist/ReactToastify.css';
@@ -61,9 +60,6 @@ const Register = () => {
 
   return (
     <div className="container">
-      <div className="list-container">
-        <ListClient/>
-      </div>
       <main className="form">
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -135,7 +131,6 @@ const Register = () => {
               <h3>Responsabilidade</h3>
               <Input label="Consultor" name="consultant" />
             </div>
-
             <Button>Salvar</Button>
           </form>
         </FormProvider>

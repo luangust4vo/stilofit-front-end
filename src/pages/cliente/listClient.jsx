@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './listClient.scss';
-import Button from '../../components/button';
 import { useNavigate } from 'react-router-dom';
 
 const List = ({ onClientSelect }) => {
@@ -68,7 +67,7 @@ const List = ({ onClientSelect }) => {
   return (
     <div
       className={`sidebar ${expanded ? 'expanded' : ''}`}
-      onClick={() => !expanded && setExpanded(true)}
+      onClick={() => setExpanded(!expanded)}
     >
       <div className="top-bar">
         <div className="search-row">
