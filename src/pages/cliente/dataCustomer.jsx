@@ -1,40 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import ListClient from './listClient';
-import Button from '../../components/button';
-import './dataCustomer.scss';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import ListClient from "./listClient";
+import Button from "../../components/button";
+import "./dataCustomer.scss";
 
 const DataCustomer = () => {
   const { id } = useParams();
   const [selectedClient, setSelectedClient] = useState(null);
 
   useEffect(() => {
-    const clients = JSON.parse(localStorage.getItem('clientes')) || [];
+    const clients = JSON.parse(localStorage.getItem("clientes")) || [];
     const foundClient = clients.find((c) => String(c.id) === id);
     setSelectedClient(foundClient);
   }, [id]);
 
   return (
     <div className="container">
-      <div className="list-container">
-        <ListClient onClientSelect={setSelectedClient} />
-      </div>
-
       <div className="client-container">
         <div className="client-side">
-          <Button className="btn">Status</Button>
           {selectedClient?.photo ? (
             <img src={selectedClient.photo} alt="Foto" className="photo-user" />
           ) : (
             <i className="bi bi-person-fill photo-user"></i>
           )}
 
-          <p className="client-name">{selectedClient ? selectedClient.name : 'Nome'}</p>
+          <p className="client-name">
+            {selectedClient ? selectedClient.name : "Nome"}
+          </p>
           <Button>Anexos</Button>
         </div>
 
         <div className="client-content">
           <div className="tabs">
+            <Button>Status</Button>
             <Button>Dados</Button>
             <Button>Venda</Button>
             <Button>Pagamento</Button>
@@ -57,7 +55,8 @@ const DataCustomer = () => {
                   <strong>Telefone:</strong> {selectedClient.cellphone}
                 </p>
                 <p>
-                  <strong>Data de nascimento:</strong> {selectedClient.birthDate}
+                  <strong>Data de nascimento:</strong>{" "}
+                  {selectedClient.birthDate}
                 </p>
                 <p>
                   <strong>CPF:</strong> {selectedClient.cpf}
@@ -67,7 +66,7 @@ const DataCustomer = () => {
                 </p>
               </>
             ) : (
-              'Dados'
+              "Dados"
             )}
           </div>
           <div className="box-info">
@@ -78,7 +77,7 @@ const DataCustomer = () => {
                 </p>
               </>
             ) : (
-              'Informações do contrato'
+              "Informações do contrato"
             )}
           </div>
           <div className="box-info">
@@ -89,7 +88,7 @@ const DataCustomer = () => {
                 </p>
               </>
             ) : (
-              'Campo de texto de observações'
+              "Campo de texto de observações"
             )}
           </div>
 

@@ -17,7 +17,7 @@ const List = ({ onClientSelect }) => {
   };
 
   const goRegistration = () => {
-    navigate('../cadastro');
+    navigate('../cliente');
   };
 
   const changeExpanded = () => {
@@ -65,31 +65,22 @@ const List = ({ onClientSelect }) => {
   };
 
   return (
-    <div
-      className={`sidebar ${expanded ? 'expanded' : ''}`}
-      onClick={() => setExpanded(!expanded)}
-    >
+    <div className="sidebar">
       <div className="top-bar">
         <div className="search-row">
-          {expanded && (
             <input
               className="field-search"
               placeholder="Buscar..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-          )}
         </div>
-        {expanded && (
           <button className="btn-icon">
             <i className="bi bi-funnel-fill"></i>
           </button>
-        )}
-        {expanded && (
           <button className="btn-icon" onClick={goRegistration}>
             <i className="bi-person-fill-add"></i>
           </button>
-        )}
       </div>
 
       {(search ? filteredClients : clients).map((client) => (
@@ -99,7 +90,7 @@ const List = ({ onClientSelect }) => {
           ) : (
             <i className="bi bi-person-fill icon-user"></i>
           )}
-          {expanded && <span>{client.name}</span>}
+          <span className="username">{client.name}</span>
         </div>
       ))}
     </div>

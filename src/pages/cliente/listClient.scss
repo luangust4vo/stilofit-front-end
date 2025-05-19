@@ -8,9 +8,20 @@
   flex-direction: column;
   overflow: hidden;
 
-  &.expanded {
+  &:hover {
     width: 280px;
     overflow-y: auto;
+
+    .top-bar {
+      .field-search,
+      .btn-icon {
+        display: inline-block;
+      }
+    }
+
+    .user .username {
+      display: inline;
+    }
   }
 
   .top-bar {
@@ -20,9 +31,15 @@
     margin-top: 12px;
     margin-bottom: 5px;
 
+    .field-search,
+    .btn-icon {
+      display: none;
+    }
+
     .search-row {
       display: flex;
       align-items: center;
+      flex: 1;
     }
 
     .field-search {
@@ -35,7 +52,7 @@
     .btn-icon {
       background: none;
       border: none;
-      color: #000080;      
+      color: #000080;
       padding: 10px;
       font-size: 24px;
       cursor: pointer;
@@ -48,11 +65,11 @@
     padding: 8px 5px;
     gap: 10px;
     cursor: pointer;
-  
+
     &:hover {
       background-color: #e0e0e0;
     }
-  
+
     .icon-user {
       width: 40px;
       height: 40px;
@@ -65,11 +82,17 @@
       margin: 10px 0;
       flex-shrink: 0;
     }
-  
+
     i.bi-person-fill {
       font-size: 24px;
       color: #000080;
     }
+
+    .username {
+      display: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
-  
 }
