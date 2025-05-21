@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Register from "../pages/cliente";
-import RegisterContract from "../pages/contract/contract";
+import RegisterContract from "../pages/contract";
 import DataCustomer from "../pages/cliente/dataCustomer";
 import Layout from "../pages/cliente/layout";
 
@@ -15,7 +15,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Layout />}>
           <Route path="cliente" element={<Register />} />
           <Route path="cliente/:id" element={<DataCustomer />} />
-          <Route path="cadastro-contrato" element={<RegisterContract />} />
+          <Route path="contrato" element={<RegisterContract />} />
         </Route>
       </Routes>
     </BrowserRouter>
