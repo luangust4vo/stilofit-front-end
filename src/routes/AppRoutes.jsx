@@ -1,10 +1,7 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Register, Info, Layout } from "../pages/client";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Register, Info, Layout } from '../pages/client';
+import Turma from '../pages/turma'; 
 
-// Aqui você pode adicionar as rotas do seu projeto
-// Você também pode adicionar rotas aninhadas e, se quiser, até dividir elas em arquivos diferentes
-// Exemplo: clientRoutes.js, adminRoutes.js, etc. Ai faz a importação e exporta tudo aqui
 const AppRoutes = () => {
   return (
     <BrowserRouter>
@@ -13,6 +10,7 @@ const AppRoutes = () => {
           <Route index element={<Register />} />
           <Route path=":id" element={<Info />} />
         </Route>
+        <Route path="/turma" element={<Turma />} />
       </Routes>
     </BrowserRouter>
   );

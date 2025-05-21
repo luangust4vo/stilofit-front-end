@@ -1,16 +1,8 @@
-import React from 'react'
-import AppRoutes from './routes/AppRoutes'
+import React from 'react';
+import AppRoutes from './routes/AppRoutes'; // ou outro componente
 
-import Turma from './pages/turma/index'
-const App = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/cadastro" element={<Register />} />
-        <Route path="/turma" element={<Turma />} />
-      </Routes>
-    </Router>
-  )
+function App() {
+  return <AppRoutes />;
 }
 
-export default App
+export default App;

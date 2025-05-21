@@ -1,34 +1,67 @@
-import { data } from 'react-router-dom';
-import './index.scss'
+import React from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-const validacoes = Yup.object().shape({
-    vagas: Yup.number().typeError('Deve ser um Número').required('É nescessário preencher o campo').positive().integer(),
-    
-})
+import './index.scss';
+
+import {
+  Input,
+  Select,
+  Textarea,
+  Button,
+  DateTimePicker,
+  MaskedInput
+} from "../../components"; 
+
+
+const validationSchema = Yup.object().shape({
+    turma: Yup.string().required('Nome da turma é obrigatório'),
+    vagas: Yup.number().typeError('Deve ser um número').required('Número de vagas é obrigatório').positive('Deve ser positivo').integer('Deve ser um número inteiro'),
+    tempo: Yup.date().required('Data e hora obrigatórias').min(new Date(), 'Escolha uma data futura'),
+    local: Yup.string().required('Local da aula é obrigatório'),
+    observacoes: Yup.string().max(300, 'Máximo de 300 caracteres'),
+    cor: Yup.string().required('Selecione uma cor').notOneOf([''], 'Selecione uma cor válida'),
+});
+
 function Formulario() {
+    const methods = useForm({
+        resolver: yupResolver(validationSchema),
+        defaultValues: {
+            turma: '',
+            vagas: '',
+            tempo: null,
+            local: '',
+            observacoes: '',
+            cor: '',
+        },
+    });
+
+    const onSubmit = (data) => {
+        console.log('Dados enviados:', data);
+    };
+
     return (
-            <div className='container'>
-                <form>
-                    <div className='form-context'>
-                        <section className='header'>
-                            <h1>Cadastro de turma</h1>
-                        </section>
-                        <label for='userName'><h2>Informe o nome da turma</h2></label>
-                        <input type="text" name="Turma" id="turma" placeholder='Digite o nome da turma: ' />
-                        <input type="text" name="Vagas" id="vaga" placeholder='Digite a quantidade de vagas: ' required />
-                        <input type="date" name="Tempo" id="temp" placeholder='Tempo' />
-                        <input type="text" name="Local" id="local" placeholder='Digite o Local da aula: ' required />
-                        <input type="text" name="Observacoes" id="obs" placeholder='Observação (Caso nescessário)' />
-                        <select name="Cor" id="cores">
-                            <option value="COR">Color</option>
-                            <option value="COR">Color</option>
-                            <option value="COR">Color</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-  
-    )
+        <FormProvider {...methods}>
+            <form className="form" onSubmit={methods.handleSubmit(onSubmit)}>
+                <h1>Cadastro de Turma</h1>
+
+                <Input name="turma" label="Nome da turma" required placeholder="Digite o nome da turma" />
+                <Input name="vagas" label="Quantidade de vagas" required placeholder="Digite a quantidade de vagas" />
+                <DateTimePicker name="tempo" label="Data e Hora" required />
+                <Input name="local" label="Local da aula" required placeholder="Digite o local da aula" />
+                <Textarea name="observacoes" label="Observações" placeholder="Caso necessário" />
+
+                <Select name="cor" label="Cor" required>
+                    <option value="">Selecione uma cor</option>
+                    <option value="vermelho">Vermelho</option>
+                    <option value="azul">Azul</option>
+                    <option value="verde">Verde</option>
+                </Select>
+
+                <Button type="submit">Cadastrar Turma</Button>
+            </form>
+        </FormProvider>
+    );
 }
 
 export default Formulario;
