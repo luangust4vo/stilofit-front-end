@@ -10,12 +10,12 @@ import "react-toastify/dist/ReactToastify.css";
 
 const RegisterContract = () => {
   const methods = useForm({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(validationSchemaContract),
   });
 
   const { handleSubmit, setValue, watch } = methods;
 
-  const client = watch();
+  const contract = watch();
 
   const [editableFields, setEditableFields] = useState({
     address: true,
@@ -51,10 +51,10 @@ const RegisterContract = () => {
   };
 
   const onSubmit = (data) => {
-    const clients = JSON.parse(localStorage.getItem("clientes")) || [];
-    const newClient = { ...data, id: crypto.randomUUID() };
-    localStorage.setItem("clientes", JSON.stringify([...clients, newClient]));
-    toast.success("Cliente cadastrado!");
+    const contracts = JSON.parse(localStorage.getItem("contratos")) || [];
+    const newContracts = { ...data, id: crypto.randomUUID() };
+    localStorage.setItem("contratos", JSON.stringify([...contracts, newContracts]));
+    toast.success("Contrato cadastrado!");
     useForm.reset();
   };
 

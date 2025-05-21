@@ -37,4 +37,16 @@ const validationSchema = yup.object().shape({
   email: yup.string().nullable().email('E-mail inválido'),
 });
 
+const validationSchemaContract = yup.object().shape({
+  // Pegar atributos na história de usuário
+  name: yup.string().required('Nome é obrigatório'),
+  birthDate: yup.string().required('Data de nascimento é obrigatória'),
+  gender: yup.string().required('Sexo é obrigatório'),
+  cpf: yup
+    .string()
+    .required('CPF é obrigatório')
+    .test('cpf-valido', 'CPF inválido', (value) => validateCPF(value)),
+  email: yup.string().nullable().email('E-mail inválido'),
+});
+
 export { fetchAddressByCEP, validationSchema };
