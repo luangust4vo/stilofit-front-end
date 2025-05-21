@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import ListClient from "./listClient";
-import Button from "../../components/button";
-import "./dataCustomer.scss";
+import { Button } from "../../../components";
+import "./styles.scss";
 
-const DataCustomer = () => {
+const Info = () => {
   const { id } = useParams();
   const [selectedClient, setSelectedClient] = useState(null);
 
@@ -101,4 +100,4 @@ const DataCustomer = () => {
   );
 };
 
-export default DataCustomer;
+export default Info;

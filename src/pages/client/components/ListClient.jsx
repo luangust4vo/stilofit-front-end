@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import './listClient.scss';
 import { useNavigate } from 'react-router-dom';
 
-const List = ({ onClientSelect }) => {
+import './styles.scss';
+
+const ListClient = ({ onClientSelect }) => {
   const [expanded, setExpanded] = React.useState(false);
   const [clients, setClients] = React.useState([]);
   const [filteredClients, setFilteredClients] = useState([]);
@@ -97,4 +98,4 @@ const List = ({ onClientSelect }) => {
   );
 };
 
-export default List;
+export default ListClient;
