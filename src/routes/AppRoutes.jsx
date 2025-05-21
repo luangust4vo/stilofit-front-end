@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Register } from "./pages";
-import { RegisterContract } from "./pages/contract";
+import Register from "../pages/cliente";
+import RegisterContract from "../pages/contract/contract";
 
 // Aqui você pode adicionar as rotas do seu projeto
 // Você também pode adicionar rotas aninhadas e, se quiser, até dividir elas em arquivos diferentes
