@@ -60,9 +60,6 @@ const Register = () => {
 
   return (
     <div className="container">
-      <div className="list-container">
-        <p>Lista de clientes</p>
-      </div>
       <main className="form">
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -105,7 +102,7 @@ const Register = () => {
 
             <div className="block">
               <h3>Dados de contato</h3>
-              <Input label="Email" name="email" />
+              <Input label="Email" name="email_contact" />
               <MaskedInput label="Celular" name="cellphone"  mask="(00) 00000-0000"/>
             </div>
 
@@ -134,7 +131,6 @@ const Register = () => {
               <h3>Responsabilidade</h3>
               <Input label="Consultor" name="consultant" />
             </div>
-
             <Button>Salvar</Button>
           </form>
         </FormProvider>

@@ -1,6 +1,9 @@
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Register from "../pages/cliente";
 import RegisterContract from "../pages/contract/contract";
+import DataCustomer from "../pages/cliente/dataCustomer";
+import Layout from "../pages/cliente/layout";
 
 // Aqui você pode adicionar as rotas do seu projeto
 // Você também pode adicionar rotas aninhadas e, se quiser, até dividir elas em arquivos diferentes
@@ -9,8 +12,11 @@ const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="cliente" element={<Register />} />
-        <Route path="cadastro-contrato" element={<RegisterContract />} />
+        <Route path="/" element={<Layout />}>
+          <Route path="cliente" element={<Register />} />
+          <Route path="cliente/:id" element={<DataCustomer />} />
+          <Route path="cadastro-contrato" element={<RegisterContract />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
