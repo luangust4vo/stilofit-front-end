@@ -1,7 +1,8 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import classNames from 'classnames';
-import './style.scss';
+
+import './styles.scss';
 
 const Textarea = ({ name, label, ...rest }) => {
   const {

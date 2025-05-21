@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ToastContainer, toast } from 'react-toastify';
-import { validationSchema, fetchAddressByCEP} from '../../utils/validation';
-import { MaskedInput, Button, Input, Textarea, Select } from '../../components';
+import { validationSchema, fetchAddressByCEP} from '../../../utils/validation';
+import { MaskedInput, Button, Input, Textarea, Select } from '../../../components';
 
 import './styles.scss';
 import 'react-toastify/dist/ReactToastify.css';
@@ -74,7 +74,7 @@ const Register = () => {
                 <option value="F">Feminino</option>
               </Select>
               <MaskedInput label="CPF" name="cpf" mask="000.000.000-00" required />
-              <MaskedInput label="RG" name="rg" mask="00.000.000-0"/>
+              <Input label="RG" name="rg" />
               <Select label="Estado Civil" name="maritalStatus">
                 <option value="">Selecione</option>
                 <option value="Solteiro">Solteiro</option>
