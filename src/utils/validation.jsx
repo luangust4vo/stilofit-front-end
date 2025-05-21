@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+import * as yup from "yup";
 
 const fetchAddressByCEP = async (cep) => {
   try {
@@ -9,10 +9,10 @@ const fetchAddressByCEP = async (cep) => {
   } catch (error) {
     return null;
   }
-}
+};
 
 const validateCPF = (cpf) => {
-  cpf = cpf.replace(/[^\d]+/g, '');
+  cpf = cpf.replace(/[^\d]+/g, "");
   if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
   let sum = 0;
   for (let i = 0; i < 9; i++) sum += parseInt(cpf[i]) * (10 - i);
@@ -24,29 +24,29 @@ const validateCPF = (cpf) => {
   rest = (sum * 10) % 11;
   if (rest === 10 || rest === 11) rest = 0;
   return rest === parseInt(cpf[10]);
-}
+};
 
 const validationSchema = yup.object().shape({
-  name: yup.string().required('Nome é obrigatório'),
-  birthDate: yup.string().required('Data de nascimento é obrigatória'),
-  gender: yup.string().required('Sexo é obrigatório'),
+  name: yup.string().required("Nome é obrigatório"),
+  birthDate: yup.string().required("Data de nascimento é obrigatória"),
+  gender: yup.string().required("Sexo é obrigatório"),
   cpf: yup
     .string()
-    .required('CPF é obrigatório')
-    .test('cpf-valido', 'CPF inválido', (value) => validateCPF(value)),
-  email: yup.string().nullable().email('E-mail inválido'),
+    .required("CPF é obrigatório")
+    .test("cpf-valido", "CPF inválido", (value) => validateCPF(value)),
+  email: yup.string().nullable().email("E-mail inválido"),
 });
 
 const validationSchemaContract = yup.object().shape({
   // Pegar atributos na história de usuário
-  name: yup.string().required('Nome é obrigatório'),
-  birthDate: yup.string().required('Data de nascimento é obrigatória'),
-  gender: yup.string().required('Sexo é obrigatório'),
+  name: yup.string().required("Nome é obrigatório"),
+  birthDate: yup.string().required("Data de nascimento é obrigatória"),
+  gender: yup.string().required("Sexo é obrigatório"),
   cpf: yup
     .string()
-    .required('CPF é obrigatório')
-    .test('cpf-valido', 'CPF inválido', (value) => validateCPF(value)),
-  email: yup.string().nullable().email('E-mail inválido'),
+    .required("CPF é obrigatório")
+    .test("cpf-valido", "CPF inválido", (value) => validateCPF(value)),
+  email: yup.string().nullable().email("E-mail inválido"),
 });
 
-export { fetchAddressByCEP, validationSchema };
+export { fetchAddressByCEP, validationSchema, validationSchemaContract };

@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ToastContainer, toast } from "react-toastify";
-import { validationSchema, fetchAddressByCEP } from "../../utils/validation";
+import { NumericFormat } from "react-number-format";
+import {
+  validationSchemaContract,
+  fetchAddressByCEP,
+} from "../../utils/validation";
 import { MaskedInput, Button, Input, Textarea, Select } from "../../components";
 
 import "./styles.scss";
@@ -10,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const RegisterContract = () => {
   const methods = useForm({
+    // validationSchemaContract - atualizar
     resolver: yupResolver(validationSchemaContract),
   });
 
@@ -17,6 +22,7 @@ const RegisterContract = () => {
 
   const contract = watch();
 
+  // pensar se precisa
   const [editableFields, setEditableFields] = useState({
     address: true,
     district: true,
@@ -24,6 +30,7 @@ const RegisterContract = () => {
     state: true,
   });
 
+  // pensar se precisa desse método
   const searchAddress = async () => {
     const cep = client.cep?.replace(/\D/g, "");
     if (cep?.length === 8) {
@@ -50,21 +57,94 @@ const RegisterContract = () => {
     }
   };
 
+  // OK
   const onSubmit = (data) => {
     const contracts = JSON.parse(localStorage.getItem("contratos")) || [];
-    const newContracts = { ...data, id: crypto.randomUUID() };
-    localStorage.setItem("contratos", JSON.stringify([...contracts, newContracts]));
+    const newContract = { ...data, id: crypto.randomUUID() };
+    localStorage.setItem(
+      "contratos",
+      JSON.stringify([...contracts, newContract])
+    );
     toast.success("Contrato cadastrado!");
     useForm.reset();
   };
 
+  // editar conforme atributos da história de usuário (HU02-E02)
   return (
     <div className="container">
       <main className="form">
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="block">
-              <h3>Dados do Cliente</h3>
+              <h3>Dados do Contrato</h3>
+              <Input label="Nome" name="name" required />
+              <Select label="Status" name="saleStatus">
+                <option value="">Selecione</option>
+                <option value="Solteiro">Disponível</option>
+                <option value="Casado">Não Disponível</option>
+              </Select>
+            </div>
+
+            <div className="block">
+              <h3>Parcelamento</h3>
+              <Select label="Parcelamento" name="installments">
+                <option value="">Selecione</option>
+                <option value="parcelavel">Parcelável</option>
+                <option value="aVista">À vista</option>
+              </Select>
+              <Select label="Nº de parcelas" name="months">
+                <option value="">Nº de parcelas</option>
+                <option value="x2">2</option>
+                <option value="x4">4</option>
+                <option value="x6">6</option>
+                <option value="x8">8</option>
+                <option value="x10">10</option>
+                <option value="x12">12</option>
+              </Select>
+              <NumericFormat
+                name="installmentsValue"
+                customInput={Input}
+                label="Valor da Parcela"
+                placeholder="R$ "
+                prefix="R$ "
+                thousandSeparator="."
+                decimalSeparator=","
+                decimalScale={2}
+                fixedDecimalScale
+                allowLeadingZeros={false}
+                allowNegative={false}
+              />
+              <NumericFormat
+                name="totalValue"
+                customInput={Input}
+                label="Valor Total"
+                placeholder="R$ "
+                prefix="R$ "
+                thousandSeparator="."
+                decimalSeparator=","
+                decimalScale={2}
+                fixedDecimalScale
+                allowLeadingZeros={false}
+                allowNegative={false}
+                required
+              />
+            </div>
+
+            <div className="block">
+              <h3>Vencimento</h3>
+            </div>
+
+            <div className="block">
+              <h3>Atividades</h3>
+            </div>
+
+            <div className="block">
+              <h3>Turma e Horário</h3>
+            </div>
+
+            {/*
+            <div className="block">
+              <h3>Dados do Contrato</h3>
               <Input label="Nome" name="name" required />
               <Input label="Email" name="email" />
               <MaskedInput
@@ -84,7 +164,7 @@ const RegisterContract = () => {
                 mask="000.000.000-00"
                 required
               />
-              <MaskedInput label="RG" name="rg" mask="00.000.000-0" />
+              <Input label="RG" name="rg" />
               <Select label="Estado Civil" name="maritalStatus">
                 <option value="">Selecione</option>
                 <option value="Solteiro">Solteiro</option>
@@ -178,6 +258,7 @@ const RegisterContract = () => {
               <h3>Responsabilidade</h3>
               <Input label="Consultor" name="consultant" />
             </div>
+            */}
             <Button>Salvar</Button>
           </form>
         </FormProvider>
