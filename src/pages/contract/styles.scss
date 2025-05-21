@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+  width: 100%;
+
+  .form {
+    flex:1;
+    overflow-y: auto;
+    margin-bottom: 40px;
+
+    .block {
+      background-color: #cfcfcf;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+
+      h3 {
+        background-color: #000080;
+        color: white;
+        padding: 8px 12px;
+        margin: -20px -20px 20px -20px;
+        font-size: 16px;
+        border-radius:10px 10px 0 0;
+      }
+    }
+  }
+}
