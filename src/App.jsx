@@ -1,6 +1,6 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import Register from './pages/cliente/index'
+import AppRoutes from './routes/AppRoutes'
+
 import Turma from './pages/turma/index'
 const App = () => {
   return (
