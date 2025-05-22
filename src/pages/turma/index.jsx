@@ -3,6 +3,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import './index.scss';
+import ColorPicker from '../../components/selecaoCores';
 
 import {
   Input,
@@ -51,12 +52,7 @@ function Formulario() {
                 <Input name="local" id="local" label="Local da aula" required placeholder="Digite o local da aula" />
                 <Textarea name="observacoes" id="observacao" label="Observações" placeholder="Caso necessário" />
 
-                <Select name="cor" id="cores" label="Cor" required>
-                    <option value="">Selecione uma cor</option>
-                    <option value="vermelho">Vermelho</option>
-                    <option value="azul">Azul</option>
-                    <option value="verde">Verde</option>
-                </Select>
+                <ColorPicker name="cor" label="Selecione uma Cor" required/>
 
                 <Button type="submit">Cadastrar Turma</Button>
             </form>
