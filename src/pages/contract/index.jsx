@@ -3,11 +3,15 @@ import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ToastContainer, toast } from "react-toastify";
 import { NumericFormat } from "react-number-format";
+import { validationSchemaContract } from "../../utils/validation";
 import {
-  validationSchemaContract,
-  fetchAddressByCEP,
-} from "../../utils/validation";
-import { MaskedInput, Button, Input, Textarea, Select } from "../../components";
+  MaskedInput,
+  Button,
+  Input,
+  Textarea,
+  Select,
+  CheckboxPanel,
+} from "../../components";
 
 import "./styles.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -52,12 +56,12 @@ const RegisterContract = () => {
     useForm.reset();
   };
 
-  // editar conforme atributos da história de usuário (HU02-E02)
   return (
     <div className="container">
       <main className="form">
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)}>
+            
             <div className="block">
               <h3>Dados Gerais do Contrato</h3>
               <Input label="Nome do Contrato" name="name" required />
@@ -146,65 +150,19 @@ const RegisterContract = () => {
                 ))}
               </Select>
               <Input label="Horário" name="time" type="time" />
-
-              {/* Vou criar um componente */}
-              <h4>Dias da Semana</h4>
-              <label>
-                <input
-                  type="checkbox"
-                  value="domingo"
-                  {...methods.register("weekdays")}
-                />
-                Dom
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  value="segunda"
-                  {...methods.register("weekdays")}
-                />
-                Seg
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  value="terca"
-                  {...methods.register("weekdays")}
-                />
-                Ter
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  value="quarta"
-                  {...methods.register("weekdays")}
-                />
-                Qua
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  value="quinta"
-                  {...methods.register("weekdays")}
-                />
-                Qui
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  value="sexta"
-                  {...methods.register("weekdays")}
-                />
-                Sex
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  value="sabado"
-                  {...methods.register("weekdays")}
-                />
-                Sáb
-              </label>
+              <CheckboxPanel
+                name="weekdays"
+                label="Dias da Semana"
+                options={[
+                  { value: "domingo", label: "Dom" },
+                  { value: "segunda", label: "Seg" },
+                  { value: "terca", label: "Ter" },
+                  { value: "quarta", label: "Qua" },
+                  { value: "quinta", label: "Qui" },
+                  { value: "sexta", label: "Sex" },
+                  { value: "sabado", label: "Sáb" },
+                ]}
+              />
             </div>
 
             <Button>Salvar</Button>

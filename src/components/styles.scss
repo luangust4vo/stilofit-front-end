@@ -36,6 +36,22 @@
     font-weight: normal;
     margin-left: 1rem;
   }
+
+  .checkbox-panel-options{
+    display: flex;
+    gap: 1.5rem;
+    .checkbox-panel-option{
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+      input[type="checkbox"] {
+        width: auto;
+        width: 24px;  
+        height: 24px;
+      }
+      font-weight: normal;
+    }
+  }
 }
 
 .btn {
