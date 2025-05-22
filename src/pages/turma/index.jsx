@@ -45,13 +45,13 @@ function Formulario() {
             <form className="form" onSubmit={methods.handleSubmit(onSubmit)}>
                 <h1>Cadastro de Turma</h1>
 
-                <Input name="turma" label="Nome da turma" required placeholder="Digite o nome da turma" />
-                <Input name="vagas" label="Quantidade de vagas" required placeholder="Digite a quantidade de vagas" />
-                <DateTimePicker name="tempo" label="Data e Hora" required />
-                <Input name="local" label="Local da aula" required placeholder="Digite o local da aula" />
-                <Textarea name="observacoes" label="Observações" placeholder="Caso necessário" />
+                <Input name="turmas" id="turma" label="Nome da turma" required placeholder="Digite o nome da turma" />
+                <Input name="vaga" id="vagas" label="Quantidade de vagas" required placeholder="Digite a quantidade de vagas" />
+                <DateTimePicker name="tempo" id="time" label="Data e Hora" required />
+                <Input name="local" id="local" label="Local da aula" required placeholder="Digite o local da aula" />
+                <Textarea name="observacoes" id="observacao" label="Observações" placeholder="Caso necessário" />
 
-                <Select name="cor" label="Cor" required>
+                <Select name="cor" id="cores" label="Cor" required>
                     <option value="">Selecione uma cor</option>
                     <option value="vermelho">Vermelho</option>
                     <option value="azul">Azul</option>

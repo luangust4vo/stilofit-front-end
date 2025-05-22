@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import { Controller, useFormContext } from 'react-hook-form';
 import 'react-datepicker/dist/react-datepicker.css';
 import './styles.scss';
-
+  
 const DateTimePicker = ({ name, label, required, ...rest }) => {
   const {
     control,
