@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ToastContainer, toast } from "react-toastify";
@@ -23,17 +23,23 @@ const RegisterContract = () => {
   const installments = watch("installments");
   const typeExpire = watch("typeExpire");
 
-  let expireLabel = "Qtde. de ";
+  let expireLabel = "Validade por ";
+  let expirePlaceHolder = "";
   if (typeExpire === "porSecao") {
     expireLabel += "Seções";
-  } else if (typeExpire === "porPeriodo") {
-    expireLabel += "Períodos";
+    expirePlaceHolder += "aulas";
+  } else if (typeExpire === "porTempo") {
+    expireLabel += "Tempo";
+    expirePlaceHolder += "meses";
   }
 
-  // pensar se precisa
-  const [editableFields, setEditableFields] = useState({
-    //atribute: true,
-  });
+  const [turmas, setTurmas] = useState([]);
+  useEffect(() => {
+    const turmasStorage = localStorage.getItem("turmas");
+    if (turmasStorage) {
+      setTurmas(JSON.parse(turmasStorage));
+    }
+  }, []);
 
   const onSubmit = (data) => {
     const contracts = JSON.parse(localStorage.getItem("contratos")) || [];
@@ -113,17 +119,19 @@ const RegisterContract = () => {
 
             <div className="block">
               <h3>Vencimento</h3>
-              <Select label="Tipo de Vencimento" name="typeExpire">
+              <Select label="Tipo de Vencimento" name="typeExpire" required>
                 <option value="">Selecione</option>
                 <option value="porSecao">por Seção</option>
-                <option value="porPeriodo">por Período</option>
+                <option value="porTempo">por Tempo</option>
               </Select>
               <Input
                 label={expireLabel}
                 name="expire"
                 type="number"
                 min={0}
+                placeholder={expirePlaceHolder}
                 disabled={typeExpire === ""}
+                required
               />
             </div>
 
@@ -131,10 +139,13 @@ const RegisterContract = () => {
               <h3>Turma</h3>
               <Select label="Turma" name="class">
                 <option value="">Escolha a Turma</option>
-                <option value="class1">Turma 1</option>
-                <option value="class2">Turma 2</option>
+                {turmas.map((turma) => (
+                  <option key={turma.nome} value={turma.nome}>
+                    {turma.nome} : {turma.vagas}
+                  </option>
+                ))}
               </Select>
-              <Input label="Horário" name="time" type="time" required />
+              <Input label="Horário" name="time" type="time" />
 
               {/* Vou criar um componente */}
               <h4>Dias da Semana</h4>
