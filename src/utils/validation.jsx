@@ -38,15 +38,10 @@ const validationSchema = yup.object().shape({
 });
 
 const validationSchemaContract = yup.object().shape({
-  // Pegar atributos na história de usuário
-  name: yup.string().required("Nome é obrigatório"),
-  birthDate: yup.string().required("Data de nascimento é obrigatória"),
-  gender: yup.string().required("Sexo é obrigatório"),
-  cpf: yup
-    .string()
-    .required("CPF é obrigatório")
-    .test("cpf-valido", "CPF inválido", (value) => validateCPF(value)),
-  email: yup.string().nullable().email("E-mail inválido"),
+  name: yup.string().required("Nome do Contrato é obrigatório"),
+  totalValue: yup.string().required("Valor Total é obrigatório"),
+  typeExpire: yup.string().required("Tipo de Validade é obrigatório"),
+  expire: yup.string().required("Limite da Validade é obrigatório"),
 });
 
 export { fetchAddressByCEP, validationSchema, validationSchemaContract };

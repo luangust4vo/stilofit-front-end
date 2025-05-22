@@ -61,7 +61,13 @@ const RegisterContract = () => {
       <main className="form">
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            
+            {/*
+            name*, saleStatus, template,
+            installmentable, installments, installmentsValue, totalValue*,
+            typeExpire*, expire*,
+            class, time, weekdays
+            */}
+
             <div className="block">
               <h3>Dados Gerais do Contrato</h3>
               <Input label="Nome do Contrato" name="name" required />
@@ -79,14 +85,14 @@ const RegisterContract = () => {
 
             <div className="block">
               <h3>Parcelamento</h3>
-              <Select label="Parcelamento" name="installments">
+              <Select label="Parcelamento" name="installmentable">
                 <option value="">Selecione</option>
                 <option value="parcelavel">Parcelável</option>
                 <option value="aVista">À vista</option>
               </Select>
               <Input
                 label="Nº de parcelas"
-                name="nInstallments"
+                name="installments"
                 type="number"
                 min={0}
                 disabled={installments === "aVista"}
