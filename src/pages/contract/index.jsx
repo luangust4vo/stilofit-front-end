@@ -52,7 +52,7 @@ const RegisterContract = () => {
     }
   }, []);
 
-  const onSubmit = (data) => {
+  const prepareData = (data) => {
     const parsedData = {
       ...data,
       status: data.status || undefined,
@@ -78,8 +78,13 @@ const RegisterContract = () => {
       expire: data.expire ? Number(data.expire) : undefined,
       class: data.class || undefined,
       time: data.time || undefined,
-      weekdays: data.weekdays || undefined,
+      weekdays: Array.isArray(data.weekdays) ? data.weekdays : [],
     };
+    return parsedData;
+  };
+
+  const onSubmit = (data) => {
+    const parsedData = prepareData(data);
     console.log(parsedData);
 
     const contracts = JSON.parse(localStorage.getItem("contratos")) || [];
