@@ -2,16 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ToastContainer, toast } from "react-toastify";
-import { Controller } from "react-hook-form";
-import { NumericFormat } from "react-number-format";
 import { validationSchemaContract } from "../../utils/validation";
 import {
-  MaskedInput,
   Button,
   Input,
-  Textarea,
   Select,
   CheckboxPanel,
+  MonetaryInput,
 } from "../../components";
 
 import "./styles.scss";
@@ -58,6 +55,9 @@ const RegisterContract = () => {
   const onSubmit = (data) => {
     const parsedData = {
       ...data,
+      status: data.status || undefined,
+      template: data.template || undefined,
+      installmentable: data.installmentable || undefined,
       installments: data.installments ? Number(data.installments) : undefined,
       installmentsValue: data.installmentsValue
         ? Number(
@@ -76,6 +76,9 @@ const RegisterContract = () => {
           )
         : undefined,
       expire: data.expire ? Number(data.expire) : undefined,
+      class: data.class || undefined,
+      time: data.time || undefined,
+      weekdays: data.weekdays || undefined,
     };
     console.log(parsedData);
 
@@ -94,17 +97,10 @@ const RegisterContract = () => {
       <main className="form">
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            {/*
-            name*, saleStatus, template,
-            installmentable, installments, installmentsValue, totalValue*,
-            typeExpire*, expire*,
-            class, time, weekdays
-            */}
-
             <div className="block">
               <h3>Dados Gerais do Contrato</h3>
               <Input label="Nome do Contrato" name="name" required />
-              <Select label="Status" name="saleStatus">
+              <Select label="Status" name="status">
                 <option value="">Selecione</option>
                 <option value="disponivel">Disponível</option>
                 <option value="naoDisponivel">Não Disponível</option>
@@ -131,54 +127,12 @@ const RegisterContract = () => {
                 min={0}
                 disabled={lock}
               />
-              <Controller
+              <MonetaryInput
                 name="installmentsValue"
-                control={methods.control}
-                render={({ field }) => (
-                  <NumericFormat
-                    {...field}
-                    customInput={Input}
-                    label="Valor da Parcela"
-                    placeholder="R$ "
-                    prefix="R$ "
-                    thousandSeparator="."
-                    decimalSeparator=","
-                    decimalScale={2}
-                    fixedDecimalScale
-                    allowLeadingZeros={false}
-                    allowNegative={false}
-                    disabled={lock}
-                    onValueChange={(values) => {
-                      field.onChange(values.value);
-                    }}
-                    value={field.value || ""}
-                  />
-                )}
+                label="Valor da Parcela"
+                disabled={lock}
               />
-              <Controller
-                name="totalValue"
-                control={methods.control}
-                render={({ field }) => (
-                  <NumericFormat
-                    {...field}
-                    customInput={Input}
-                    label="Valor Total"
-                    placeholder="R$ "
-                    prefix="R$ "
-                    thousandSeparator="."
-                    decimalSeparator=","
-                    decimalScale={2}
-                    fixedDecimalScale
-                    allowLeadingZeros={false}
-                    allowNegative={false}
-                    required
-                    onValueChange={(values) => {
-                      field.onChange(values.value);
-                    }}
-                    value={field.value || ""}
-                  />
-                )}
-              />
+              <MonetaryInput name="totalValue" label="Valor Total" required />
             </div>
 
             <div className="block">
