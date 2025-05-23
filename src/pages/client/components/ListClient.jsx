@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useClient } from "../../../contexts/ClientContext";
 
 import './styles.scss';
 
 const ListClient = ({ onClientSelect }) => {
   const [expanded, setExpanded] = React.useState(false);
-  const [clients, setClients] = React.useState([]);
+  const { clients, loadMoreClients } = useClient();
   const [filteredClients, setFilteredClients] = useState([]);
   const [search, setSearch] = useState('');
   const [offset, setOffset] = useState(0);
@@ -25,16 +26,6 @@ const ListClient = ({ onClientSelect }) => {
     setExpanded(!expanded);
   };
 
-  useEffect(() => {
-    const storedClients = JSON.parse(localStorage.getItem('clientes')) || [];
-    const sortedClients = storedClients.sort((a, b) => a.name.localeCompare(b.name));
-    const nextClients = sortedClients.slice(offset, offset + limit);
-    setClients((prev) => {
-      const ids = new Set(prev.map((c) => c.id));
-      const newClients = nextClients.filter((c) => !ids.has(c.id));
-      return [...prev, ...newClients];
-    });
-  }, [offset]);
 
   useEffect(() => {
     if (search.trim() === '') {

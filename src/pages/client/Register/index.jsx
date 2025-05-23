@@ -3,13 +3,8 @@ import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ToastContainer, toast } from "react-toastify";
 import { validationSchema, fetchAddressByCEP } from "../../../utils/validation";
-import {
-  MaskedInput,
-  Button,
-  Input,
-  Textarea,
-  Select,
-} from "../../../components";
+import {MaskedInput, Button, Input, Textarea, Select} from "../../../components";
+import { useClient } from "../../../contexts/ClientContext";
 
 import "./styles.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,6 +16,7 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
   });
 
   const { handleSubmit, setValue, watch } = methods;
+  const { addClient, updateClient } = useClient();
 
   const client = watch();
 
@@ -67,23 +63,15 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
     if (externalSubmit) {
       externalSubmit(data);
       return;
+    }
+  
+    if (initialData && initialData.id) {
+      updateClient(initialData.id, data);
+      toast.success("Cliente atualizado!");
     } else {
-      const clients = JSON.parse(localStorage.getItem("clientes")) || [];
-      if (initialData && initialData.id) {
-        const updatedClients = clients.map((client) =>
-          client.id === initialData.id ? { ...client, ...data } : client
-        );
-        localStorage.setItem("clientes", JSON.stringify(updatedClients));
-        toast.success("Cliente atualizado!");
-      } else {
-        const newClient = { ...data, id: crypto.randomUUID() };
-        localStorage.setItem(
-          "clientes",
-          JSON.stringify([...clients, newClient])
-        );
-        toast.success("Cliente cadastrado!");
-        methods.reset();
-      }
+      addClient(data);
+      toast.success("Cliente cadastrado!");
+      methods.reset();
     }
   };
 
@@ -113,7 +101,7 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
                 mask="000.000.000-00"
                 required
               />
-              <Input label="RG" name="rg" />
+              <MaskedInput label="RG" name="rg" mask="00.000.000-0"/>
               <Select label="Estado Civil" name="maritalStatus">
                 <option value="">Selecione</option>
                 <option value="Solteiro">Solteiro</option>
