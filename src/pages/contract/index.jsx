@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ToastContainer, toast } from "react-toastify";
+import { Controller } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
 import { validationSchemaContract } from "../../utils/validation";
 import {
@@ -22,10 +23,17 @@ const RegisterContract = () => {
     resolver: yupResolver(validationSchemaContract),
   });
 
-  const { handleSubmit, setValue, watch } = methods;
+  const { handleSubmit, setValue, watch, reset } = methods;
 
-  const installments = watch("installments");
+  const installmentable = watch("installmentable");
   const typeExpire = watch("typeExpire");
+
+  useEffect(() => {
+    if (installmentable === "aVista") {
+      setValue("installmentsValue", undefined);
+      setValue("installments", undefined);
+    }
+  }, [installmentable, setValue]);
 
   let expireLabel = "Validade por ";
   let expirePlaceHolder = "";
@@ -37,6 +45,8 @@ const RegisterContract = () => {
     expirePlaceHolder += "meses";
   }
 
+  let lock = installmentable === "aVista" || installmentable === "";
+
   const [turmas, setTurmas] = useState([]);
   useEffect(() => {
     const turmasStorage = localStorage.getItem("turmas");
@@ -46,14 +56,37 @@ const RegisterContract = () => {
   }, []);
 
   const onSubmit = (data) => {
+    const parsedData = {
+      ...data,
+      installments: data.installments ? Number(data.installments) : undefined,
+      installmentsValue: data.installmentsValue
+        ? Number(
+            String(data.installmentsValue)
+              .replace("R$ ", "")
+              .replace(/\./g, "")
+              .replace(",", ".")
+          )
+        : undefined,
+      totalValue: data.totalValue
+        ? Number(
+            String(data.totalValue)
+              .replace("R$ ", "")
+              .replace(/\./g, "")
+              .replace(",", ".")
+          )
+        : undefined,
+      expire: data.expire ? Number(data.expire) : undefined,
+    };
+    console.log(parsedData);
+
     const contracts = JSON.parse(localStorage.getItem("contratos")) || [];
-    const newContract = { ...data, id: crypto.randomUUID() };
+    const newContract = { ...parsedData, id: crypto.randomUUID() };
     localStorage.setItem(
       "contratos",
       JSON.stringify([...contracts, newContract])
     );
     toast.success("Contrato cadastrado!");
-    useForm.reset();
+    reset();
   };
 
   return (
@@ -73,13 +106,14 @@ const RegisterContract = () => {
               <Input label="Nome do Contrato" name="name" required />
               <Select label="Status" name="saleStatus">
                 <option value="">Selecione</option>
-                <option value="Solteiro">Disponível</option>
-                <option value="Casado">Não Disponível</option>
+                <option value="disponivel">Disponível</option>
+                <option value="naoDisponivel">Não Disponível</option>
               </Select>
               <Select label="Template" name="template">
                 <option value="">Selecione</option>
-                <option value="option1">Opção 1</option>
-                <option value="option2">Opção 2</option>
+                <option value="templateAzul">Template Azul</option>
+                <option value="templateVerde">Template Verde</option>
+                <option value="templateAmarelo">Template Amarelo</option>
               </Select>
             </div>
 
@@ -95,35 +129,55 @@ const RegisterContract = () => {
                 name="installments"
                 type="number"
                 min={0}
-                disabled={installments === "aVista"}
+                disabled={lock}
               />
-              <NumericFormat
+              <Controller
                 name="installmentsValue"
-                customInput={Input}
-                label="Valor da Parcela"
-                placeholder="R$ "
-                prefix="R$ "
-                thousandSeparator="."
-                decimalSeparator=","
-                decimalScale={2}
-                fixedDecimalScale
-                allowLeadingZeros={false}
-                allowNegative={false}
-                disabled={installments === "aVista"}
+                control={methods.control}
+                render={({ field }) => (
+                  <NumericFormat
+                    {...field}
+                    customInput={Input}
+                    label="Valor da Parcela"
+                    placeholder="R$ "
+                    prefix="R$ "
+                    thousandSeparator="."
+                    decimalSeparator=","
+                    decimalScale={2}
+                    fixedDecimalScale
+                    allowLeadingZeros={false}
+                    allowNegative={false}
+                    disabled={lock}
+                    onValueChange={(values) => {
+                      field.onChange(values.value);
+                    }}
+                    value={field.value || ""}
+                  />
+                )}
               />
-              <NumericFormat
+              <Controller
                 name="totalValue"
-                customInput={Input}
-                label="Valor Total"
-                placeholder="R$ "
-                prefix="R$ "
-                thousandSeparator="."
-                decimalSeparator=","
-                decimalScale={2}
-                fixedDecimalScale
-                allowLeadingZeros={false}
-                allowNegative={false}
-                required
+                control={methods.control}
+                render={({ field }) => (
+                  <NumericFormat
+                    {...field}
+                    customInput={Input}
+                    label="Valor Total"
+                    placeholder="R$ "
+                    prefix="R$ "
+                    thousandSeparator="."
+                    decimalSeparator=","
+                    decimalScale={2}
+                    fixedDecimalScale
+                    allowLeadingZeros={false}
+                    allowNegative={false}
+                    required
+                    onValueChange={(values) => {
+                      field.onChange(values.value);
+                    }}
+                    value={field.value || ""}
+                  />
+                )}
               />
             </div>
 

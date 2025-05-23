@@ -39,7 +39,14 @@ const validationSchema = yup.object().shape({
 
 const validationSchemaContract = yup.object().shape({
   name: yup.string().required("Nome do Contrato é obrigatório"),
-  totalValue: yup.string().required("Valor Total é obrigatório"),
+  totalValue: yup
+    .mixed()
+    /*.test(
+      "required",
+      "Valor Total é obrigatório",
+      (value) => value !== undefined && value !== null && value !== ""
+    )*/
+    .required("Valor Total é obrigatório"),
   typeExpire: yup.string().required("Tipo de Validade é obrigatório"),
   expire: yup.string().required("Limite da Validade é obrigatório"),
 });
