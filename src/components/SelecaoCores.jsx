@@ -27,9 +27,9 @@ function ColorPicker({ name, label }) {
                 style={{
                     backgroundColor: value,
                     color: '#fff',
-                    padding: '10px 20px',
+                    padding: '10px 27px',
                     border: 'none',
-                    borderRadius: '4px',
+                    borderRadius: '10px',
                     cursor: 'pointer',
                     boxShadow: '0 0 5px rgba(0,0,0,0.2)'
                 }}
