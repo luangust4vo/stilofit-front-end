@@ -13,7 +13,9 @@ const MultiSelect = ({ name, label, options = [], required }) => {
         <label htmlFor={name}>
           {label}
           {required && <span className="required-asterisk">*</span>}
-          {errors[name] && <span className="error-message"> {errors[name].message}</span>}
+          {errors[name] && (
+            <span className="error-message"> {errors[name].message}</span>
+          )}
         </label>
       )}
       <select
@@ -23,8 +25,8 @@ const MultiSelect = ({ name, label, options = [], required }) => {
         size={options.length > 6 ? 6 : options.length}
       >
         {options.map((opt) => (
-          <option key={opt.nome} value={opt.nome}>
-            {opt.nome}
+          <option key={opt.id} value={opt.id}>
+            {opt.name}
           </option>
         ))}
       </select>
