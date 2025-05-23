@@ -9,6 +9,7 @@ import {
   Select,
   CheckboxPanel,
   MonetaryInput,
+  MultiSelect,
 } from "../../components";
 
 import "./styles.scss";
@@ -16,7 +17,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 const RegisterContract = () => {
   const methods = useForm({
-    // validationSchemaContract - atualizar
     resolver: yupResolver(validationSchemaContract),
   });
 
@@ -44,11 +44,11 @@ const RegisterContract = () => {
 
   let lock = installmentable === "aVista" || installmentable === "";
 
-  const [turmas, setTurmas] = useState([]);
+  const [classRoms, setClassRoms] = useState([]);
   useEffect(() => {
-    const turmasStorage = localStorage.getItem("turmas");
-    if (turmasStorage) {
-      setTurmas(JSON.parse(turmasStorage));
+    const classRomsStorage = localStorage.getItem("turmas");
+    if (classRomsStorage) {
+      setClassRoms(JSON.parse(classRomsStorage));
     }
   }, []);
 
@@ -76,7 +76,11 @@ const RegisterContract = () => {
           )
         : undefined,
       expire: data.expire ? Number(data.expire) : undefined,
-      class: data.class || undefined,
+      classRoms: Array.isArray(data.classRoms)
+        ? data.classRoms
+        : data.classRoms
+          ? [data.classRoms]
+          : [],
       time: data.time || undefined,
       weekdays: Array.isArray(data.weekdays) ? data.weekdays : [],
     };
@@ -160,14 +164,11 @@ const RegisterContract = () => {
 
             <div className="block">
               <h3>Turma</h3>
-              <Select label="Turma" name="class">
-                <option value="">Escolha a Turma</option>
-                {turmas.map((turma) => (
-                  <option key={turma.nome} value={turma.nome}>
-                    {turma.nome} : {turma.vagas}
-                  </option>
-                ))}
-              </Select>
+              <MultiSelect
+                name="classRoms"
+                label="Turmas (segure Ctrl para selecionar)"
+                options={classRoms}
+              />
               <Input label="Horário" name="time" type="time" />
               <CheckboxPanel
                 name="weekdays"
