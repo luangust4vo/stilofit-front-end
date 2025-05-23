@@ -51,8 +51,7 @@ function Formulario() {
                 <DateTimePicker name="tempo" id="time" label="Data e Hora" required />
                 <Input name="local" id="local" label="Local da aula" required placeholder="Digite o local da aula" />
                 <Textarea name="observacoes" id="observacao" label="Observações" placeholder="Caso necessário" />
-
-                <ColorPicker name="cor" label="Selecione uma Cor" required/>
+                <ColorPicker name="cor" required/>
 
                 <Button type="submit">Cadastrar Turma</Button>
             </form>
