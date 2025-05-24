@@ -10,7 +10,7 @@ function ColorPicker({ name, label }) {
     } = useController({
         name,
         control,
-        defaultValue: '#3498db', // Define uma cor padrão
+        defaultValue: '#3498db',
     });
 
     const [showPicker, setShowPicker] = useState(false);
@@ -20,25 +20,23 @@ function ColorPicker({ name, label }) {
 
     return (
         <div className="form-group" style={{ position: 'relative' }}>
-            <button
-                type="button"
+            <label style={{ display: 'block', marginBottom: 8 }}>{label || 'Selecione uma Cor: '}</label>
+
+            <div
                 onClick={togglePicker}
                 style={{
+                    width: '60px',
+                    height: '60px',
+                    borderRadius: '50%',
                     backgroundColor: value,
-                    color: '#fff',
-                    padding: '10px 27px',
-                    width: '100%',
-                    border: 'none',
-                    borderRadius: '10px',
+                    border: '2px solid #ccc',
                     cursor: 'pointer',
-                    boxShadow: '0 0 5px rgba(0,0,0,0.2)'
+                    boxShadow: '0 0 4px rgba(0,0,0,0.2)',
                 }}
-            >
-                Selecione a cor
-            </button>
+            />
 
             {showPicker && (
-                <div style={{ position: 'absolute', zIndex: 2 }}>
+                <div style={{ position: 'absolute', zIndex: 2, top: '50px' }}>
                     <div
                         style={{
                             position: 'fixed',
@@ -57,7 +55,7 @@ function ColorPicker({ name, label }) {
             )}
 
             {error && (
-                <p className="error" style={{ color: 'red' }}>
+                <p className="error" style={{ color: 'red', marginTop: '6px' }}>
                     {error.message}
                 </p>
             )}

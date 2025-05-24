@@ -135,9 +135,7 @@ function Formulario() {
             label="Observações"
             placeholder="Caso necessário"
           />
-
           <ColorPicker name="cor" />
-
           <Button type="submit">Cadastrar Turma</Button>
         </form>
       </FormProvider>
