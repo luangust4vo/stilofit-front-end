@@ -1,8 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Register, Info, Layout } from "../pages/client";
-import { RegisterContract, LayoutContract } from "../pages/contract";
-// adicionar InfoContract posteriormente
+import { RegisterContract, LayoutContract, InfoContract } from "../pages/contract";
 
 const AppRoutes = () => {
   return (
@@ -14,7 +13,7 @@ const AppRoutes = () => {
         </Route>
         <Route path="/contrato" element={<LayoutContract />}>
           <Route index element={<RegisterContract />} />
-          {/* Adicionar InfoContract posteriormente */}
+          <Route path=":id" element={<InfoContract />} />
         </Route>
       </Routes>
     </BrowserRouter>

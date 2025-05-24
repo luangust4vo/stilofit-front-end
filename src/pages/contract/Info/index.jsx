@@ -3,18 +3,19 @@ import { useParams } from "react-router-dom";
 import { Button } from "../../../components";
 import "./styles.scss";
 
-const Info = () => {
+const InfoContract = () => {
   const { id } = useParams();
-  const [selectedClient, setSelectedClient] = useState(null);
+  const [selectedContract, setSelectedContract] = useState(null);
 
   useEffect(() => {
-    const clients = JSON.parse(localStorage.getItem("clientes")) || [];
-    const foundClient = clients.find((c) => String(c.id) === id);
-    setSelectedClient(foundClient);
+    const contracts = JSON.parse(localStorage.getItem("contratos")) || [];
+    const foundContract = contracts.find((c) => String(c.id) === id);
+    setSelectedContract(foundContract);
   }, [id]);
 
   return (
     <div className="container">
+      {/*
       <div className="client-container">
         <div className="client-side">
           {selectedClient?.photo ? (
@@ -96,8 +97,9 @@ const Info = () => {
           </div>
         </div>
       </div>
+      */}
     </div>
   );
 };
 
-export default Info;
+export default InfoContract;

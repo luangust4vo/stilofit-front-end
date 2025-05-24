@@ -15,5 +15,5 @@ export const LayoutContract = () => {
   );
 };
 
-export { default as RegisterContract } from "./register";
-// Adicionar a exportação de InfoContract posteriormente
+export { default as RegisterContract } from "./Register";
+export { default as InfoContract } from "./Info";
