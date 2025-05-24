@@ -27,7 +27,6 @@ const RegisterContract = () => {
 
   useEffect(() => {
     if (installmentable === "aVista") {
-      setValue("installmentsValue", undefined);
       setValue("installments", undefined);
     }
   }, [installmentable, setValue]);
@@ -36,13 +35,11 @@ const RegisterContract = () => {
   let expirePlaceHolder = "";
   if (typeExpire === "porSecao") {
     expireLabel += "Seções";
-    expirePlaceHolder += "aulas";
+    expirePlaceHolder += "Aulas";
   } else if (typeExpire === "porTempo") {
     expireLabel += "Tempo";
-    expirePlaceHolder += "meses";
+    expirePlaceHolder += "Meses";
   }
-
-  let lock = installmentable === "aVista" || installmentable === "";
 
   const [classRoms, setClassRoms] = useState([]);
   useEffect(() => {
@@ -59,14 +56,6 @@ const RegisterContract = () => {
       template: data.template || undefined,
       installmentable: data.installmentable || undefined,
       installments: data.installments ? Number(data.installments) : undefined,
-      installmentsValue: data.installmentsValue
-        ? Number(
-            String(data.installmentsValue)
-              .replace("R$ ", "")
-              .replace(/\./g, "")
-              .replace(",", ".")
-          )
-        : undefined,
       totalValue: data.totalValue
         ? Number(
             String(data.totalValue)
@@ -81,7 +70,8 @@ const RegisterContract = () => {
         : data.classRoms
           ? [data.classRoms]
           : [],
-      time: data.time || undefined,
+      timeMin: data.timeMin || undefined,
+      timeMax: data.timeMax || undefined,
       weekdays: Array.isArray(data.weekdays) ? data.weekdays : [],
     };
     return parsedData;
@@ -110,7 +100,6 @@ const RegisterContract = () => {
               <h3>Dados Gerais do Contrato</h3>
               <Input label="Nome do Contrato" name="name" required />
               <Select label="Status" name="status">
-                <option value="">Selecione</option>
                 <option value="disponivel">Disponível</option>
                 <option value="naoDisponivel">Não Disponível</option>
               </Select>
@@ -129,18 +118,14 @@ const RegisterContract = () => {
                 <option value="parcelavel">Parcelável</option>
                 <option value="aVista">À vista</option>
               </Select>
-              <Input
-                label="Nº de parcelas"
-                name="installments"
-                type="number"
-                min={0}
-                disabled={lock}
-              />
-              <MonetaryInput
-                name="installmentsValue"
-                label="Valor da Parcela"
-                disabled={lock}
-              />
+              {installmentable === "parcelavel" && (
+                <Input
+                  label="Nº de parcelas"
+                  name="installments"
+                  type="number"
+                  min={0}
+                />
+              )}
               <MonetaryInput name="totalValue" label="Valor Total" required />
             </div>
 
@@ -148,8 +133,8 @@ const RegisterContract = () => {
               <h3>Vencimento</h3>
               <Select label="Tipo de Vencimento" name="typeExpire" required>
                 <option value="">Selecione</option>
-                <option value="porSecao">por Seção</option>
-                <option value="porTempo">por Tempo</option>
+                <option value="porSecao">Por Seção</option>
+                <option value="porTempo">Por Tempo</option>
               </Select>
               <Input
                 label={expireLabel}
@@ -166,10 +151,14 @@ const RegisterContract = () => {
               <h3>Turma</h3>
               <MultiSelect
                 name="classRoms"
-                label="Turmas (segure Ctrl para selecionar)"
+                label="Turmas"
                 options={classRoms}
               />
-              <Input label="Horário" name="time" type="time" />
+              <div className="side">
+                <Input label="Horário" name="timeMin" type="time" />
+                <span className="arrow-time">-</span>
+                <Input label="." name="timeMax" type="time" />
+              </div>
               <CheckboxPanel
                 name="weekdays"
                 label="Dias da Semana"

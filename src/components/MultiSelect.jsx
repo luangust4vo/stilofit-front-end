@@ -1,11 +1,18 @@
 import React from "react";
-import { useFormContext } from "react-hook-form";
+import Select from "react-select";
+import { Controller, useFormContext } from "react-hook-form";
 
 const MultiSelect = ({ name, label, options = [], required }) => {
   const {
-    register,
+    control,
     formState: { errors },
   } = useFormContext();
+
+  // react-select espera { value, label } para cada opção
+  const selectOptions = options.map((opt) => ({
+    value: opt.id,
+    label: opt.name,
+  }));
 
   return (
     <div className={`form-group${errors[name] ? " has-error" : ""}`}>
@@ -18,18 +25,28 @@ const MultiSelect = ({ name, label, options = [], required }) => {
           )}
         </label>
       )}
-      <select
-        id={name}
-        {...register(name)}
-        multiple
-        size={options.length > 6 ? 6 : options.length}
-      >
-        {options.map((opt) => (
-          <option key={opt.id} value={opt.id}>
-            {opt.name}
-          </option>
-        ))}
-      </select>
+      <Controller
+        name={name}
+        control={control}
+        rules={{ required }}
+        render={({ field }) => (
+          <Select
+            {...field}
+            inputId={name}
+            options={selectOptions}
+            isMulti
+            closeMenuOnSelect={false}
+            placeholder="Selecione..."
+            onChange={(selected) => {
+              // Salva apenas os ids selecionados no formulário
+              field.onChange(selected ? selected.map((opt) => opt.value) : []);
+            }}
+            value={selectOptions.filter((opt) =>
+              (field.value || []).includes(opt.value)
+            )}
+          />
+        )}
+      />
     </div>
   );
 };
