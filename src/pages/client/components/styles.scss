@@ -44,7 +44,7 @@
 
     .field-search {
       flex: 1;
-      padding: 10px 10px;
+      padding: 10px 2px;
       border-radius: 10px;
       border: none;
     }
@@ -58,6 +58,33 @@
       cursor: pointer;
     }
   }
+
+  .scroller {
+    overflow: hidden;
+  
+    &::-webkit-scrollbar-button {
+      height: 0;
+      display: none;
+    }
+  
+    &:hover {
+      overflow-y: auto;
+  
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+  
+      &::-webkit-scrollbar-thumb {
+        background: #000080;
+        border-radius: 10px;
+      }
+  
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+    }
+  }
+  
 
   .user {
     display: flex;

@@ -6,8 +6,9 @@
 
   .form {
     flex:1;
-    overflow-y: auto;
+    overflow-y: scroll;
     margin-bottom: 40px;
+    scrollbar-width: none;
 
     .block {
       background-color: #cfcfcf;
