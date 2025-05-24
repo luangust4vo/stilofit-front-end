@@ -3,7 +3,7 @@
   font-family: Arial, sans-serif;
   height: 100vh;
 
-  .client-container {
+  .contract-container {
     flex: 1;
     display: flex;
     padding: 15px;
@@ -11,7 +11,7 @@
     align-items: flex-start;
     justify-content: space-between;
 
-    .client-side {
+    .contract-side {
       width: 260px;
       background: #fff;
       border-radius: 16px;
@@ -22,7 +22,7 @@
       align-items: center;
       gap: 16px;
 
-      .photo-user {
+      .photo-contract {
         width: 200px;
         height: 200px;
         border-radius: 50%;
@@ -35,7 +35,7 @@
         color: #000080;
       }
 
-      .client-name {
+      .contract-name {
         font-weight: bold;
         font-size: 20px;
         color: #000080;
@@ -43,7 +43,7 @@
       }
     }
 
-    .client-content {
+    .contract-content {
       display: flex;
       flex-direction: column;
       gap: 24px;

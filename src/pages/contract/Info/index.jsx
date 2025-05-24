@@ -15,25 +15,25 @@ const InfoContract = () => {
 
   return (
     <div className="container">
-      <div className="client-container">
-        <div className="client-side">
+      <div className="contract-container">
+        <div className="contract-side">
           {selectedContract?.photo ? (
             <img
               src={selectedContract.photo}
               alt="Foto"
-              className="photo-user"
+              className="photo-contract"
             />
           ) : (
-            <i className="bi bi-file-earmark-text-fill  photo-user"></i>
+            <i className="bi bi-file-earmark-text-fill  photo-contract"></i>
           )}
 
-          <p className="client-name">
+          <p className="contract-name">
             {selectedContract ? selectedContract.name : "Nome"}
           </p>
           <Button>Anexos</Button>
         </div>
 
-        <div className="client-content">
+        <div className="contract-content">
           {/* Isso dq não daria para virar um componente? */}
           <div className="tabs">
             <Button>Status</Button>

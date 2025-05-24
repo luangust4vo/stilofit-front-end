@@ -19,7 +19,7 @@
       }
     }
 
-    .user .username {
+    .contract .contractname {
       display: inline;
     }
   }
@@ -59,7 +59,7 @@
     }
   }
 
-  .user {
+  .contract {
     display: flex;
     align-items: center;
     padding: 8px 5px;
@@ -70,7 +70,7 @@
       background-color: #e0e0e0;
     }
 
-    .icon-user {
+    .icon-contract {
       width: 40px;
       height: 40px;
       border-radius: 50%;
@@ -88,7 +88,7 @@
       color: #000080;
     }
 
-    .username {
+    .contractname {
       display: none;
       white-space: nowrap;
       overflow: hidden;

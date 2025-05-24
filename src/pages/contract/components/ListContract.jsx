@@ -90,13 +90,13 @@ const ListContract = ({ onContractSelect }) => {
 
       {(search ? filteredContracts : contracts).map((contract) => (
         <div
-          className="user"
+          className="contract"
           key={contract.id}
           onClick={() => handleContractClick(contract)}
         >
           {/* Escolher bootstrap icon */}
-          <i className="bi bi-file-earmark-text-fill icon-user"></i>
-          <span className="username">{contract.name}</span>
+          <i className="bi bi-file-earmark-text-fill icon-contract"></i>
+          <span className="contractname">{contract.name}</span>
         </div>
       ))}
     </div>
