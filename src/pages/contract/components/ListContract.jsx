@@ -84,7 +84,7 @@ const ListContract = ({ onContractSelect }) => {
         </button>
         <button className="btn-icon" onClick={goRegistration}>
           {/* Escolher bootstrap icon */}
-          <i className="bi-person-fill-add"></i>
+          <i className="bi-file-earmark-plus-fill"></i>
         </button>
       </div>
 
@@ -95,7 +95,7 @@ const ListContract = ({ onContractSelect }) => {
           onClick={() => handleContractClick(contract)}
         >
           {/* Escolher bootstrap icon */}
-          <i className="bi bi-person-fill icon-user"></i>
+          <i className="bi bi-file-earmark-text-fill icon-user"></i>
           <span className="username">{contract.name}</span>
         </div>
       ))}
