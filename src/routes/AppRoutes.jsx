@@ -1,11 +1,9 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Register, Info, Layout } from "../pages/client";
-import RegisterContract from "../pages/contract";
+import { RegisterContract, LayoutContract } from "../pages/contract";
+// adicionar InfoContract posteriormente
 
-// Aqui você pode adicionar as rotas do seu projeto
-// Você também pode adicionar rotas aninhadas e, se quiser, até dividir elas em arquivos diferentes
-// Exemplo: clientRoutes.js, adminRoutes.js, etc. Ai faz a importação e exporta tudo aqui
 const AppRoutes = () => {
   return (
     <BrowserRouter>
@@ -14,7 +12,10 @@ const AppRoutes = () => {
           <Route index element={<Register />} />
           <Route path=":id" element={<Info />} />
         </Route>
-        <Route path="/contrato" element={<RegisterContract />} />
+        <Route path="/contrato" element={<LayoutContract />}>
+          <Route index element={<RegisterContract />} />
+          {/* Adicionar InfoContract posteriormente */}
+        </Route>
       </Routes>
     </BrowserRouter>
   );
