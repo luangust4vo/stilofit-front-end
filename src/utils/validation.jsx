@@ -41,7 +41,10 @@ const validationSchemaContract = yup.object().shape({
   name: yup.string().required("Nome do Contrato é obrigatório"),
   totalValue: yup.mixed().required("Valor Total é obrigatório"),
   typeExpire: yup.string().required("Tipo de Validade é obrigatório"),
-  expire: yup.mixed().required("Limite da Validade é obrigatório"),
+  expire: yup
+    .number()
+    .typeError("Limite da Validade é obrigatório")
+    .required("Limite da Validade é obrigatório"),
 });
 
 export { fetchAddressByCEP, validationSchema, validationSchemaContract };

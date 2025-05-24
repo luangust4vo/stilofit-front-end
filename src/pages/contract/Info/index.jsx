@@ -15,22 +15,26 @@ const InfoContract = () => {
 
   return (
     <div className="container">
-      {/*
       <div className="client-container">
         <div className="client-side">
-          {selectedClient?.photo ? (
-            <img src={selectedClient.photo} alt="Foto" className="photo-user" />
+          {selectedContract?.photo ? (
+            <img
+              src={selectedContract.photo}
+              alt="Foto"
+              className="photo-user"
+            />
           ) : (
-            <i className="bi bi-person-fill photo-user"></i>
+            <i className="bi bi-file-earmark-text-fill  photo-user"></i>
           )}
 
           <p className="client-name">
-            {selectedClient ? selectedClient.name : "Nome"}
+            {selectedContract ? selectedContract.name : "Nome"}
           </p>
           <Button>Anexos</Button>
         </div>
 
         <div className="client-content">
+          {/* Isso dq não daria para virar um componente? */}
           <div className="tabs">
             <Button>Status</Button>
             <Button>Dados</Button>
@@ -43,52 +47,69 @@ const InfoContract = () => {
           </div>
 
           <div className="box-info">
-            {selectedClient ? (
+            {/*
+              name, status, template
+              installmentable, installments, totalValue
+              typeExpire, expire
+              classRoms, timeMin, TimeMax, weekdays
+            */}
+            {selectedContract ? (
               <>
                 <p>
-                  <strong>Nome:</strong> {selectedClient.name}
+                  <strong>Nome:</strong> {" " + selectedContract.name}
                 </p>
                 <p>
-                  <strong>Email:</strong> {selectedClient.email}
+                  <strong>Status:</strong> {" " + selectedContract.status}
                 </p>
                 <p>
-                  <strong>Telefone:</strong> {selectedClient.cellphone}
+                  <strong>Template:</strong> {" " + selectedContract.template}
                 </p>
                 <p>
-                  <strong>Data de nascimento:</strong>{" "}
-                  {selectedClient.birthDate}
+                  <strong>Forma de Parcelamento:</strong>
+                  {" " + selectedContract.installmentable}
+                </p>
+                {selectedContract.installmentable === "Parcelável" ? (
+                  <p>
+                    <strong>Número de Parcelas:</strong>
+                    {" " + selectedContract.installments}
+                  </p>
+                ) : (
+                  ""
+                )}
+                <p>
+                  <strong>Valor Total:</strong>{" "}
+                  {" R$ " +
+                    Number(selectedContract.totalValue)
+                      .toFixed(2)
+                      .replace(".", ",")}{" "}
                 </p>
                 <p>
-                  <strong>CPF:</strong> {selectedClient.cpf}
+                  <strong>Vencimento:</strong>
+                  {" " + selectedContract.expire}
+                  {selectedContract.typeExpire === "por Seção"
+                    ? " aulas"
+                    : selectedContract.typeExpire === "por Tempo"
+                      ? " meses"
+                      : ""}
                 </p>
                 <p>
-                  <strong>Endereço:</strong> {selectedClient.address}
+                  <strong>Turmas:</strong>
+                  {" " + selectedContract.classRoms}
+                </p>
+                <p>
+                  <strong>Horário de Entrada:</strong>
+                  {" " +
+                    selectedContract.timeMin +
+                    " - " +
+                    selectedContract.timeMax}
+                </p>
+                <p>
+                  <strong>Dias da Semana:</strong>
+                  {" " + selectedContract.weekdays}
                 </p>
               </>
             ) : (
               "Dados"
-            )}
-          </div>
-          <div className="box-info">
-            {selectedClient ? (
-              <>
-                <p>
-                  <strong>Contrato:</strong> {selectedClient.contrato}
-                </p>
-              </>
-            ) : (
-              "Informações do contrato"
-            )}
-          </div>
-          <div className="box-info">
-            {selectedClient ? (
-              <>
-                <p>
-                  <strong>Observações:</strong> {selectedClient.additionalInfo}
-                </p>
-              </>
-            ) : (
-              "Campo de texto de observações"
             )}
           </div>
 
@@ -97,7 +118,6 @@ const InfoContract = () => {
           </div>
         </div>
       </div>
-      */}
     </div>
   );
 };

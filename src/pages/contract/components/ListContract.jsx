@@ -9,7 +9,7 @@ const ListContract = ({ onContractSelect }) => {
   const [filteredContracts, setFilteredContracts] = useState([]);
   const [search, setSearch] = useState("");
   const [offset, setOffset] = useState(0);
-  const limit = 30;
+  const limit = 100;
   const navigate = useNavigate();
 
   const handleContractClick = (contract) => {

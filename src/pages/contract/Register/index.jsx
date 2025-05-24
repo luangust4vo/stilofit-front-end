@@ -26,17 +26,17 @@ const RegisterContract = () => {
   const typeExpire = watch("typeExpire");
 
   useEffect(() => {
-    if (installmentable === "aVista") {
-      setValue("installments", undefined);
+    if (installmentable === "à Vista" || installmentable === "") {
+      setValue("installments", "");
     }
   }, [installmentable, setValue]);
 
   let expireLabel = "Validade por ";
   let expirePlaceHolder = "";
-  if (typeExpire === "porSecao") {
+  if (typeExpire === "por Seções") {
     expireLabel += "Seções";
     expirePlaceHolder += "Aulas";
-  } else if (typeExpire === "porTempo") {
+  } else if (typeExpire === "por Tempo") {
     expireLabel += "Tempo";
     expirePlaceHolder += "Meses";
   }
@@ -50,12 +50,18 @@ const RegisterContract = () => {
   }, []);
 
   const prepareData = (data) => {
+    {/*
+    name, status, template
+    installmentable, totalValue
+    typeExpire, expire
+    classRoms, timeMin, TimeMax, weekdays
+    */}
     const parsedData = {
       ...data,
-      status: data.status || undefined,
-      template: data.template || undefined,
-      installmentable: data.installmentable || undefined,
-      installments: data.installments ? Number(data.installments) : undefined,
+      status: data.status || "",
+      template: data.template || "",
+      installmentable: data.installmentable || "",
+      installments: data.installments ? Number(data.installments) : "",
       totalValue: data.totalValue
         ? Number(
             String(data.totalValue)
@@ -63,15 +69,15 @@ const RegisterContract = () => {
               .replace(/\./g, "")
               .replace(",", ".")
           )
-        : undefined,
-      expire: data.expire ? Number(data.expire) : undefined,
+        : "",
+      expire: data.expire ? Number(data.expire) : "",
       classRoms: Array.isArray(data.classRoms)
         ? data.classRoms
         : data.classRoms
           ? [data.classRoms]
           : [],
-      timeMin: data.timeMin || undefined,
-      timeMax: data.timeMax || undefined,
+      timeMin: data.timeMin || "",
+      timeMax: data.timeMax || "",
       weekdays: Array.isArray(data.weekdays) ? data.weekdays : [],
     };
     return parsedData;
@@ -100,14 +106,14 @@ const RegisterContract = () => {
               <h3>Dados Gerais do Contrato</h3>
               <Input label="Nome do Contrato" name="name" required />
               <Select label="Status" name="status">
-                <option value="disponivel">Disponível</option>
-                <option value="naoDisponivel">Não Disponível</option>
+                <option value="Disponível">Disponível</option>
+                <option value="Não Disponível">Não Disponível</option>
               </Select>
               <Select label="Template" name="template">
                 <option value="">Selecione</option>
-                <option value="templateAzul">Template Azul</option>
-                <option value="templateVerde">Template Verde</option>
-                <option value="templateAmarelo">Template Amarelo</option>
+                <option value="Template Azul">Template Azul</option>
+                <option value="Template Verde">Template Verde</option>
+                <option value="Template Amarelo">Template Amarelo</option>
               </Select>
             </div>
 
@@ -115,10 +121,10 @@ const RegisterContract = () => {
               <h3>Parcelamento</h3>
               <Select label="Parcelamento" name="installmentable">
                 <option value="">Selecione</option>
-                <option value="parcelavel">Parcelável</option>
-                <option value="aVista">À vista</option>
+                <option value="Parcelável">Parcelável</option>
+                <option value="à Vista">À vista</option>
               </Select>
-              {installmentable === "parcelavel" && (
+              {installmentable === "Parcelável" && (
                 <Input
                   label="Nº de parcelas"
                   name="installments"
@@ -133,8 +139,8 @@ const RegisterContract = () => {
               <h3>Vencimento</h3>
               <Select label="Tipo de Vencimento" name="typeExpire" required>
                 <option value="">Selecione</option>
-                <option value="porSecao">Por Seção</option>
-                <option value="porTempo">Por Tempo</option>
+                <option value="por Seção">Por Seção</option>
+                <option value="por Tempo">Por Tempo</option>
               </Select>
               <Input
                 label={expireLabel}
