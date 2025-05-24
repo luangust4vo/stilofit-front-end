@@ -4,27 +4,28 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import './index.scss';
 
-import ColorPicker from '../../components/selecaoCores'; // seu componente customizado de cores
-
+import ColorPicker from '../../components/selecaoCores';
 import {
   Input,
   Select,
   Textarea,
   Button,
-  DateTimePicker,
 } from "../../components";
 
 const locaisPredefinidos = ['Sala 101', 'Laboratório 2', 'Auditório'];
 
 const validationSchema = Yup.object().shape({
   turma: Yup.string().required('Nome da turma é obrigatório'),
-  vagas: Yup.number().typeError('Deve ser um número')
+  vagas: Yup.number()
+    .typeError('Deve ser um número')
     .required('Número de vagas é obrigatório')
     .positive('Deve ser positivo')
     .integer('Deve ser inteiro'),
-  tempo: Yup.date()
-    .required('Data e hora obrigatórias')
-    .min(new Date(), 'Escolha uma data futura'),
+  tempo: Yup.number()
+    .typeError('Informe a duração em minutos')
+    .required('Duração é obrigatória')
+    .positive('Deve ser um número positivo')
+    .integer('A duração deve ser em minutos inteiros'),
   local: Yup.string().required('Local da aula é obrigatório'),
   novoLocal: Yup.string().when('local', {
     is: 'outro',
@@ -41,11 +42,11 @@ function Formulario() {
     defaultValues: {
       turma: '',
       vagas: '',
-      tempo: null,
+      tempo: '',
       local: '',
       novoLocal: '',
       observacoes: '',
-      cor: '#000000', // cor padrão
+      cor: '#000000',
     },
   });
 
@@ -58,7 +59,7 @@ function Formulario() {
     const novaTurma = {
       turma: data.turma,
       vagas: data.vagas,
-      tempo: data.tempo,
+      tempo: `${data.tempo} minutos`,
       local: localFinal,
       observacoes: data.observacoes,
       cor: data.cor,
@@ -73,33 +74,74 @@ function Formulario() {
   };
 
   return (
-    <FormProvider {...methods}>
-      <form className="form" onSubmit={handleSubmit(onSubmit)}>
-        <h1>Cadastro de Turma</h1>
+    <div className="container">
+      <FormProvider {...methods}>
+        <form className="form" onSubmit={handleSubmit(onSubmit)}>
+          <h1>Cadastro de Turma</h1>
 
-        <Input name="turma" id="turma" label="Nome da turma" required placeholder="Digite o nome da turma" />
-        <Input name="vagas" id="vagas" label="Quantidade de vagas" required placeholder="Digite a quantidade de vagas" />
-        <DateTimePicker name="tempo" id="time" label="Data e Hora" required />
+          <Input
+            className="inputStyle"
+            name="turma"
+            id="turma"
+            label="Nome da turma"
+            required
+            placeholder="Digite o nome da turma"
+          />
 
-        <Select name="local" id="local" label="Local da aula" required>
-          <option value="">Selecione o local</option>
-          {locaisPredefinidos.map(loc => (
-            <option key={loc} value={loc}>{loc}</option>
-          ))}
-          <option value="outro">Outro...</option>
-        </Select>
+          <div className="row">
+            <Input
+              className="inputStyle"
+              name="vagas"
+              id="vagas"
+              label="Quantidade de vagas"
+              required
+              placeholder="Ex: 30"
+            />
+            <Input
+              className="inputStyle"
+              name="tempo"
+              id="tempo"
+              label="Duração (minutos)"
+              required
+              placeholder="Ex: 50"
+            />
+            <Select
+              name="local"
+              id="local"
+              label="Local da aula"
+              required
+            >
+              <option value="">Selecione o local</option>
+              {locaisPredefinidos.map(loc => (
+                <option key={loc} value={loc}>{loc}</option>
+              ))}
+              <option value="outro">Outro...</option>
+            </Select>
+          </div>
 
-        {localSelecionado === 'outro' && (
-          <Input name="novoLocal" id="novoLocal" label="Novo local" required placeholder="Digite o novo local" />
-        )}
+          {localSelecionado === 'outro' && (
+            <Input
+              name="novoLocal"
+              id="novoLocal"
+              label="Novo local"
+              required
+              placeholder="Digite o novo local"
+            />
+          )}
 
-        <Textarea name="observacoes" id="observacoes" label="Observações" placeholder="Caso necessário" />
+          <Textarea
+            name="observacoes"
+            id="observacoes"
+            label="Observações"
+            placeholder="Caso necessário"
+          />
 
-        <ColorPicker name="cor" label="Selecione uma Cor" />
+          <ColorPicker name="cor" />
 
-        <Button type="submit">Cadastrar Turma</Button>
-      </form>
-    </FormProvider>
+          <Button type="submit">Cadastrar Turma</Button>
+        </form>
+      </FormProvider>
+    </div>
   );
 }
 

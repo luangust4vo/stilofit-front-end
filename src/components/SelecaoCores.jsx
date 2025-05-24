@@ -20,7 +20,6 @@ function ColorPicker({ name, label }) {
 
     return (
         <div className="form-group" style={{ position: 'relative' }}>
-            <label>{label}</label><br />
             <button
                 type="button"
                 onClick={togglePicker}
@@ -28,6 +27,7 @@ function ColorPicker({ name, label }) {
                     backgroundColor: value,
                     color: '#fff',
                     padding: '10px 27px',
+                    width: '100%',
                     border: 'none',
                     borderRadius: '10px',
                     cursor: 'pointer',
@@ -36,29 +36,32 @@ function ColorPicker({ name, label }) {
             >
                 Selecione a cor
             </button>
-            {
-        showPicker && (
-            <div style={{ position: 'absolute', zIndex: 2 }}>
-                <div
-                    style={{
-                        position: 'fixed',
-                        top: 0,
-                        right: 0,
-                        bottom: 0,
-                        left: 0,
-                    }}
-                    onClick={closePicker}
-                />
-                <SketchPicker
-                    color={value}
-                    onChange={(color) => onChange(color.hex)}
-                />
-            </div>
-        )
-    }
 
-    { error && <p className="error" style={{ color: 'red' }}>{error.message}</p> }
-        </div >
+            {showPicker && (
+                <div style={{ position: 'absolute', zIndex: 2 }}>
+                    <div
+                        style={{
+                            position: 'fixed',
+                            top: 0,
+                            right: 0,
+                            bottom: 0,
+                            left: 0,
+                        }}
+                        onClick={closePicker}
+                    />
+                    <SketchPicker
+                        color={value}
+                        onChange={(color) => onChange(color.hex)}
+                    />
+                </div>
+            )}
+
+            {error && (
+                <p className="error" style={{ color: 'red' }}>
+                    {error.message}
+                </p>
+            )}
+        </div>
     );
 }
 
