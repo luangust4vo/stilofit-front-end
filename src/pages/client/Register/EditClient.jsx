@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Register from "../Register";
+import Register from ".";
 import { useClient } from "../../../contexts/ClientContext";
 
 const EditClient = () => {

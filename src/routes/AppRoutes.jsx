@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Register, Info, Layout } from "../pages/client";
-import EditClient from "../pages/client/components/EditClient";
+import EditClient from "../pages/client/Register/EditClient";
 
 // Aqui você pode adicionar as rotas do seu projeto
 // Você também pode adicionar rotas aninhadas e, se quiser, até dividir elas em arquivos diferentes
