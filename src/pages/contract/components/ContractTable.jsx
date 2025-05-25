@@ -84,7 +84,7 @@ const ContractTable = ({ onContractSelect }) => {
             <th>Nome</th>
             <th>Valor Total</th>
             <th>Tipo Vencimento</th>
-            <th>Total de sessões/meses</th>
+            <th>Vencimento</th>
             <th></th>
           </tr>
         </thead>
@@ -101,7 +101,14 @@ const ContractTable = ({ onContractSelect }) => {
                   Number(contract.totalValue).toFixed(2).replace(".", ",")}
               </td>
               <td>{contract.typeExpire}</td>
-              <td>{contract.expire}</td>
+              <td>
+                {contract.expire}
+                {contract.typeExpire === "por Seção"
+                  ? " aulas"
+                  : contract.typeExpire === "por Tempo"
+                    ? " meses"
+                    : ""}
+              </td>
               <td>
                 <button
                   className="btn-icon"
