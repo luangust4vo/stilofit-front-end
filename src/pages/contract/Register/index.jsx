@@ -147,7 +147,6 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
                   label="Nº de parcelas"
                   name="installments"
                   type="number"
-                  min={0}
                 />
               )}
               <MonetaryInput name="totalValue" label="Valor Total" required />
@@ -164,7 +163,6 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
                 label={expireLabel}
                 name="expire"
                 type="number"
-                min={1}
                 placeholder={expirePlaceHolder}
                 disabled={typeExpire === ""}
                 required

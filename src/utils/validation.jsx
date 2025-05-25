@@ -44,7 +44,8 @@ const validationSchemaContract = yup.object().shape({
   expire: yup
     .number()
     .typeError("Limite da Validade é obrigatório")
-    .required("Limite da Validade é obrigatório"),
+    .required("Limite da Validade é obrigatório")
+    .min(1, "Valor deve ser maior ou igual a 1"),
 });
 
 export { fetchAddressByCEP, validationSchema, validationSchemaContract };
