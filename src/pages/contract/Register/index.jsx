@@ -33,12 +33,12 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   const installmentable = watch("installmentable");
   const typeExpire = watch("typeExpire");
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (initialData) {
       const navigate = useNavigate();
       methods.reset(initialData);
     }
-  }, [initialData]);
+  }, [initialData]);*/
 
   useEffect(() => {
     if (installmentable === "aVista") {
@@ -103,6 +103,7 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
     if (initialData && initialData.id) {
       updateContract(initialData.id, parsedData);
       toast.success("Contrato atualizado!");
+       navigate("/contrato");
     } else {
       addContract(parsedData);
       toast.success("Contrato cadastrado!");
