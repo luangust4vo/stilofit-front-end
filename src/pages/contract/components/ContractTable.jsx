@@ -19,7 +19,11 @@ const ContractTable = ({ onContractSelect }) => {
   };
 
   const goRegistration = () => {
-    navigate("../contrato");
+    navigate("/contrato/novo");
+  };
+
+  const goEdit = (id) => {
+    navigate(`/contrato/${id}/editar`);
   };
 
   const changeExpanded = () => {
