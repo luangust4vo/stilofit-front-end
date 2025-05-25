@@ -95,6 +95,7 @@ const ContractTable = ({ onContractSelect }) => {
               <td>
                 <button
                   className="btn-icon"
+                  onClick={() => goEdit(contract.id)}
                   title="Editar"
                 >
                   <i className="bi bi-pencil"></i>
