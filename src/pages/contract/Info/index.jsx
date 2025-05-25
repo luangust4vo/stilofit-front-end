@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "../../../components";
 import "./styles.scss";
 
 const InfoContract = () => {
   const { id } = useParams();
   const [selectedContract, setSelectedContract] = useState(null);
+  const navigate = useNavigate();
+
+  const goEdit = () => {
+    navigate(`/contrato/${id}/editar`);
+  };
 
   useEffect(() => {
     const contracts = JSON.parse(localStorage.getItem("contratos")) || [];
@@ -17,15 +22,7 @@ const InfoContract = () => {
     <div className="container">
       <div className="contract-container">
         <div className="contract-side">
-          {selectedContract?.photo ? (
-            <img
-              src={selectedContract.photo}
-              alt="Foto"
-              className="photo-contract"
-            />
-          ) : (
-            <i className="bi bi-file-earmark-text-fill  photo-contract"></i>
-          )}
+          <i className="bi bi-file-earmark-text-fill  photo-contract"></i>
 
           <p className="contract-name">
             {selectedContract ? selectedContract.name : "Nome"}
@@ -46,12 +43,6 @@ const InfoContract = () => {
           </div>
 
           <div className="box-info">
-            {/*
-              name, status, template
-              installmentable, installments, totalValue
-              typeExpire, expire
-              classRoms, timeMin, TimeMax, weekdays
-            */}
             {selectedContract ? (
               <>
                 <p>
@@ -113,7 +104,7 @@ const InfoContract = () => {
           </div>
 
           <div className="edit">
-            <Button>Editar</Button>
+            <Button onClick={goEdit}>Editar</Button>
           </div>
         </div>
       </div>
