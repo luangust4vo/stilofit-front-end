@@ -44,4 +44,21 @@ const validationSchemaContract = yup.object().shape({
   expire: yup.mixed().required("Limite da Validade é obrigatório"),
 });
 
+const validationSchemaTurma = Yup.object().shape({
+  turma: Yup.string().required('Nome da turma é obrigatório'),
+  vagas: Yup.number()
+    .typeError('Deve ser um número')
+    .required('Número de vagas é obrigatório')
+    .positive('Deve ser positivo')
+    .integer('Deve ser inteiro'),
+  tempo: Yup.number()
+    .typeError('Informe a duração em minutos')
+    .required('Duração é obrigatória')
+    .positive('Deve ser um número positivo')
+    .integer('A duração deve ser em minutos inteiros'),
+  local: Yup.string().required('Local da aula é obrigatório'),
+  observacoes: Yup.string().max(300, 'Máximo de 300 caracteres'),
+  cor: Yup.string().required('Selecione uma cor'),
+});
+
 export { fetchAddressByCEP, validationSchema, validationSchemaContract };
