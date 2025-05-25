@@ -8,24 +8,19 @@
   padding: 0.3rem;
   border-radius: 4px;
   transition: background 0.2s;
+}
 
 .container {
-  margin: 20px;
+  padding: 20px;
   display: flex;
   font-family: Arial, sans-serif;
   overflow: hidden;
   width: 100%;
 
-  &:hover {
-    background: #dde6fa;
-  }
-}
-
   .form {
     flex:1;
     overflow-y: auto;
     margin-bottom: 40px;
-    padding: 20px;
 
     .block {
       background-color: #cfcfcf;
