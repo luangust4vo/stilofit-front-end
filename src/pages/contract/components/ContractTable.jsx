@@ -109,7 +109,7 @@ const ContractTable = ({ onContractSelect }) => {
               <td>
                 <button
                   className="btn-icon"
-                  onClick={() => goEdit(contract.id)}
+                  onClick={e => { e.stopPropagation(); goEdit(contract.id); }}
                   title="Editar"
                 >
                   <i className="bi bi-pencil-fill"></i>
@@ -126,6 +126,13 @@ const ContractTable = ({ onContractSelect }) => {
           )}
         </tbody>
       </table>
+      {modalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <InfoContract id={selectedId} onClose={handleCloseModal} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
