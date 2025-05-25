@@ -12,6 +12,9 @@ const ContractTable = ({ onContractSelect }) => {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  //const [offset, setOffset] = useState(0);
+  //const limit = 30;
+  //const [expanded, setExpanded] = React.useState(false);
 
   const handleRowClick = (id) => {
     setSelectedId(id);
@@ -22,10 +25,6 @@ const ContractTable = ({ onContractSelect }) => {
     setModalOpen(false);
     setSelectedId(null);
   };
-
-  //const [offset, setOffset] = useState(0);
-  //const limit = 30;
-  //const [expanded, setExpanded] = React.useState(false);
 
   const goRegistration = () => {
     navigate("/contrato/novo");
@@ -99,7 +98,7 @@ const ContractTable = ({ onContractSelect }) => {
         </thead>
         <tbody>
           {filteredContracts.map((contract) => (
-            <tr key={contract.id}>
+            <tr key={contract.id} onClick={() => handleRowClick(contract.id)} style={{ cursor: "pointer" }}>
               <td>{contract.name}</td>
               <td>
                 {"R$ " +
