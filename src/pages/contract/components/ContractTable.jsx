@@ -4,7 +4,7 @@ import { useContract } from "../../../contexts/ContractContext";
 
 import "./styles.scss";
 
-const ListContract = ({ onContractSelect }) => {
+const ContractTable = ({ onContractSelect }) => {
   const [expanded, setExpanded] = React.useState(false);
   const { contracts, loadMoreContracts } = useContract();
   const [filteredContracts, setFilteredContracts] = useState([]);
@@ -56,16 +56,15 @@ const ListContract = ({ onContractSelect }) => {
   };
 
   return (
-    <div className="sidebar">
-      <div className="top-bar">
-        <div className="search-row">
-          <input
-            className="field-search"
-            placeholder="Buscar..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
+    <div className="contract-table-container">
+      
+      <div className="table-header">
+        <input
+          className="field-search"
+          placeholder="Buscar..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
         <button className="btn-icon">
           <i className="bi bi-funnel-fill"></i>
         </button>
@@ -90,4 +89,4 @@ const ListContract = ({ onContractSelect }) => {
   );
 };
 
-export default ListContract;
+export default ContractTable;
