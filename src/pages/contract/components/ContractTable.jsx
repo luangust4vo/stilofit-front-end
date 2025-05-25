@@ -57,7 +57,6 @@ const ContractTable = ({ onContractSelect }) => {
 
   return (
     <div className="contract-table-container">
-      
       <div className="table-header">
         <input
           className="field-search"
@@ -73,18 +72,17 @@ const ContractTable = ({ onContractSelect }) => {
         </button>
       </div>
 
-      <div className="scroller">
-        {(search ? filteredContracts : contracts).map((contract) => (
-          <div
-            className="contract"
-            key={contract.id}
-            onClick={() => handleContractClick(contract)}
-          >
-            <i className="bi bi-file-earmark-text-fill icon-contract"></i>
-            <span className="contractname">{contract.name}</span>
-          </div>
-        ))}
-      </div>
+      <table className="contract-table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Valor Total</th>
+            <th>Tipo Vencimento</th>
+            <th>Total de sessões/meses</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
   );
 };
