@@ -64,9 +64,7 @@ const ContractTable = ({ onContractSelect }) => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <button className="btn-icon">
-          <i className="bi bi-funnel-fill"></i>
-        </button>
+        <i className="bi bi-funnel-fill"></i>
         <button className="btn-icon" onClick={goRegistration}>
           <i className="bi-file-earmark-plus-fill"></i>
         </button>
