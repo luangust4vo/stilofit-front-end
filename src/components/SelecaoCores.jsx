@@ -10,7 +10,7 @@ function ColorPicker({ name, label }) {
     } = useController({
         name,
         control,
-        defaultValue: '#3498db',
+        defaultValue: '#000000',
     });
 
     const [showPicker, setShowPicker] = useState(false);

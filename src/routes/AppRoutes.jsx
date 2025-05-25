@@ -5,6 +5,7 @@ import RegisterContract from "../pages/contract/Register";
 import EditClient from "../pages/client/Register/EditClient";
 import EditContract from "../pages/contract/Register/EditContract";
 import { LayoutContract } from "../pages/contract";
+import Turma from "../pages/turma"
 // Aqui você pode adicionar as rotas do seu projeto
 // Você também pode adicionar rotas aninhadas e, se quiser, até dividir elas em arquivos diferentes
 // Exemplo: clientRoutes.js, adminRoutes.js, etc. Ai faz a importação e exporta tudo aqui
