@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContract } from "../../../contexts/ContractContext";
+import InfoContract from "../Info";
 
 import "./styles.scss";
 
