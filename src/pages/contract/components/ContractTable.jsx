@@ -94,6 +94,7 @@ const ContractTable = ({ onContractSelect }) => {
             <th>Valor Total</th>
             <th>Tipo Vencimento</th>
             <th>Total de sessões/meses</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
