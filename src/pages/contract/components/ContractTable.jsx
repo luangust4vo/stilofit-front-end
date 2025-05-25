@@ -5,18 +5,14 @@ import { useContract } from "../../../contexts/ContractContext";
 import "./styles.scss";
 
 const ContractTable = ({ onContractSelect }) => {
-  const [expanded, setExpanded] = React.useState(false);
   const { contracts, loadMoreContracts } = useContract();
   const [filteredContracts, setFilteredContracts] = useState([]);
   const [search, setSearch] = useState("");
-  const [offset, setOffset] = useState(0);
-  const limit = 30;
   const navigate = useNavigate();
 
-  const handleContractClick = (contract) => {
-    if (onContractSelect) onContractSelect(contract);
-    navigate(`/contrato/${contract.id}`);
-  };
+  //const [offset, setOffset] = useState(0);
+  //const limit = 30;
+  //const [expanded, setExpanded] = React.useState(false);
 
   const goRegistration = () => {
     navigate("/contrato/novo");
@@ -24,10 +20,6 @@ const ContractTable = ({ onContractSelect }) => {
 
   const goEdit = (id) => {
     navigate(`/contrato/${id}/editar`);
-  };
-
-  const changeExpanded = () => {
-    setExpanded(!expanded);
   };
 
   useEffect(() => {
@@ -41,7 +33,16 @@ const ContractTable = ({ onContractSelect }) => {
     }
   }, [search, contracts]);
 
-  useEffect(() => {
+  /*const changeExpanded = () => {
+    setExpanded(!expanded);
+  };*/
+
+  /*const handleContractClick = (contract) => {
+    if (onContractSelect) onContractSelect(contract);
+    navigate(`/contrato/${contract.id}`);
+  };*/
+
+  /*useEffect(() => {
     const scroller = document.querySelector(".scroller");
     if (!scroller) return;
     const handleScroll = () => {
@@ -53,7 +54,7 @@ const ContractTable = ({ onContractSelect }) => {
     };
     scroller.addEventListener("scroll", handleScroll);
     return () => scroller.removeEventListener("scroll", handleScroll);
-  }, [expanded]);
+  }, [expanded]);*/
 
   const handleLoadMore = () => {
     setOffset((prev) => prev + limit);
@@ -87,13 +88,12 @@ const ContractTable = ({ onContractSelect }) => {
           {filteredContracts.map((contract) => (
             <tr key={contract.id}>
               <td>{contract.name}</td>
-              <td>{contract.totalValue}</td>
-              <td>{contract.typeExpire}</td>
-              <td>{contract.expire}</td>
               <td>
                 {"R$ " +
                   Number(contract.totalValue).toFixed(2).replace(".", ",")}
               </td>
+              <td>{contract.typeExpire}</td>
+              <td>{contract.expire}</td>
               <td>
                 <button
                   className="btn-icon"
