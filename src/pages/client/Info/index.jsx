@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "../../../components";
 import "./styles.scss";
 
 const Info = () => {
   const { id } = useParams();
   const [selectedClient, setSelectedClient] = useState(null);
+  const navigate = useNavigate();
+
+  const goEdit = () => {
+    navigate(`/cliente/${id}/editar`);
+  };
 
   useEffect(() => {
     const clients = JSON.parse(localStorage.getItem("clientes")) || [];
@@ -92,7 +97,7 @@ const Info = () => {
           </div>
 
           <div className="edit">
-            <Button>Editar</Button>
+            <Button onClick={goEdit}>Editar</Button>
           </div>
         </div>
       </div>

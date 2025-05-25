@@ -1,8 +1,8 @@
-import React from 'react';
-import { useFormContext } from 'react-hook-form';
-import classNames from 'classnames';
+import React from "react";
+import { useFormContext } from "react-hook-form";
+import classNames from "classnames";
 
-import './styles.scss';
+import "./styles.scss";
 
 const Input = ({ name, label, required, ...rest }) => {
   const {
@@ -10,12 +10,14 @@ const Input = ({ name, label, required, ...rest }) => {
     formState: { errors },
   } = useFormContext();
   return (
-    <div className={classNames('form-group', { 'has-error': errors[name] })}>
+    <div className={classNames("form-group", { "has-error": errors[name] })}>
       {label && (
         <label htmlFor={name}>
           {label}
           {required && <span className="required-asterisk">*</span>}
-          {errors[name] && <span className="error-message"> {errors[name].message}</span>}
+          {errors[name] && (
+            <span className="error-message"> {errors[name].message}</span>
+          )}
         </label>
       )}
       <input id={name} {...register(name)} {...rest} />
