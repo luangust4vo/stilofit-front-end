@@ -14,7 +14,6 @@ const ContractTable = ({ onContractSelect }) => {
   const [selectedId, setSelectedId] = useState(null);
   const [offset, setOffset] = useState(0);
   const limit = 30;
-  //const [expanded, setExpanded] = React.useState(false);
 
   const handleRowClick = (id) => {
     setSelectedId(id);
@@ -44,15 +43,6 @@ const ContractTable = ({ onContractSelect }) => {
     result.sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
     setFilteredContracts(result.slice(0, offset + limit));
   }, [search, contracts, offset]);
-
-  /*const changeExpanded = () => {
-    setExpanded(!expanded);
-  };*/
-
-  /*const handleContractClick = (contract) => {
-    if (onContractSelect) onContractSelect(contract);
-    navigate(`/contrato/${contract.id}`);
-  };*/
 
   useEffect(() => {
     const handleScroll = () => {
