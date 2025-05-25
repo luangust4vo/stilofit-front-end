@@ -20,11 +20,19 @@ const AppRoutes = () => {
           <Route path=":id" element={<Info />} />
           <Route path=":id/editar" element={<EditClient />} />
         </Route>
+        <Route path="/contrato">
+          <Route index element={<ContractTable />} />
+          <Route path="novo" element={<RegisterContract />} />
+          <Route path=":id" element={<InfoContract />} />
+          <Route path=":id/editar" element={<EditContract />} />
+        </Route>
+        {/*
         <Route path="/contrato" element={<LayoutContract />}>
           <Route index element={<RegisterContract />} />
           <Route path=":id" element={<InfoContract />} />
           <Route path=":id/editar" element={<EditContract />} />
         </Route>
+        */}
       </Routes>
     </BrowserRouter>
   );
