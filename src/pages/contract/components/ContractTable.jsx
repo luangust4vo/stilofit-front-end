@@ -35,14 +35,14 @@ const ContractTable = ({ onContractSelect }) => {
   };
 
   useEffect(() => {
-    if (search.trim() === "") {
-      setFilteredContracts(contracts);
-    } else {
-      const result = contracts.filter((contract) =>
+    let result = [...contracts];
+    if (search.trim() !== "") {
+      result = result.filter((contract) =>
         contract.name.toLowerCase().includes(search.toLowerCase())
       );
-      setFilteredContracts(result);
     }
+    result.sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
+    setFilteredContracts(result);
   }, [search, contracts]);
 
   /*const changeExpanded = () => {
@@ -99,7 +99,11 @@ const ContractTable = ({ onContractSelect }) => {
         </thead>
         <tbody>
           {filteredContracts.map((contract) => (
-            <tr key={contract.id} onClick={() => handleRowClick(contract.id)} style={{ cursor: "pointer" }}>
+            <tr
+              key={contract.id}
+              onClick={() => handleRowClick(contract.id)}
+              style={{ cursor: "pointer" }}
+            >
               <td>{contract.name}</td>
               <td>
                 {"R$ " +
@@ -110,7 +114,10 @@ const ContractTable = ({ onContractSelect }) => {
               <td>
                 <button
                   className="btn-icon"
-                  onClick={e => { e.stopPropagation(); goEdit(contract.id); }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goEdit(contract.id);
+                  }}
                   title="Editar"
                 >
                   <i className="bi bi-pencil-fill"></i>
