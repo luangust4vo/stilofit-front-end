@@ -11,23 +11,34 @@ import {
   MonetaryInput,
   MultiSelect,
 } from "../../../components";
+import { useContract } from "../../../contexts/ContractContext";
 
 import "./styles.scss";
 import "react-toastify/dist/ReactToastify.css";
 
-const RegisterContract = () => {
+const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
+  console.log("teste", initialData);
+
   const methods = useForm({
     resolver: yupResolver(validationSchemaContract),
+    defaultValues: initialData || {},
   });
 
   const { handleSubmit, setValue, watch, reset } = methods;
+  const { addContract, updateContract } = useContract();
 
   const installmentable = watch("installmentable");
   const typeExpire = watch("typeExpire");
 
   useEffect(() => {
-    if (installmentable === "à Vista" || installmentable === "") {
-      setValue("installments", "");
+    if (initialData) {
+      methods.reset(initialData);
+    }
+  }, [initialData]);
+
+  useEffect(() => {
+    if (installmentable === "aVista") {
+      setValue("installments", undefined);
     }
   }, [installmentable, setValue]);
 
@@ -50,12 +61,6 @@ const RegisterContract = () => {
   }, []);
 
   const prepareData = (data) => {
-    {/*
-    name, status, template
-    installmentable, totalValue
-    typeExpire, expire
-    classRoms, timeMin, TimeMax, weekdays
-    */}
     const parsedData = {
       ...data,
       status: data.status || "",
@@ -85,16 +90,20 @@ const RegisterContract = () => {
 
   const onSubmit = (data) => {
     const parsedData = prepareData(data);
-    console.log(parsedData);
 
-    const contracts = JSON.parse(localStorage.getItem("contratos")) || [];
-    const newContract = { ...parsedData, id: crypto.randomUUID() };
-    localStorage.setItem(
-      "contratos",
-      JSON.stringify([...contracts, newContract])
-    );
-    toast.success("Contrato cadastrado!");
-    reset();
+    if (externalSubmit) {
+      externalSubmit(parsedData);
+      return;
+    }
+
+    if (initialData && initialData.id) {
+      updateContract(initialData.id, parsedData);
+      toast.success("Contrato atualizado!");
+    } else {
+      addContract(parsedData);
+      toast.success("Contrato cadastrado!");
+      reset();
+    }
   };
 
   return (
@@ -180,7 +189,7 @@ const RegisterContract = () => {
               />
             </div>
 
-            <Button>Salvar</Button>
+            <Button>{initialData ? "Atualizar" : "Salvar"}</Button>
           </form>
         </FormProvider>
         <ToastContainer position="top-right" autoClose={3000} />

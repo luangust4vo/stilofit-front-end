@@ -34,7 +34,6 @@ const InfoContract = () => {
         </div>
 
         <div className="contract-content">
-          {/* Isso dq não daria para virar um componente? */}
           <div className="tabs">
             <Button>Status</Button>
             <Button>Dados</Button>
