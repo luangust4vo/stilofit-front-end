@@ -16,9 +16,9 @@ const InfoContract = ({ id: propId, onClose }) => {
 
   return (
     <div className="container">
-      <div className="contract-container">
+      {/*<div className="contract-container">
         <div className="contract-content">
-          <div className="box-info">
+          <div className="box-info">*/}
             <button
               className="btn-icon"
               onClick={onClose}
@@ -85,9 +85,9 @@ const InfoContract = ({ id: propId, onClose }) => {
             ) : (
               "Nenhuma Informação encontrada"
             )}
-          </div>
+          {/*</div>
         </div>
-      </div>
+      </div>*/}
     </div>
   );
 };
