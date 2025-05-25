@@ -54,19 +54,19 @@ const ContractTable = ({ onContractSelect }) => {
     navigate(`/contrato/${contract.id}`);
   };*/
 
-  /*useEffect(() => {
-    const scroller = document.querySelector(".scroller");
-    if (!scroller) return;
+  useEffect(() => {
     const handleScroll = () => {
-      const isBottom =
-        scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight;
-      if (isBottom) {
-        setOffset((prev) => prev + limit);
+      const table = document.querySelector(".contract-table-container");
+      if (!table) return;
+      if (window.innerHeight + window.scrollY >= table.offsetHeight - 100) {
+        if (filteredContracts.length < contracts.length) {
+          setOffset((prev) => prev + limit);
+        }
       }
     };
-    scroller.addEventListener("scroll", handleScroll);
-    return () => scroller.removeEventListener("scroll", handleScroll);
-  }, [expanded]);*/
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [filteredContracts, contracts]);
 
   const handleLoadMore = () => {
     setOffset((prev) => prev + limit);
