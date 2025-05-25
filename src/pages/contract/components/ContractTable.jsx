@@ -10,6 +10,18 @@ const ContractTable = ({ onContractSelect }) => {
   const [filteredContracts, setFilteredContracts] = useState([]);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
+  const handleRowClick = (id) => {
+    setSelectedId(id);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedId(null);
+  };
 
   //const [offset, setOffset] = useState(0);
   //const limit = 30;
