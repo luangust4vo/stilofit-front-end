@@ -5,7 +5,7 @@
   padding: 2rem 1rem;
 }
 
-.btn-icon {
+.btn-icon-table {
   background: #000080;
     color: #fff;
     border: none;
@@ -24,6 +24,7 @@
   justify-content: flex-end;
   gap: 1rem;
   margin-bottom: 1.5rem;
+  align-items: center;
 
   .field-search {
     padding: 0.5rem 1rem;

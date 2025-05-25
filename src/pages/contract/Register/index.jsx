@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ToastContainer, toast } from "react-toastify";
@@ -16,8 +17,11 @@ import { useContract } from "../../../contexts/ContractContext";
 import "./styles.scss";
 import "react-toastify/dist/ReactToastify.css";
 
+
 const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   console.log("teste", initialData);
+
+  const navigate = useNavigate();
 
   const methods = useForm({
     resolver: yupResolver(validationSchemaContract),
@@ -31,7 +35,7 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   const typeExpire = watch("typeExpire");
 
   useEffect(() => {
-    if (initialData) {
+    if (initialData) {const navigate = useNavigate();
       methods.reset(initialData);
     }
   }, [initialData]);
@@ -108,6 +112,10 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
 
   return (
     <div className="container">
+      <button className="btn-icon" onClick={() => navigate("/contrato")}>
+        <i className="bi bi-arrow-left"></i>
+        Voltar
+      </button>
       <main className="form">
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)}>

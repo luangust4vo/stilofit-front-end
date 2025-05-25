@@ -64,14 +64,6 @@ const ContractTable = ({ onContractSelect }) => {
 
   return (
     <div className="contract-table-container">
-      <button
-        className="btn-icon"
-        onClick={() => navigate(-1)}
-        style={{ marginRight: "1rem" }}
-      >
-        <i className="bi bi-arrow-left"></i>
-        Voltar
-      </button>
       <div className="table-header">
         <input
           className="field-search"
@@ -80,8 +72,9 @@ const ContractTable = ({ onContractSelect }) => {
           onChange={(e) => setSearch(e.target.value)}
         />
         <i className="bi bi-funnel-fill"></i>
-        <button className="btn-icon" onClick={goRegistration}>
-          <i className="bi-file-earmark-plus-fill"></i>
+        <button className="btn-icon-table" onClick={goRegistration}>
+          Criar Contrato
+          <i className="bi-plus"></i>
         </button>
       </div>
 

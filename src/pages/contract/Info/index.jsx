@@ -16,78 +16,69 @@ const InfoContract = ({ id: propId, onClose }) => {
 
   return (
     <div className="container">
-      {/*<div className="contract-container">
-        <div className="contract-content">
-          <div className="box-info">*/}
-            <button
-              className="btn-icon"
-              onClick={onClose}
-              style={{ marginTop: "1rem" }}
-            >
-              <i className="bi bi-arrow-left"></i>
-              Voltar
-            </button>
-            {selectedContract ? (
-              <>
-                <p>
-                  <strong>Nome:</strong> {" " + selectedContract.name}
-                </p>
-                <p>
-                  <strong>Status:</strong> {" " + selectedContract.status}
-                </p>
-                <p>
-                  <strong>Template:</strong> {" " + selectedContract.template}
-                </p>
-                <p>
-                  <strong>Forma de Parcelamento:</strong>
-                  {" " + selectedContract.installmentable}
-                </p>
-                {selectedContract.installmentable === "Parcelável" ? (
-                  <p>
-                    <strong>Número de Parcelas:</strong>
-                    {" " + selectedContract.installments}
-                  </p>
-                ) : (
-                  ""
-                )}
-                <p>
-                  <strong>Valor Total:</strong>{" "}
-                  {" R$ " +
-                    Number(selectedContract.totalValue)
-                      .toFixed(2)
-                      .replace(".", ",")}{" "}
-                </p>
-                <p>
-                  <strong>Vencimento:</strong>
-                  {" " + selectedContract.expire}
-                  {selectedContract.typeExpire === "por Seção"
-                    ? " aulas"
-                    : selectedContract.typeExpire === "por Tempo"
-                      ? " meses"
-                      : ""}
-                </p>
-                <p>
-                  <strong>Turmas:</strong>
-                  {" " + selectedContract.classRoms}
-                </p>
-                <p>
-                  <strong>Horário de Entrada:</strong>
-                  {" " +
-                    selectedContract.timeMin +
-                    " - " +
-                    selectedContract.timeMax}
-                </p>
-                <p>
-                  <strong>Dias da Semana:</strong>
-                  {" " + selectedContract.weekdays}
-                </p>
-              </>
-            ) : (
-              "Nenhuma Informação encontrada"
-            )}
-          {/*</div>
-        </div>
-      </div>*/}
+      <button
+        className="btn-icon"
+        onClick={onClose}
+        style={{ marginTop: "1rem" }}
+      >
+        <i className="bi bi-arrow-left"></i>
+        Voltar
+      </button>
+      {selectedContract ? (
+        <>
+          <p>
+            <strong>Nome:</strong> {" " + selectedContract.name}
+          </p>
+          <p>
+            <strong>Status:</strong> {" " + selectedContract.status}
+          </p>
+          <p>
+            <strong>Template:</strong> {" " + selectedContract.template}
+          </p>
+          <p>
+            <strong>Forma de Parcelamento:</strong>
+            {" " + selectedContract.installmentable}
+          </p>
+          {selectedContract.installmentable === "Parcelável" ? (
+            <p>
+              <strong>Número de Parcelas:</strong>
+              {" " + selectedContract.installments}
+            </p>
+          ) : (
+            ""
+          )}
+          <p>
+            <strong>Valor Total:</strong>{" "}
+            {" R$ " +
+              Number(selectedContract.totalValue)
+                .toFixed(2)
+                .replace(".", ",")}{" "}
+          </p>
+          <p>
+            <strong>Vencimento:</strong>
+            {" " + selectedContract.expire}
+            {selectedContract.typeExpire === "por Seção"
+              ? " aulas"
+              : selectedContract.typeExpire === "por Tempo"
+                ? " meses"
+                : ""}
+          </p>
+          <p>
+            <strong>Turmas:</strong>
+            {" " + selectedContract.classRoms}
+          </p>
+          <p>
+            <strong>Horário de Entrada:</strong>
+            {" " + selectedContract.timeMin + " - " + selectedContract.timeMax}
+          </p>
+          <p>
+            <strong>Dias da Semana:</strong>
+            {" " + selectedContract.weekdays}
+          </p>
+        </>
+      ) : (
+        "Nenhuma Informação encontrada"
+      )}
     </div>
   );
 };
