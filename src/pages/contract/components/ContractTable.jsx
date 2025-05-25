@@ -89,10 +89,26 @@ const ContractTable = ({ onContractSelect }) => {
               <td>{contract.typeExpire}</td>
               <td>{contract.expire}</td>
               <td>
-                {"R$ " + Number(contract.totalValue).toFixed(2).replace(".", ",")}
+                {"R$ " +
+                  Number(contract.totalValue).toFixed(2).replace(".", ",")}
+              </td>
+              <td>
+                <button
+                  className="btn-icon"
+                  title="Editar"
+                >
+                  <i className="bi bi-pencil"></i>
+                </button>
               </td>
             </tr>
           ))}
+          {filteredContracts.length === 0 && (
+            <tr>
+              <td colSpan={5} style={{ textAlign: "center" }}>
+                Nenhum contrato encontrado.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
