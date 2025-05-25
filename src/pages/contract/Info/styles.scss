@@ -37,9 +37,16 @@
           width: auto;
           min-width: unset;
           padding: 6px 16px;
-          font-size: 1rem;
           border-radius: 6px;
           align-self: flex-start; // opcional, para alinhar à esquerda
+          background: #000080;
+          color: #fff;
+          border: none;
+          font-size: 1.2rem;
+          cursor: pointer;
+          transition: background 0.2s;
+          display: flex;
+          align-items: center;
         }
       }
 

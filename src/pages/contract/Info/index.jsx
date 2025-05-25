@@ -19,6 +19,14 @@ const InfoContract = ({ id: propId, onClose }) => {
       <div className="contract-container">
         <div className="contract-content">
           <div className="box-info">
+            <button
+              className="btn-icon"
+              onClick={onClose}
+              style={{ marginTop: "1rem" }}
+            >
+              <i className="bi bi-arrow-left"></i>
+              Voltar
+            </button>
             {selectedContract ? (
               <>
                 <p>
@@ -73,9 +81,6 @@ const InfoContract = ({ id: propId, onClose }) => {
                   <strong>Dias da Semana:</strong>
                   {" " + selectedContract.weekdays}
                 </p>
-                <button className="btn-icon" onClick={onClose} style={{marginTop: "1rem"}}>
-                  Voltar
-                </button>
               </>
             ) : (
               "Nenhuma Informação encontrada"
