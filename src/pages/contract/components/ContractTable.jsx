@@ -81,7 +81,19 @@ const ContractTable = ({ onContractSelect }) => {
             <th>Total de sessões/meses</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          {filteredContracts.map((contract) => (
+            <tr key={contract.id}>
+              <td>{contract.name}</td>
+              <td>{contract.totalValue}</td>
+              <td>{contract.typeExpire}</td>
+              <td>{contract.expire}</td>
+              <td>
+                {"R$ " + Number(contract.totalValue).toFixed(2).replace(".", ",")}
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );
