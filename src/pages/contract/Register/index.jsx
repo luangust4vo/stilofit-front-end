@@ -17,7 +17,6 @@ import { useContract } from "../../../contexts/ContractContext";
 import "./styles.scss";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   console.log("teste", initialData);
 
@@ -35,7 +34,8 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   const typeExpire = watch("typeExpire");
 
   useEffect(() => {
-    if (initialData) {const navigate = useNavigate();
+    if (initialData) {
+      const navigate = useNavigate();
       methods.reset(initialData);
     }
   }, [initialData]);
@@ -107,6 +107,7 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
       addContract(parsedData);
       toast.success("Contrato cadastrado!");
       reset();
+      navigate("/contrato");
     }
   };
 
@@ -163,7 +164,7 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
                 label={expireLabel}
                 name="expire"
                 type="number"
-                min={0}
+                min={1}
                 placeholder={expirePlaceHolder}
                 disabled={typeExpire === ""}
                 required
