@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm, FormProvider, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import './index.scss';
-import {validationSchemaTurma} from '../../utils/validation/validationSchemaTurma';
+import { validationSchemaTurma } from '../../utils/validation';
 import ColorPicker from '../../components/selecaoCores';
 import { Input, Select, Textarea, Button } from "../../components";
 
