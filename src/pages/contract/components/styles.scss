@@ -1,3 +1,21 @@
+.btn-icon-edit {
+    background: #6161ff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.2rem 0.4rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    margin: 0.2rem 0rem;
+
+    &:hover {
+      background: #003366;
+    }
+  }
+
 .contract-table-container {
   width: 100%;
   min-height: 100vh;
@@ -74,10 +92,14 @@
   box-shadow: 0 2px 8px #0001;
 
   th, td {
-    padding: 1rem 0.8rem;
+    padding: 1rem 0.6rem;
     text-align: left;
     border-bottom: 1px solid #e0e0e0;
     font-size: 1rem;
+  }
+  
+  td {
+    padding: 0rem 0.6rem;
   }
 
   th {

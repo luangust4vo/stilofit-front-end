@@ -111,7 +111,7 @@ const ContractTable = ({ onContractSelect }) => {
               </td>
               <td>
                 <button
-                  className="btn-icon"
+                  className="btn-icon-edit"
                   onClick={(e) => {
                     e.stopPropagation();
                     goEdit(contract.id);
