@@ -100,7 +100,7 @@ const ContractTable = ({ onContractSelect }) => {
                   onClick={() => goEdit(contract.id)}
                   title="Editar"
                 >
-                  <i className="bi bi-pencil"></i>
+                  <i className="bi bi-pencil-fill"></i>
                 </button>
               </td>
             </tr>

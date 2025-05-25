@@ -3,14 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "../../../components";
 import "./styles.scss";
 
-const InfoContract = () => {
-  const { id } = useParams();
+const InfoContract = ({ id: propId, onClose }) => {
+  const params = useParams();
+  const id = propId || params.id;
   const [selectedContract, setSelectedContract] = useState(null);
-  const navigate = useNavigate();
-
-  const goEdit = () => {
-    navigate(`/contrato/${id}/editar`);
-  };
 
   useEffect(() => {
     const contracts = JSON.parse(localStorage.getItem("contratos")) || [];
@@ -21,27 +17,7 @@ const InfoContract = () => {
   return (
     <div className="container">
       <div className="contract-container">
-        <div className="contract-side">
-          <i className="bi bi-file-earmark-text-fill  photo-contract"></i>
-
-          <p className="contract-name">
-            {selectedContract ? selectedContract.name : "Nome"}
-          </p>
-          <Button>Anexos</Button>
-        </div>
-
         <div className="contract-content">
-          <div className="tabs">
-            <Button>Status</Button>
-            <Button>Dados</Button>
-            <Button>Venda</Button>
-            <Button>Pagamento</Button>
-            <Button>Contrato</Button>
-            <Button>Turma</Button>
-            <Button>Treino</Button>
-            <Button>Avaliação</Button>
-          </div>
-
           <div className="box-info">
             {selectedContract ? (
               <>
@@ -99,12 +75,8 @@ const InfoContract = () => {
                 </p>
               </>
             ) : (
-              "Dados"
+              "Nenhuma Informação encontrada"
             )}
-          </div>
-
-          <div className="edit">
-            <Button onClick={goEdit}>Editar</Button>
           </div>
         </div>
       </div>
