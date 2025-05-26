@@ -1,0 +1,61 @@
+.container-contract-register {
+  padding: 20px;
+  display: flex;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+  width: 100%;
+  flex-direction: column;
+
+  .btn-icon {
+    // background: none;
+    border: none;
+    color: #000080;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.3rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+
+  .form {
+    flex:1;
+    overflow-y: auto;
+    margin-bottom: 40px;
+
+    .block {
+      background-color: #cfcfcf;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+
+      h3 {
+        background-color: #000080;
+        color: white;
+        padding: 8px 12px;
+        margin: -20px -20px 20px -20px;
+        font-size: 16px;
+        border-radius:10px 10px 0 0;
+      }
+    }
+
+    .side {
+      display: flex;
+      gap: 16px; // Espaço entre os elementos
+      width: 100%;
+
+      > * {
+        flex: 1 1 0;
+        min-width: 0;
+      }
+
+      .arrow-time {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        flex: 0 0 auto;
+        padding: 16px 4px 0px 4px;
+      }
+    }
+  }
+}

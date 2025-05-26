@@ -1,0 +1,74 @@
+.container {
+  display: flex;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+
+  .client-container {
+    flex: 1;
+    display: flex;
+    padding: 15px;
+    gap: 20px;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    .client-side {
+      width: 260px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: -4px 4px 12px 2px rgba(0, 0, 0, 0.25); 
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+
+      .photo-user {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: #cfcfcf;
+        object-fit: cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 130px;
+        color: #000080;
+      }
+
+      .client-name {
+        font-weight: bold;
+        font-size: 20px;
+        color: #000080;
+        margin: 5px 0 13px;
+      }
+    }
+
+    .client-content {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      flex: 1;
+      height: 100%;
+
+      .tabs {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .box-info {
+        background: #fff;
+        padding: 20px;
+        border-radius: 16px;
+        box-shadow: -4px 4px 12px 2px rgba(0, 0, 0, 0.25); 
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .edit {
+        align-self: flex-end;
+      }
+    }
+  }
+}
