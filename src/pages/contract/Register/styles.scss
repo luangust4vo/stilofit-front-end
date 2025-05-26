@@ -1,21 +1,21 @@
-
-.btn-icon {
-  background: none;
-  border: none;
-  color: #000080;
-  font-size: 1.2rem;
-  cursor: pointer;
-  padding: 0.3rem;
-  border-radius: 4px;
-  transition: background 0.2s;
-}
-
-.container {
+.container-contract-register {
   padding: 20px;
   display: flex;
   font-family: Arial, sans-serif;
   overflow: hidden;
   width: 100%;
+  flex-direction: column;
+
+  .btn-icon {
+    // background: none;
+    border: none;
+    color: #000080;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.3rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
 
   .form {
     flex:1;
