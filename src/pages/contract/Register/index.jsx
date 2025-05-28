@@ -106,11 +106,12 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   };
 
   return (
-    <div className="container">
-      <button className="btn-icon" onClick={() => navigate("/contrato")}>
+    <div className="container-contract-register">
+      <Button onClick={() => navigate("/contrato")}>
         <i className="bi bi-arrow-left"></i>
         Voltar
-      </button>
+      </Button>
+      
       <main className="form">
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)}>
