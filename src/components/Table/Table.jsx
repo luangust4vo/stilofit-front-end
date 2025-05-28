@@ -1,60 +1,12 @@
-import { useState, useEffect, createContext, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useGenericContext } from "./GenericContext"
 //import InfoContract from "../Info";
-import "./styles.scss";
+import "../styles.scss";
 
-const MyContext = createContext();
-
-export const useContract = () => useContext(MyContext);
-
-const ContractProvider = ({ children }) => {
-  const [contracts, setContracts] = useState([]);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("contratos");
-    if (stored) setContracts(JSON.parse(stored));
-  }, []);
-
-  const saveToStorage = (updated) => {
-    localStorage.setItem("contratos", JSON.stringify(updated));
-    setContracts(updated);
-  };
-
-  const addContract = (contractData) => {
-    const newContract = { ...contractData, id: crypto.randomUUID() };
-    const updated = [...contracts, newContract];
-    saveToStorage(updated);
-    return newContract;
-  };
-
-  const updateContract = (id, updatedData) => {
-    const updated = contracts.map((c) =>
-      c.id === id ? { ...c, ...updatedData } : c
-    );
-    saveToStorage(updated);
-  };
-
-  const getContractById = (id) => {
-    return contracts.find((c) => String(c.id) === String(id)) || null;
-  };
-
-  const contextValue = {
-    contracts,
-    addContract,
-    updateContract,
-    getContractById,
-  };
-
-  return (
-    <MyContext.Provider value={contextValue}>
-      {children}
-    </MyContext.Provider>
-  );
-};
-
-const ContractTable = ({ onContractSelect }) => {
-  const { contracts, loadMoreContracts } = useContract();
-  const [filteredContracts, setFilteredContracts] = useState([]);
+const Table = ({routeName}) => {
+  const { storageObject } = useGenericContext();
+  const [filteredElements, setfilteredElements] = useState([]);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const [offset, setOffset] = useState(0);
@@ -63,37 +15,37 @@ const ContractTable = ({ onContractSelect }) => {
   const [selectedId, setSelectedId] = useState(null);*/
 
   const goRegistration = () => {
-    navigate("/contrato/novo");
+    navigate(`/${routeName}/novo`);
   };
 
   const goEdit = (id) => {
-    navigate(`/contrato/${id}/editar`);
+    navigate(`/${routeName}/${id}/editar`);
   };
 
   useEffect(() => {
-    let result = [...contracts];
+    let result = [...storageObject];
     if (search.trim() !== "") {
-      result = result.filter((contract) =>
-        contract.name.toLowerCase().includes(search.toLowerCase())
+      result = result.filter((element) =>
+        element.name.toLowerCase().includes(search.toLowerCase())
       );
     }
     result.sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
-    setFilteredContracts(result.slice(0, offset + limit));
-  }, [search, contracts, offset]);
+    setfilteredElements(result.slice(0, offset + limit));
+  }, [search, storageObject, offset]);
 
   useEffect(() => {
     const handleScroll = () => {
-      const table = document.querySelector(".contract-table-container");
+      const table = document.querySelector(".table-container");
       if (!table) return;
       if (window.innerHeight + window.scrollY >= table.offsetHeight - 100) {
-        if (filteredContracts.length < contracts.length) {
+        if (filteredElements.length < storageObject.length) {
           handleLoadMore();
         }
       }
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [filteredContracts, contracts]);
+  }, [filteredElements, storageObject]);
 
   const handleLoadMore = () => {
     setOffset((prev) => prev + limit);
@@ -110,7 +62,7 @@ const ContractTable = ({ onContractSelect }) => {
   };*/
 
   return (
-    <div className="contract-table-container">
+    <div className="table-container">
       <div className="table-header">
         <input
           className="field-search"
@@ -120,12 +72,12 @@ const ContractTable = ({ onContractSelect }) => {
         />
         <i className="bi bi-funnel-fill"></i>
         <button className="btn-icon-table" onClick={goRegistration}>
-          Criar Contrato
+          Criar Elemento
           <i className="bi-plus"></i>
         </button>
       </div>
 
-      <table className="contract-table">
+      <table className="table">
         <thead>
           <tr>
             <th>Nome</th>
@@ -136,23 +88,23 @@ const ContractTable = ({ onContractSelect }) => {
           </tr>
         </thead>
         <tbody>
-          {filteredContracts.map((contract) => (
+          {filteredElements.map((element) => (
             <tr
-              key={contract.id}
-              onClick={() => handleRowClick(contract.id)}
+              key={element.id}
+              onClick={() => handleRowClick(element.id)}
               style={{ cursor: "pointer" }}
             >
-              <td>{contract.name}</td>
+              <td>{element.name}</td>
               <td>
                 {"R$ " +
-                  Number(contract.totalValue).toFixed(2).replace(".", ",")}
+                  Number(element.totalValue).toFixed(2).replace(".", ",")}
               </td>
-              <td>{contract.typeExpire}</td>
+              <td>{element.typeExpire}</td>
               <td>
-                {contract.expire}
-                {contract.typeExpire === "por Seção"
+                {element.expire}
+                {element.typeExpire === "por Seção"
                   ? " aulas"
-                  : contract.typeExpire === "por Tempo"
+                  : element.typeExpire === "por Tempo"
                     ? " meses"
                     : ""}
               </td>
@@ -161,7 +113,7 @@ const ContractTable = ({ onContractSelect }) => {
                   className="btn-icon-edit"
                   onClick={(e) => {
                     e.stopPropagation();
-                    goEdit(contract.id);
+                    goEdit(element.id);
                   }}
                   title="Editar"
                 >
@@ -170,10 +122,10 @@ const ContractTable = ({ onContractSelect }) => {
               </td>
             </tr>
           ))}
-          {filteredContracts.length === 0 && (
+          {filteredElements.length === 0 && (
             <tr>
               <td colSpan={5} style={{ textAlign: "center" }}>
-                Nenhum contrato encontrado.
+                Nenhum elemento encontrado.
               </td>
             </tr>
           )}
@@ -190,4 +142,4 @@ const ContractTable = ({ onContractSelect }) => {
   );
 };
 
-export default ContractTable;
+export default Table;
