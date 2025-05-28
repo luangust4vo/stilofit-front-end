@@ -33,13 +33,6 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   const installmentable = watch("installmentable");
   const typeExpire = watch("typeExpire");
 
-  /*useEffect(() => {
-    if (initialData) {
-      const navigate = useNavigate();
-      methods.reset(initialData);
-    }
-  }, [initialData]);*/
-
   useEffect(() => {
     if (installmentable === "aVista") {
       setValue("installments", undefined);

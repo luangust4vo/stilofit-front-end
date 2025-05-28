@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContract } from "../../../contexts/ContractContext";
 import InfoContract from "../Info";
 
 import "./styles.scss";
 
-const ContractTable = ({ onContractSelect }) => {
-  const { contracts, loadMoreContracts } = useContract();
+const ContractTable = () => {
+  const { contracts } = useContract();
   const [filteredContracts, setFilteredContracts] = useState([]);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ const ContractTable = ({ onContractSelect }) => {
       if (!table) return;
       if (window.innerHeight + window.scrollY >= table.offsetHeight - 100) {
         if (filteredContracts.length < contracts.length) {
-          setOffset((prev) => prev + limit);
+          handleLoadMore();
         }
       }
     };
