@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGenericContext } from "./GenericContext"
+import { useGenericContext } from "./GenericContext";
 //import InfoContract from "../Info";
 import "../styles.scss";
 
-const Table = ({routeName}) => {
+const Table = ({ routeName, children }) => {
   const { storageObject } = useGenericContext();
   const [filteredElements, setfilteredElements] = useState([]);
   const [search, setSearch] = useState("");
@@ -80,6 +80,7 @@ const Table = ({routeName}) => {
       <table className="table">
         <thead>
           <tr>
+            {/* Passar um conjunto de 'labels'*/}
             <th>Nome</th>
             <th>Valor Total</th>
             <th>Tipo Vencimento</th>
@@ -94,6 +95,7 @@ const Table = ({routeName}) => {
               onClick={() => handleRowClick(element.id)}
               style={{ cursor: "pointer" }}
             >
+              {/* children começa aqui*/}
               <td>{element.name}</td>
               <td>
                 {"R$ " +
@@ -105,9 +107,13 @@ const Table = ({routeName}) => {
                 {element.typeExpire === "por Seção"
                   ? " aulas"
                   : element.typeExpire === "por Tempo"
-                    ? " meses"
-                    : ""}
+                  ? " meses"
+                  : ""}
               </td>
+
+              { children }
+              {/* children termina neste ponto*/}
+
               <td>
                 <button
                   className="btn-icon-edit"
