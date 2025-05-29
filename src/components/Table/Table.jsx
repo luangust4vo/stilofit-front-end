@@ -4,7 +4,7 @@ import { useGenericContext } from "./GenericContext";
 //import InfoContract from "../Info";
 import "../styles.scss";
 
-const Table = ({ routeName, children }) => {
+const Table = ({ routeName, labels, children }) => {
   const { storageObject } = useGenericContext();
   const [filteredElements, setfilteredElements] = useState([]);
   const [search, setSearch] = useState("");
@@ -80,11 +80,9 @@ const Table = ({ routeName, children }) => {
       <table className="table">
         <thead>
           <tr>
-            {/* Passar um conjunto de 'labels'*/}
-            <th>Nome</th>
-            <th>Valor Total</th>
-            <th>Tipo Vencimento</th>
-            <th>Vencimento</th>
+            {labels.map((lab) => (
+              <th key={lab.id}>{lab}</th>
+            ))}
             <th></th>
           </tr>
         </thead>
@@ -95,25 +93,8 @@ const Table = ({ routeName, children }) => {
               onClick={() => handleRowClick(element.id)}
               style={{ cursor: "pointer" }}
             >
-              {/*
-              <td>{element.name}</td>
-              <td>
-                {"R$ " +
-                  Number(element.totalValue).toFixed(2).replace(".", ",")}
-              </td>
-              <td>{element.typeExpire}</td>
-              <td>
-                {element.expire}
-                {element.typeExpire === "por Seção"
-                  ? " aulas"
-                  : element.typeExpire === "por Tempo"
-                  ? " meses"
-                  : ""}
-              </td>
-              */}
-
-              { children }
-
+              
+              {children}
               <td>
                 <button
                   className="btn-icon-edit"

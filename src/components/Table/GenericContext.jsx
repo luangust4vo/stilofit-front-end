@@ -4,7 +4,7 @@ const GenericContext = createContext();
 
 export const useGenericContext = () => useContext(GenericContext);
 
-export const GenericContextProvider = ({ children, lSName }) => {
+const GenericContextProvider = ({ children, lSName }) => {
   const [storageObject, setStorageObject] = useState([]);
 
   useEffect(() => {
@@ -48,3 +48,5 @@ export const GenericContextProvider = ({ children, lSName }) => {
     </GenericContext.Provider>
   );
 };
+
+export default GenericContextProvider;
