@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGenericContext } from "./GenericContext";
 //import InfoContract from "../Info";
-import "../styles.scss";
+import "./styles.scss";
 
 const Table = ({ routeName, labels, children }) => {
   const { storageObject } = useGenericContext();

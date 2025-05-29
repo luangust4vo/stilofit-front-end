@@ -5,7 +5,7 @@ function Example() {
   return (
     <GenericContextProvider lSName="contratos">
       <Table
-        routeName="contratos"
+        routeName="contrato"
         labels={["Nome", "Valor Total", "Tipo de Vencimento", "Vencimento"]}
       >
         {(element) => (
