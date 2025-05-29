@@ -95,7 +95,7 @@ const Table = ({ routeName, children }) => {
               onClick={() => handleRowClick(element.id)}
               style={{ cursor: "pointer" }}
             >
-              {/* children começa aqui*/}
+              {/*
               <td>{element.name}</td>
               <td>
                 {"R$ " +
@@ -110,9 +110,9 @@ const Table = ({ routeName, children }) => {
                   ? " meses"
                   : ""}
               </td>
+              */}
 
               { children }
-              {/* children termina neste ponto*/}
 
               <td>
                 <button
