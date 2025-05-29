@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGenericContext } from "./GenericContext";
+import { useGenericContext } from "../../contexts/GenericContext";
 //import InfoContract from "../Info";
 import "./styles.scss";
 
-const Table = ({ routeName, labels, children }) => {
+const Table = ({ routeName, headerCells, registerLabel, children }) => {
   const { storageObject } = useGenericContext();
   const [filteredElements, setfilteredElements] = useState([]);
   const [search, setSearch] = useState("");
@@ -72,7 +72,7 @@ const Table = ({ routeName, labels, children }) => {
         />
         <i className="bi bi-funnel-fill"></i>
         <button className="btn-icon-table" onClick={goRegistration}>
-          Registrar
+          {registerLabel}
           <i className="bi-plus"></i>
         </button>
       </div>
@@ -80,8 +80,8 @@ const Table = ({ routeName, labels, children }) => {
       <table className="table">
         <thead>
           <tr>
-            {labels.map((lab, idx) => (
-              <th key={idx}>{lab}</th>
+            {headerCells.map((hC, idx) => (
+              <th key={idx}>{hC}</th>
             ))}
             <th></th>
           </tr>

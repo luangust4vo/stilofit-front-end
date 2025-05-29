@@ -1,12 +1,18 @@
 import Table from "./Table";
-import GenericContextProvider from "./GenericContext";
+import GenericContextProvider from "../../contexts/GenericContext";
 
 function Example() {
   return (
     <GenericContextProvider lSName="contratos">
       <Table
         routeName="contrato"
-        labels={["Nome", "Valor Total", "Tipo de Vencimento", "Vencimento"]}
+        headerCells={[
+          "Nome",
+          "Valor Total",
+          "Tipo de Vencimento",
+          "Vencimento",
+        ]}
+        registerLabel="Criar Contrato"
       >
         {(element) => (
           <>
