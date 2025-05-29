@@ -10,7 +10,8 @@ const GenericContextProvider = ({ children, lSName }) => {
   useEffect(() => {
     const stored = localStorage.getItem(lSName);
     if (stored) setStorageObject(JSON.parse(stored));
-  }, []);
+    else setStorageObject([]);
+  }, [lSName]);
 
   const saveToStorage = (updated) => {
     localStorage.setItem(lSName, JSON.stringify(updated));

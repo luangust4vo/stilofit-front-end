@@ -72,7 +72,7 @@ const Table = ({ routeName, labels, children }) => {
         />
         <i className="bi bi-funnel-fill"></i>
         <button className="btn-icon-table" onClick={goRegistration}>
-          Criar Elemento
+          Registrar
           <i className="bi-plus"></i>
         </button>
       </div>
@@ -80,8 +80,8 @@ const Table = ({ routeName, labels, children }) => {
       <table className="table">
         <thead>
           <tr>
-            {labels.map((lab) => (
-              <th key={lab.id}>{lab}</th>
+            {labels.map((lab, idx) => (
+              <th key={idx}>{lab}</th>
             ))}
             <th></th>
           </tr>
@@ -93,8 +93,7 @@ const Table = ({ routeName, labels, children }) => {
               onClick={() => handleRowClick(element.id)}
               style={{ cursor: "pointer" }}
             >
-              
-              {children}
+              {typeof children === "function" ? children(element) : children}
               <td>
                 <button
                   className="btn-icon-edit"
