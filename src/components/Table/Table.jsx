@@ -4,14 +4,14 @@ import { useGenericContext } from "../../contexts/GenericContext";
 //import InfoContract from "../Info";
 import "./styles.scss";
 
-const Table = ({ headerComponent, headerCells, children }) => {
+const Table = ({ headerComponent, headerCells, getRowProps, children }) => {
   const { storageObject } = useGenericContext();
   const [filteredElements, setfilteredElements] = useState([]);
   const [search, setSearch] = useState("");
   const [offset, setOffset] = useState(0);
   const limit = 30;
-  /*const [modalOpen, setModalOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);*/
+  //const [modalOpen, setModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
   useEffect(() => {
     let result = [...storageObject];
@@ -43,8 +43,8 @@ const Table = ({ headerComponent, headerCells, children }) => {
   };
 
   const handleRowClick = (id) => {
-    /*setSelectedId(id);
-    setModalOpen(true);*/
+    setSelectedId(id);
+    //setModalOpen(true);
   };
 
   /*const handleCloseModal = () => {
@@ -72,8 +72,7 @@ const Table = ({ headerComponent, headerCells, children }) => {
           {filteredElements.map((element) => (
             <tr
               key={element.id}
-              onClick={() => handleRowClick(element.id)}
-              style={{ cursor: "pointer" }}
+              {...(getRowProps ? getRowProps(element) : {})}
             >
               {typeof children === "function" ? children(element) : children}
             </tr>
