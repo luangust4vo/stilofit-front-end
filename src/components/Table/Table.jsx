@@ -18,10 +18,6 @@ const Table = ({ routeName, headerCells, registerLabel, children }) => {
     navigate(`/${routeName}/novo`);
   };
 
-  const goEdit = (id) => {
-    navigate(`/${routeName}/${id}/editar`);
-  };
-
   useEffect(() => {
     let result = [...storageObject];
     if (search.trim() !== "") {
@@ -83,7 +79,6 @@ const Table = ({ routeName, headerCells, registerLabel, children }) => {
             {headerCells.map((hC, idx) => (
               <th key={idx}>{hC}</th>
             ))}
-            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -94,18 +89,6 @@ const Table = ({ routeName, headerCells, registerLabel, children }) => {
               style={{ cursor: "pointer" }}
             >
               {typeof children === "function" ? children(element) : children}
-              <td>
-                <button
-                  className="btn-icon-edit"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goEdit(element.id);
-                  }}
-                  title="Editar"
-                >
-                  <i className="bi bi-pencil-fill"></i>
-                </button>
-              </td>
             </tr>
           ))}
           {filteredElements.length === 0 && (
