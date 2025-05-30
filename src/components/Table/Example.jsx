@@ -5,15 +5,19 @@ import { useNavigate } from "react-router-dom";
 function Example() {
   const navigate = useNavigate();
   const routeName = "contrato";
+  const registerLabel = "Criar Contrato";
 
   const goEdit = (id) => {
     navigate(`/${routeName}/${id}/editar`);
   };
 
+  const goRegistration = () => {
+    navigate(`/${routeName}/novo`);
+  };
+
   return (
     <GenericContextProvider lSName="contratos">
       <Table
-        routeName={routeName}
         headerCells={[
           "Nome",
           "Valor Total",
@@ -21,7 +25,21 @@ function Example() {
           "Vencimento",
           "",
         ]}
-        registerLabel="Criar Contrato"
+        headerComponent={({ search, setSearch, goRegistration }) => (
+          <>
+            <input
+              className="field-search"
+              placeholder="Buscar..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <i className="bi bi-funnel-fill"></i>
+            <button className="btn-icon-table" onClick={goRegistration}>
+              {registerLabel}
+              <i className="bi-plus"></i>
+            </button>
+          </>
+        )}
       >
         {(element) => (
           <>

@@ -4,19 +4,14 @@ import { useGenericContext } from "../../contexts/GenericContext";
 //import InfoContract from "../Info";
 import "./styles.scss";
 
-const Table = ({ routeName, headerCells, registerLabel, children }) => {
+const Table = ({ headerComponent, headerCells, children }) => {
   const { storageObject } = useGenericContext();
   const [filteredElements, setfilteredElements] = useState([]);
   const [search, setSearch] = useState("");
-  const navigate = useNavigate();
   const [offset, setOffset] = useState(0);
   const limit = 30;
   /*const [modalOpen, setModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);*/
-
-  const goRegistration = () => {
-    navigate(`/${routeName}/novo`);
-  };
 
   useEffect(() => {
     let result = [...storageObject];
@@ -60,17 +55,9 @@ const Table = ({ routeName, headerCells, registerLabel, children }) => {
   return (
     <div className="table-container">
       <div className="table-header">
-        <input
-          className="field-search"
-          placeholder="Buscar..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <i className="bi bi-funnel-fill"></i>
-        <button className="btn-icon-table" onClick={goRegistration}>
-          {registerLabel}
-          <i className="bi-plus"></i>
-        </button>
+        {typeof headerComponent === "function"
+        ? headerComponent({ search, setSearch})
+        : headerComponent}
       </div>
 
       <table className="table">
