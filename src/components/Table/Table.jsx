@@ -9,7 +9,7 @@ function Table ({ headerComponent, headerCells, getRowProps, visualize, children
   const [search, setSearch] = useState("");
   const [offset, setOffset] = useState(0);
   const limit = 30;
-  
+
   useEffect(() => {
     let result = [...storageObject];
     if (search.trim() !== "") {
@@ -70,9 +70,6 @@ function Table ({ headerComponent, headerCells, getRowProps, visualize, children
           )}
         </tbody>
       </table>
-      {typeof visualize === "function"
-          ? visualize({ search, setSearch })
-          : visualize}
     </div>
   );
 };

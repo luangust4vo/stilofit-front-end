@@ -2,17 +2,12 @@ import TableCRUD from "./TableCRUD";
 import GenericContextProvider from "../../contexts/GenericContext";
 import { useNavigate } from "react-router-dom";
 
+// Informações de um objeto específico a serem exibidas
+import InfoContract from "../../pages/contract/Info/index";
+
 function Example() {
+  // Caso haja navegação
   const navigate = useNavigate();
-  const [modalOpen, setModalOpen] = useState(false);
-
-  // vão vir de parâmetros
-  const routeName = "contrato";
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
-    setSelectedId(null);
-  };
 
   return (
     <GenericContextProvider lSName="contratos">
@@ -30,12 +25,14 @@ function Example() {
         // Elementos do painel do cabeçalho (ex: filtro, adicionar elemento)
         headerComponent={({ search, setSearch }) => (
           <>
+            {/* Entrada de busca */}
             <input
               className="field-search"
               placeholder="Buscar..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
+            {/* Botão do funil */}
             <i className="bi bi-funnel-fill"></i>
             <button className="btn-icon-table" onClick={goRegistration}>
               Criar Contrato
@@ -43,18 +40,18 @@ function Example() {
             </button>
           </>
         )}
-        // Visualizar linha/registro
-        visualize={(selectedId) =>
+        // Visualizar linha/registro (ex: modal ou abrir nova página)
+        visualize={(selectedId, setSelectedId) =>
           selectedId !== null && (
             <div className="modal-overlay">
               <div className="modal-content">
-                <InfoContract id={selectedId} onClose={handleCloseModal} />
+                <InfoContract id={selectedId} onClose={setSelectedId(null)} />
               </div>
             </div>
           )
         }
       >
-        {/*Regras dos campos (ex: nome, valor total formatado, botão de editar)*/}
+        {/*Regras de exibição de células em uma linhas (esse molde serve para todas as linhas)*/}
         {(element) => (
           <>
             <td>{element.name}</td>
