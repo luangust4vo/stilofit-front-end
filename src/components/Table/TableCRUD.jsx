@@ -2,34 +2,27 @@ import Table from "./Table";
 import GenericContextProvider from "../../contexts/GenericContext";
 import { useNavigate } from "react-router-dom";
 
-function TableCRUD() {
+function TableCRUD({headerComponent, headerCells, getRowProps, visualize, children, routeName}) {
+  const [selectedId, setSelectedId] = useState(null);
   const navigate = useNavigate();
 
-  // vão vir de parâmetros
-  const routeName = "contrato";
-  const registerLabel = "Criar Contrato";
-
-  // fica
   const goEdit = (id) => {
     navigate(`/${routeName}/${id}/editar`);
   };
 
-  // fica
   const goRegistration = () => {
     navigate(`/${routeName}/novo`);
   };
 
+  const handleRowClick = (id) => {
+    setSelectedId(id);
+    //setModalOpen(true);
+  };
+
   return (
-    <GenericContextProvider lSName="contratos">
       <Table
         // vai vir de parâmetro
-        headerCells={[
-          "Nome",
-          "Valor Total",
-          "Tipo de Vencimento",
-          "Vencimento",
-          "",
-        ]}
+        headerCells={headerCells}
         // vai vir de parâmetro
         headerComponent={({ search, setSearch }) => (
           <>
@@ -51,8 +44,10 @@ function TableCRUD() {
           onClick: () => handleRowClick(element.id),
           style: { cursor: "pointer" },
         })}
+        {typeof visualize === "function"
+          ? visualize({ selectedId })
+          : visualize}
       >
-        {/*vai vir de parâmetro*/}
         {(element) => (
           <>
             <td>{element.name}</td>
@@ -83,7 +78,6 @@ function TableCRUD() {
           </>
         )}
       </Table>
-    </GenericContextProvider>
   );
 }
 

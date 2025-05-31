@@ -3,15 +3,13 @@ import { useGenericContext } from "../../contexts/GenericContext";
 //import InfoContract from "../Info";
 import "./styles.scss";
 
-const Table = ({ headerComponent, headerCells, getRowProps, children }) => {
+function Table ({ headerComponent, headerCells, getRowProps, visualize, children }) {
   const { storageObject } = useGenericContext();
   const [filteredElements, setfilteredElements] = useState([]);
   const [search, setSearch] = useState("");
   const [offset, setOffset] = useState(0);
   const limit = 30;
-  //const [modalOpen, setModalOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);
-
+  
   useEffect(() => {
     let result = [...storageObject];
     if (search.trim() !== "") {
@@ -40,16 +38,6 @@ const Table = ({ headerComponent, headerCells, getRowProps, children }) => {
   const handleLoadMore = () => {
     setOffset((prev) => prev + limit);
   };
-
-  const handleRowClick = (id) => {
-    setSelectedId(id);
-    //setModalOpen(true);
-  };
-
-  /*const handleCloseModal = () => {
-    setModalOpen(false);
-    setSelectedId(null);
-  };*/
 
   return (
     <div className="table-container">
@@ -82,13 +70,9 @@ const Table = ({ headerComponent, headerCells, getRowProps, children }) => {
           )}
         </tbody>
       </table>
-      {/*modalOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <InfoContract id={selectedId} onClose={handleCloseModal} />
-          </div>
-        </div>
-      )*/}
+      {typeof visualize === "function"
+          ? visualize({ search, setSearch })
+          : visualize}
     </div>
   );
 };
