@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useGenericContext } from "../../contexts/GenericContext";
 //import InfoContract from "../Info";
 import "./styles.scss";
@@ -56,8 +55,8 @@ const Table = ({ headerComponent, headerCells, getRowProps, children }) => {
     <div className="table-container">
       <div className="table-header">
         {typeof headerComponent === "function"
-        ? headerComponent({ search, setSearch})
-        : headerComponent}
+          ? headerComponent({ search, setSearch })
+          : headerComponent}
       </div>
 
       <table className="table">
@@ -70,10 +69,7 @@ const Table = ({ headerComponent, headerCells, getRowProps, children }) => {
         </thead>
         <tbody>
           {filteredElements.map((element) => (
-            <tr
-              key={element.id}
-              {...(getRowProps ? getRowProps(element) : {})}
-            >
+            <tr key={element.id} {...(getRowProps ? getRowProps(element) : {})}>
               {typeof children === "function" ? children(element) : children}
             </tr>
           ))}

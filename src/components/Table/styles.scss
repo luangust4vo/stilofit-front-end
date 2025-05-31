@@ -1,5 +1,5 @@
 .btn-icon-edit {
-    background: #6161ff;
+    background: #000080;
     color: #fff;
     border: none;
     border-radius: 6px;
@@ -12,7 +12,11 @@
     margin: 0.2rem 0rem;
 
     &:hover {
-      background: #003366;
+      background: #100053e7;
+    }
+
+    .bi-pencil-fill{
+      color: rgb(255, 255, 1);
     }
   }
 
@@ -80,21 +84,30 @@
     font-size: 1.3rem;
     margin-right: 0.5rem;
     cursor: pointer;
+
+    &:hover{
+      color:#ffff01;
+    }
+
   }
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  background: #cfcfcf;
+  background: #fffafa;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 2px 8px #0001;
 
+  tr{
+    border: 1px solid #000080;
+  }
+
   th, td {
     padding: 1rem 0.6rem;
     text-align: left;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid #000080;
     font-size: 1rem;
   }
   
@@ -106,7 +119,6 @@
     background: #000080;
     color: #fff;
     font-weight: 600;
-    border-bottom: 2px solid #003366;
   }
 
   tr:last-child td {
@@ -123,20 +135,20 @@
     width: 60px;
   }
 
-  .btn-icon {
-    background: none;
-    border: none;
-    color: #000080;
-    font-size: 1.2rem;
-    cursor: pointer;
-    padding: 0.3rem;
-    border-radius: 4px;
-    transition: background 0.2s;
+  // .btn-icon {
+  //   background: none;
+  //   border: none;
+  //   color: #000080;
+  //   font-size: 1.2rem;
+  //   cursor: pointer;
+  //   padding: 0.3rem;
+  //   border-radius: 4px;
+  //   transition: background 0.2s;
 
-    &:hover {
-      background: #dde6fa;
-    }
-  }
+  //   &:hover {
+  //     background: #dde6fa;
+  //   }
+  // }
 }
 
 /*.modal-overlay {
