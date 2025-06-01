@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import Table from "./Table";
 import { goRegistration, goView, goEdit } from "./Table";
 import GenericContextProvider from "../../contexts/GenericContext";
 
@@ -62,7 +63,9 @@ function Example() {
           // goEdit(navigate, routeName, selectedId);
         }
       >
-        {/*Regras de exibição de células em uma linhas (esse molde serve para todas as linhas)*/}
+        {/*Regras de exibição de células em uma linhas
+        (esse molde serve para todas as linhas)
+        São passados como 'children'*/}
         {(element) => (
           <>
             <td>{element.name}</td>
@@ -97,5 +100,10 @@ function Example() {
     </GenericContextProvider>
   );
 }
+
+/*getRowProps={(element) => ({
+        onClick: () => handleRowClick(element.id),
+        style: { cursor: "pointer" },
+      })}*/
 
 export default Example;

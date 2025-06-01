@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Register, Info, Layout } from "../pages/client";
 import EditClient from "../pages/client/Register/EditClient";
@@ -8,7 +7,7 @@ import EditContract from "../pages/contract/Register/EditContract";
 import RegisterContract from "../pages/contract/Register";
 import Turma from "../pages/turma";
 
-import TableCRUD from "../components/Table/TableCRUD" // ex de página com tabela
+import Example from "../components/Table/Example" // ex de página com tabela
 
 // Aqui você pode adicionar as rotas do seu projeto
 // Você também pode adicionar rotas aninhadas e, se quiser, até dividir elas em arquivos diferentes
@@ -29,7 +28,7 @@ const AppRoutes = () => {
           <Route path=":id/editar" element={<EditContract />} />
         </Route>
         <Route path="/turma" element={<Turma />} />
-        <Route path="/exemplo" element={<TableCRUD />} />
+        <Route path="/exemplo" element={<Example />} />
       </Routes>
     </BrowserRouter>
   );
