@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { goRegistration, goView, goEdit } from "./TableCRUD";
+import { goRegistration, goView, goEdit } from "./Table";
 import GenericContextProvider from "../../contexts/GenericContext";
 
 // Informações de um objeto específico a serem exibidas
@@ -7,12 +7,13 @@ import InfoContract from "../../pages/contract/Info/index";
 
 function Example() {
   const navigate = useNavigate();
+  const routeName = "contrato";
 
   return (
     <GenericContextProvider lSName="contratos">
       <Table
         // Rotas para preencher as funções de registro e edição (ex: contratos | turmas | clientes)
-        routeName="contrato"
+        routeName={routeName}
         // Elementos do painel do cabeçalho (ex: filtro, adicionar elemento)
         headerComponent={({ search, setSearch }) => (
           <>
@@ -45,12 +46,15 @@ function Example() {
         ]}
         // Visualizar linha/registro (ex: modal ou abrir nova página)
         visualize={
-          (selectedId, setSelectedId) =>
+          ({ selectedId, setSelectedId }) =>
             // exemplo de modal
             selectedId !== null && (
               <div className="modal-overlay">
                 <div className="modal-content">
-                  <InfoContract id={selectedId} onClose={setSelectedId(null)} />
+                  <InfoContract
+                    id={selectedId}
+                    onClose={() => setSelectedId(null)}
+                  />
                 </div>
               </div>
             )

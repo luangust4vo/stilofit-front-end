@@ -29,10 +29,6 @@ function Table({
   const limit = 30;
   const [selectedId, setSelectedId] = useState(null);
 
-  const handleRowClick = (id) => {
-    setSelectedId(id);
-  };
-
   useEffect(() => {
     let result = [...storageObject];
     if (search.trim() !== "") {
