@@ -45,11 +45,17 @@ function Example() {
           "Vencimento",
           "",
         ]}
+        // Comportamento para quando linha for clicada
+        getRowProps={({ element, setSelectedId }) => ({
+          onClick: () => setSelectedId(element.id),
+          style: { cursor: "pointer" },
+        })}
         // Visualizar linha/registro (ex: modal ou abrir nova página)
         visualize={
-          ({ selectedId, setSelectedId }) =>
-            // exemplo de modal
+          ({selectedId, setSelectedId}) =>
+            // exemplo para chamar modal
             selectedId !== null && (
+              // modal (pode ser componentizado!)
               <div className="modal-overlay">
                 <div className="modal-content">
                   <InfoContract
@@ -100,10 +106,5 @@ function Example() {
     </GenericContextProvider>
   );
 }
-
-/*getRowProps={(element) => ({
-        onClick: () => handleRowClick(element.id),
-        style: { cursor: "pointer" },
-      })}*/
 
 export default Example;

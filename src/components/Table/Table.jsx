@@ -15,7 +15,6 @@ export const goEdit = (navigate, routeName, id) => {
 };
 
 function Table({
-  routeName,
   headerComponent,
   headerCells,
   getRowProps,
@@ -75,7 +74,10 @@ function Table({
         </thead>
         <tbody>
           {filteredElements.map((element) => (
-            <tr key={element.id} {...(getRowProps ? getRowProps(element) : {})}>
+            <tr
+              key={element.id}
+              {...(getRowProps ? getRowProps({ element, setSelectedId }) : {})}
+            >
               {typeof children === "function" ? children(element) : children}
             </tr>
           ))}
