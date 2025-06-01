@@ -47,7 +47,11 @@ function Example() {
         ]}
         // Comportamento para quando linha for clicada
         getRowProps={({ element, setSelectedId }) => ({
-          onClick: () => setSelectedId(element.id),
+          onClick: () => {
+            setSelectedId(element.id);
+            // Se houver roteamento para visualizar em outra página
+            //goView(navigate, routeName, element.id);
+          },
           style: { cursor: "pointer" },
         })}
         // Visualizar linha/registro (ex: modal ou abrir nova página)
@@ -65,8 +69,6 @@ function Example() {
                 </div>
               </div>
             )
-          // Se for navegação simples
-          // goEdit(navigate, routeName, selectedId);
         }
       >
         {/*Regras de exibição de células em uma linhas
