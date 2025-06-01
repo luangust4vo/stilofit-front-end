@@ -7,7 +7,7 @@ import EditContract from "../pages/contract/Register/EditContract";
 import RegisterContract from "../pages/contract/Register";
 import Turma from "../pages/turma";
 
-import Example from "../components/Table/Example" // ex de página com tabela
+import ComoUsar from "../components/Table/ComoUsar" // ex de página com tabela
 
 // Aqui você pode adicionar as rotas do seu projeto
 // Você também pode adicionar rotas aninhadas e, se quiser, até dividir elas em arquivos diferentes
@@ -28,7 +28,7 @@ const AppRoutes = () => {
           <Route path=":id/editar" element={<EditContract />} />
         </Route>
         <Route path="/turma" element={<Turma />} />
-        <Route path="/exemplo" element={<Example />} />
+        <Route path="/exemplo" element={<ComoUsar />} />
       </Routes>
     </BrowserRouter>
   );

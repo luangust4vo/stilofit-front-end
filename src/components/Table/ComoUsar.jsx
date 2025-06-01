@@ -13,8 +13,6 @@ function ComoUsar() {
   return (
     <GenericContextProvider lSName="contratos">
       <Table
-        // Rotas para preencher as funções de registro e edição (ex: contratos | turmas | clientes)
-        routeName={routeName}
         // Elementos do painel do cabeçalho (ex: filtro, adicionar elemento)
         headerComponent={({ search, setSearch }) => (
           <>

@@ -13,7 +13,6 @@ function Example() {
   return (
     <GenericContextProvider lSName="contratos">
       <Table
-        routeName={routeName}
         headerComponent={({ search, setSearch }) => (
           <>
             <input
