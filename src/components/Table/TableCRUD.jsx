@@ -2,6 +2,18 @@ import Table from "./Table";
 import GenericContextProvider from "../../contexts/GenericContext";
 import { useNavigate } from "react-router-dom";
 
+export const goRegistration = (navigate, routeName) => {
+  navigate(`/${routeName}/novo`);
+};
+
+export const goView = (navigate, routeName, id) => {
+  navigate(`/${routeName}/${id}`);
+};
+
+export const goEdit = (navigate, routeName, id) => {
+  navigate(`/${routeName}/${id}/editar`);
+};
+
 function TableCRUD({
   headerComponent,
   headerCells,
@@ -13,14 +25,6 @@ function TableCRUD({
   const [selectedId, setSelectedId] = useState(null);
   const navigate = useNavigate();
 
-  const goEdit = (id) => {
-    navigate(`/${routeName}/${id}/editar`);
-  };
-
-  const goRegistration = () => {
-    navigate(`/${routeName}/novo`);
-  };
-
   const handleRowClick = (id) => {
     setSelectedId(id);
   };
@@ -30,21 +34,7 @@ function TableCRUD({
       // vai vir de parâmetro
       headerCells={headerCells}
       // vai vir de parâmetro
-      headerComponent={({ search, setSearch }) => (
-        <>
-          <input
-            className="field-search"
-            placeholder="Buscar..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <i className="bi bi-funnel-fill"></i>
-          <button className="btn-icon-table" onClick={goRegistration}>
-            {registerLabel}
-            <i className="bi-plus"></i>
-          </button>
-        </>
-      )}
+      headerComponent={headerComponent}
       // fica
       getRowProps={(element) => ({
         onClick: () => handleRowClick(element.id),
@@ -56,35 +46,7 @@ function TableCRUD({
           : visualize
       }
     >
-      {(element) => (
-        <>
-          <td>{element.name}</td>
-          <td>
-            {"R$ " + Number(element.totalValue).toFixed(2).replace(".", ",")}
-          </td>
-          <td>{element.typeExpire}</td>
-          <td>
-            {element.expire}
-            {element.typeExpire === "por Seção"
-              ? " aulas"
-              : element.typeExpire === "por Tempo"
-              ? " meses"
-              : ""}
-          </td>
-          <td>
-            <button
-              className="btn-icon-edit"
-              onClick={(e) => {
-                e.stopPropagation();
-                goEdit(element.id);
-              }}
-              title="Editar"
-            >
-              <i className="bi bi-pencil-fill"></i>
-            </button>
-          </td>
-        </>
-      )}
+      {typeof children === "function" ? children({element}) : children}
     </Table>
   );
 }

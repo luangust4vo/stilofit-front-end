@@ -58,7 +58,7 @@ function Table ({ headerComponent, headerCells, getRowProps, visualize, children
         <tbody>
           {filteredElements.map((element) => (
             <tr key={element.id} {...(getRowProps ? getRowProps(element) : {})}>
-              {typeof children === "function" ? children(element) : children}
+              {typeof children === "function" ? children({element,goEdit}) : children}
             </tr>
           ))}
           {filteredElements.length === 0 && (
