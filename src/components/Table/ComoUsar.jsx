@@ -6,7 +6,7 @@ import GenericContextProvider from "../../contexts/GenericContext";
 // Informações de um objeto específico a serem exibidas
 import InfoContract from "../../pages/contract/Info/index";
 
-function Example() {
+function ComoUsar() {
   const navigate = useNavigate();
   const routeName = "contrato";
 
@@ -109,4 +109,4 @@ function Example() {
   );
 }
 
-export default Example;
+export default ComoUsar;
