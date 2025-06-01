@@ -1,14 +1,37 @@
 import { useState, useEffect } from "react";
 import { useGenericContext } from "../../contexts/GenericContext";
-//import InfoContract from "../Info";
 import "./styles.scss";
 
-function Table ({ headerComponent, headerCells, getRowProps, visualize, children }) {
+export const goRegistration = (navigate, routeName) => {
+  navigate(`/${routeName}/novo`);
+};
+
+export const goView = (navigate, routeName, id) => {
+  navigate(`/${routeName}/${id}`);
+};
+
+export const goEdit = (navigate, routeName, id) => {
+  navigate(`/${routeName}/${id}/editar`);
+};
+
+function Table({
+  routeName,
+  headerComponent,
+  headerCells,
+  getRowProps,
+  visualize,
+  children,
+}) {
   const { storageObject } = useGenericContext();
   const [filteredElements, setfilteredElements] = useState([]);
   const [search, setSearch] = useState("");
   const [offset, setOffset] = useState(0);
   const limit = 30;
+  const [selectedId, setSelectedId] = useState(null);
+
+  const handleRowClick = (id) => {
+    setSelectedId(id);
+  };
 
   useEffect(() => {
     let result = [...storageObject];
@@ -46,7 +69,6 @@ function Table ({ headerComponent, headerCells, getRowProps, visualize, children
           ? headerComponent({ search, setSearch })
           : headerComponent}
       </div>
-
       <table className="table">
         <thead>
           <tr>
@@ -58,7 +80,7 @@ function Table ({ headerComponent, headerCells, getRowProps, visualize, children
         <tbody>
           {filteredElements.map((element) => (
             <tr key={element.id} {...(getRowProps ? getRowProps(element) : {})}>
-              {typeof children === "function" ? children({element,goEdit}) : children}
+              {typeof children === "function" ? children(element) : children}
             </tr>
           ))}
           {filteredElements.length === 0 && (
@@ -70,8 +92,11 @@ function Table ({ headerComponent, headerCells, getRowProps, visualize, children
           )}
         </tbody>
       </table>
+      {typeof visualize === "function"
+        ? visualize({ selectedId, setSelectedId })
+        : visualize}
     </div>
   );
-};
+}
 
 export default Table;

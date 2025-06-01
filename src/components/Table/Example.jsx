@@ -1,5 +1,4 @@
-import { useNavigate } from "react-router-dom"
-import TableCRUD from "./TableCRUD";
+import { useNavigate } from "react-router-dom";
 import { goRegistration, goView, goEdit } from "./TableCRUD";
 import GenericContextProvider from "../../contexts/GenericContext";
 
@@ -11,17 +10,9 @@ function Example() {
 
   return (
     <GenericContextProvider lSName="contratos">
-      <TableCRUD
+      <Table
         // Rotas para preencher as funções de registro e edição (ex: contratos | turmas | clientes)
-        routeName={"contrato"}
-        // Campos do cabeçalho (ex: Nome, Sobrenome, e-mail, status)
-        headerCells={[
-          "Nome",
-          "Valor Total",
-          "Tipo de Vencimento",
-          "Vencimento",
-          "",
-        ]}
+        routeName="contrato"
         // Elementos do painel do cabeçalho (ex: filtro, adicionar elemento)
         headerComponent={({ search, setSearch }) => (
           <>
@@ -34,12 +25,24 @@ function Example() {
             />
             {/* Botão do funil */}
             <i className="bi bi-funnel-fill"></i>
-            <button className="btn-icon-table" onClick={goRegistration(navigate,routeName)}>
+            {/* Botão de adicionar registro */}
+            <button
+              className="btn-icon-table"
+              onClick={() => goRegistration(navigate, routeName)}
+            >
               Criar Contrato
               <i className="bi-plus"></i>
             </button>
           </>
         )}
+        // Campos do cabeçalho (ex: Nome, Sobrenome, e-mail, status)
+        headerCells={[
+          "Nome",
+          "Valor Total",
+          "Tipo de Vencimento",
+          "Vencimento",
+          "",
+        ]}
         // Visualizar linha/registro (ex: modal ou abrir nova página)
         visualize={
           (selectedId, setSelectedId) =>
@@ -77,7 +80,7 @@ function Example() {
                 className="btn-icon-edit"
                 onClick={(e) => {
                   e.stopPropagation();
-                  goEdit(navigate,routeName,element.id);
+                  goEdit(navigate, routeName, element.id);
                 }}
                 title="Editar"
               >
@@ -86,7 +89,7 @@ function Example() {
             </td>
           </>
         )}
-      </TableCRUD>
+      </Table>
     </GenericContextProvider>
   );
 }
