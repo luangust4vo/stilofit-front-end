@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useGenericContext } from "../../contexts/GenericContext";
 import "./styles.scss";
 
+/* Funções que podem ser usadas externas ao arquivo */
+
 // Roteia para página de registro
 export const goRegistration = (navigate, routeName) => {
   navigate(`/${routeName}/novo`);
@@ -18,11 +20,11 @@ export const goEdit = (navigate, routeName, id) => {
 };
 
 function Table({
-  headerComponent,
-  headerCells,
-  getRowProps,
-  visualize,
-  children,
+  headerComponent, // componentes acima do cabeçalho da tabela, relacionados a ações
+  headerCells, // descrições do cabeçalho da tabela
+  getRowProps, // propriedades para quando clica em uma linha
+  visualize, // caso haja um modal
+  children, // formatação de linha
 }) {
   const { storageObject } = useGenericContext();
   const [filteredElements, setfilteredElements] = useState([]);
@@ -31,6 +33,7 @@ function Table({
   const limit = 30;
   const [selectedId, setSelectedId] = useState(null);
 
+  // Função para pesquisa de registro
   useEffect(() => {
     let result = [...storageObject];
     if (search.trim() !== "") {
@@ -42,6 +45,7 @@ function Table({
     setfilteredElements(result.slice(0, offset + limit));
   }, [search, storageObject, offset]);
 
+  // Função para Scroll
   useEffect(() => {
     const handleScroll = () => {
       const table = document.querySelector(".table-container");
@@ -55,7 +59,6 @@ function Table({
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [filteredElements, storageObject]);
-
   const handleLoadMore = () => {
     setOffset((prev) => prev + limit);
   };
@@ -93,7 +96,7 @@ function Table({
           )}
         </tbody>
       </table>
-      {/* Exibição do Modal */}
+      {/* Exibição do Modal (fora da tabela)*/}
       {typeof visualize === "function"
         ? visualize({ selectedId, setSelectedId })
         : visualize}
