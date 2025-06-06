@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
 import { SketchPicker } from 'react-color';
 import { useController, useFormContext } from 'react-hook-form';
 
-function ColorPicker({ name, label }) {
+const ColorPicker = ({ name, label }) => {
   const { control } = useFormContext();
   const {
     field: { value, onChange },

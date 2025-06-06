@@ -6,3 +6,4 @@ export { default as MaskedInput } from './MaskedInput';
 export { default as CheckboxPanel } from './CheckboxPanel';
 export { default as MonetaryInput } from './MonetaryInput';
 export { default as MultiSelect } from './MultiSelect';
+export { default as ColorPicker } from './ColorPicker';

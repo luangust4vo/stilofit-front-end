@@ -1,4 +1,3 @@
-import React from 'react';
 import { IMaskInput } from 'react-imask';
 import { useFormContext, Controller } from 'react-hook-form';
 

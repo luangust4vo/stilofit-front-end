@@ -1,10 +1,9 @@
-import React from 'react';
 import { useForm, FormProvider, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import './index.scss';
 import { validationSchemaTurma } from '../../utils/validation';
-import ColorPicker from '../../components/selecaoCores';
-import { Input, Select, Textarea, Button } from "../../components";
+import { Input, Select, Textarea, Button, ColorPicker } from "../../components";
+
+import './styles.scss';
 
 const locaisPredefinidos = ['Sala 101', 'Laboratório 2', 'Auditório'];
 
