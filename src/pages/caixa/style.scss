@@ -1,0 +1,19 @@
+@use "../../styles/vars.scss" as vars;
+
+.cash-table-actions {
+  border-top: 1px solid vars.$border-form;
+  background-color: vars.$bg-primary;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
+
+  .cash-table-actions-info {
+    display: inline;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    color: vars.$text;
+    font-size: 1rem;
+  }
+}
