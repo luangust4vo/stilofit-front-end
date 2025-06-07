@@ -1,8 +1,7 @@
-import Table from "../../components/Table/Table";
-import { goRegistration, goEdit } from "../../components/Table/Table";
-import GenericContextProvider from "../../contexts/GenericContext";
+import Table from "../../../components/Table/Table";
+import GenericContextProvider from "../../../contexts/GenericContext";
 import { useNavigate } from "react-router-dom";
-import { Button } from "../../components";
+import { Button } from "../../../components";
 import "./style.scss";
 
 
@@ -10,6 +9,17 @@ function CashTable() {
   const navigate = useNavigate();
   const routeName = "caixa";
 
+  const calculateTotalCash = (cash) => {
+    return cash.reduce((total, item) =>
+      total+item.valor, 0);
+  };
+
+  const calculateCashBack = (cash) => {
+    return cash.filter(item => item.tipo === "dinheiro")
+    .reduce((total, item) => total + item.valor, 0);
+  };
+
+  const cashData = JSON.parse(localStorage.getItem("caixa")) || [];
 
   return (
     <GenericContextProvider lSName="caixa">
@@ -25,7 +35,7 @@ function CashTable() {
       >
         {(element) => (
           <>
-            <span>{element.vena}</span>
+            <span>{element.venda}</span>
             <span>{element.tipo}</span>
             <span>{element.data}</span>
             <span>{element.hora}</span>
@@ -39,8 +49,8 @@ function CashTable() {
           <Button>Saida</Button>
         </div>
         <div className="cash-table-actions-info">
-          <p>Valor Total do Caixa</p>
-          <p>Troco disponível</p>
+        <p>Valor Total do Caixa: R$ {calculateTotalCash(cashData).toFixed(2)}</p>
+        <p>Troco disponível: R$ {calculateCashBack(cashData).toFixed(2)}</p>
         </div>
       </div>
     </GenericContextProvider>
