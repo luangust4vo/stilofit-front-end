@@ -14,22 +14,25 @@ function ContractTable() {
     <GenericContextProvider lSName="contratos">
       <Table
         headerComponent={({ search, setSearch }) => (
-          <div className="header-right">
-            <input
-              className="field-search"
-              placeholder="Buscar..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <i className="bi bi-funnel-fill"></i>
-            <button
-              className="btn-icon-table"
-              onClick={() => goRegistration(navigate, routeName)}
-            >
-              Criar Contrato
-              <i className="bi-plus"></i>
-            </button>
-          </div>
+          <>
+            <div className="header-left"></div>
+            <div className="header-right">
+              <input
+                className="field-search"
+                placeholder="Buscar..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <i className="bi bi-funnel-fill"></i>
+              <button
+                className="btn-icon-table"
+                onClick={() => goRegistration(navigate, routeName)}
+              >
+                Criar Contrato
+                <i className="bi-plus"></i>
+              </button>
+            </div>
+          </>
         )}
         headerCells={[
           "Nome",
