@@ -16,23 +16,20 @@
 
 .table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   background: vars.$bg-list;
   border-radius: 10px;
   border: 1px solid vars.$table-border !important;
   overflow: hidden;
   box-shadow: 0 2px 8px #0001;
 
-  tr {
-    border-radius: 10px;
-  }
-
   th,
   td {
     padding: 1rem 0.6rem;
     text-align: left;
-    border-bottom: 1px solid vars.$table-border;
     font-size: 1rem;
+    border: none; // Remove qualquer borda interna
   }
 
   td {
@@ -45,7 +42,11 @@
     font-weight: 600;
   }
 
-  tr:last-child td {
+  tbody td {
+    border-bottom: 1px solid vars.$table-border;
+  }
+
+  tbody tr:last-child td {
     border-bottom: none;
   }
 
