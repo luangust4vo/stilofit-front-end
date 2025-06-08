@@ -4,9 +4,9 @@ import { goRegistration, goEdit } from "../../../components/Table/Table";
 import GenericContextProvider from "../../../contexts/GenericContext";
 import InfoContract from "../Info/index";
 
-import "../../../components/Table/styles.scss";
+import "./styles.scss";
 
-function Example() {
+function ContractTable() {
   const navigate = useNavigate();
   const routeName = "contrato";
 
@@ -15,20 +15,23 @@ function Example() {
       <Table
         headerComponent={({ search, setSearch }) => (
           <>
-            <input
-              className="field-search"
-              placeholder="Buscar..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <i className="bi bi-funnel-fill"></i>
-            <button
-              className="btn-icon-table"
-              onClick={() => goRegistration(navigate, routeName)}
-            >
-              Criar Contrato
-              <i className="bi-plus"></i>
-            </button>
+            <div className="header-left"></div>
+            <div className="header-right">
+              <input
+                className="field-search"
+                placeholder="Buscar..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <i className="bi bi-funnel-fill"></i>
+              <button
+                className="btn-icon-table"
+                onClick={() => goRegistration(navigate, routeName)}
+              >
+                Criar Contrato
+                <i className="bi-plus"></i>
+              </button>
+            </div>
           </>
         )}
         headerCells={[
@@ -81,7 +84,7 @@ function Example() {
                 }}
                 title="Editar"
               >
-                <i className="bi bi-pencil-fill"></i>
+                <i className="bi bi-pencil-fill bi-cell"></i>
               </button>
             </td>
           </>
@@ -91,4 +94,4 @@ function Example() {
   );
 }
 
-export default Example;
+export default ContractTable;

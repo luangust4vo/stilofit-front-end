@@ -1,22 +1,23 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import RegisterContract from ".";
-import { useContract } from "../../../contexts/ContractContext";
+import GenericContextProvider from "../../../contexts/GenericContext";
+import { useGenericContext } from "../../../contexts/GenericContext";
 
 const EditContract = () => {
   const { id } = useParams();
-  const { getContractById, contracts } = useContract();
   const [contractData, setContractData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { storageObject, getStorageObjectById } = useGenericContext();
 
   useEffect(() => {
-    if (contracts.length === 0) {
-        return;
-      }
-    const found = getContractById(id);
+    if (storageObject.length === 0) {
+      return;
+    }
+    const found = getStorageObjectById(id);
     setContractData(found);
     setLoading(false);
-  }, [id, getContractById, contracts]);
+  }, [id, getStorageObjectById, storageObject]);
 
   if (loading) return <p>Carregando contrato...</p>;
   if (!contractData) return <p>Contrado não encontrado.</p>;
@@ -24,4 +25,8 @@ const EditContract = () => {
   return <RegisterContract initialData={contractData} />;
 };
 
-export default EditContract;
+export default (props) => (
+  <GenericContextProvider lSName="contratos">
+    <EditContract {...props} />
+  </GenericContextProvider>
+);
