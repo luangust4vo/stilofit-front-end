@@ -1,30 +1,62 @@
 import Table from "../../../components/Table/Table";
 import { useGenericContext } from "../../../contexts/GenericContext";
 import GenericContextProvider from "../../../contexts/GenericContext";
-import { useEffect } from "react";
-import movement from "./MovementCash.json"; 
-import { Button } from "../../../components";
+import { useEffect, useState } from "react";
+import { useForm, FormProvider } from "react-hook-form";
+import movement from "./MovementCash.json";
+import MovementType from "./MovementType";
+import { Button, Input, MonetaryInput } from "../../../components";
 import "./style.scss";
 
 function CashTable() {
-  
-  const { storageObject, initializeStorageObject} = useGenericContext();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [typeMovement, setTypeMovement] = useState("dinheiro");
+  const [value, setValue] = useState("");
+  const [description, setDescription] = useState("");
+  const methods = useForm();
+  const { storageObject, initializeStorageObject, addStorageObject } =
+    useGenericContext();
 
   useEffect(() => {
     initializeStorageObject(movement);
   }, [initializeStorageObject]);
 
   const calculateTotalCash = (cash) => {
-    return cash.reduce((total, item) => total + item.valor, 0);
+    return cash.reduce((total, item) => {
+      return total + (item.movement === "saida" ? -item.valor : item.valor);
+    }, 0);
   };
-
+  
   const calculateCashBack = (cash) => {
     return cash
-      .filter((item) => item.tipo === "dinheiro")
+      .filter((item) => item.movimento === "entrada" || item.tipo === MovementType.DINHEIRO)
       .reduce((total, item) => total + item.valor, 0);
   };
-
+  
   const cash = storageObject || [];
+
+  const handleAddMovement = () => {
+    const sanitizedValue = value.replace(/[^\d,]/g, "").replace(",", ".");
+    const parsedValue = parseFloat(sanitizedValue);
+    if (isNaN(parsedValue) || parsedValue <= 0) return alert("Valor inválido.");
+
+    const newMovement = {
+      venda: description || "-",
+      tipo: typeMovement,
+      movement: modalOpen,
+      data: new Date().toLocaleDateString("pt-BR"),
+      hora: new Date().toLocaleTimeString("pt-BR", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      valor: parsedValue,
+    };
+
+    addStorageObject(newMovement);
+    setModalOpen(false);
+    setValue("");
+    setDescription("");
+  };
 
   return (
     <>
@@ -50,8 +82,61 @@ function CashTable() {
 
       <div className="cash-table-actions">
         <div className="cash-table-actions-info">
-          <Button onClick= {()=> ("")}>Entrada</Button> {/* abre caixa de diálogo para input do valor extra */}
-          <Button>Saida</Button>
+          <div style={{ position: "relative" }}>
+            <Button
+              onClick={() => {
+                setTypeMovement(MovementType.DINHEIRO);
+                setModalOpen("entrada");
+              }}
+            >
+              Entrada
+            </Button>
+            {modalOpen === "entrada" && (
+              <FormProvider {...methods}>
+                <div className="modal-overlay">
+                  <div className="modal">
+                    <h3>Adicionar Entrada</h3>
+                    <MonetaryInput placeholder="valor" name="valor" value={value} onChange={(e) => setValue(e.target.value)} />
+                    <Input placeholder="descrição" name="descrição" value={description}  onChange={(e) => setDescription(e.target.value)}/>
+                    <div className="modal-actions">
+                      <Button onClick={handleAddMovement}>Confirmar</Button>
+                      <Button onClick={() => setModalOpen(false)}>
+                        Cancelar
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </FormProvider>
+            )}
+          </div>
+
+          <div style={{ position: "relative" }}>
+            <Button
+              onClick={() => {
+                setTypeMovement(MovementType.DINHEIRO);
+                setModalOpen("saida");
+              }}
+            >
+              Saída
+            </Button>
+            {modalOpen === "saida" && (
+              <FormProvider {...methods}>
+              <div className="modal-overlay">
+                <div className="modal">
+                  <h3>Adicionar Saída</h3>
+                  <MonetaryInput placeholder="valor" name="valor" value={value} onChange={(e) => setValue(e.target.value)} />
+                  <Input placeholder="descrição" name="descrição" value={description}  onChange={(e) => setDescription(e.target.value)}/>
+                  <div className="modal-actions">
+                    <Button onClick={handleAddMovement}>Confirmar</Button>
+                    <Button onClick={() => setModalOpen(false)}>
+                      Cancelar
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </FormProvider>
+            )}
+          </div>
         </div>
 
         <div className="cash-table-summary">
