@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -12,7 +12,8 @@ import {
   MonetaryInput,
   MultiSelect,
 } from "../../../components";
-import { useContract } from "../../../contexts/ContractContext";
+import GenericContextProvider from "../../../contexts/GenericContext";
+import { useGenericContext } from "../../../contexts/GenericContext";
 
 import "./styles.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -28,8 +29,7 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   });
 
   const { handleSubmit, setValue, watch, reset } = methods;
-  const { addContract, updateContract } = useContract();
-
+  const { addStorageObject, updateStorageObject } = useGenericContext();
   const installmentable = watch("installmentable");
   const typeExpire = watch("typeExpire");
 
@@ -76,8 +76,8 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
       classRoms: Array.isArray(data.classRoms)
         ? data.classRoms
         : data.classRoms
-          ? [data.classRoms]
-          : [],
+        ? [data.classRoms]
+        : [],
       timeMin: data.timeMin || "",
       timeMax: data.timeMax || "",
       weekdays: Array.isArray(data.weekdays) ? data.weekdays : [],
@@ -94,11 +94,11 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
     }
 
     if (initialData && initialData.id) {
-      updateContract(initialData.id, parsedData);
+      updateStorageObject(initialData.id, parsedData);
       toast.success("Contrato atualizado!");
-       navigate("/contrato");
+      navigate("/contrato");
     } else {
-      addContract(parsedData);
+      addStorageObject(parsedData);
       toast.success("Contrato cadastrado!");
       reset();
       navigate("/contrato");
@@ -111,7 +111,7 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
         <i className="bi bi-arrow-left"></i>
         Voltar
       </Button>
-      
+
       <main className="form">
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -200,4 +200,8 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   );
 };
 
-export default RegisterContract;
+export default (props) => (
+  <GenericContextProvider lSName="contratos">
+    <RegisterContract {...props} />
+  </GenericContextProvider>
+);

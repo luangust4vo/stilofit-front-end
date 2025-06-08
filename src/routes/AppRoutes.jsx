@@ -6,6 +6,7 @@ import InfoContract from "../pages/contract/Info";
 import EditContract from "../pages/contract/Register/EditContract";
 import RegisterContract from "../pages/contract/Register";
 import Turma from "../pages/turma";
+//import Login from "../pages/login";
 
 // Aqui você pode adicionar as rotas do seu projeto
 // Você também pode adicionar rotas aninhadas e, se quiser, até dividir elas em arquivos diferentes
