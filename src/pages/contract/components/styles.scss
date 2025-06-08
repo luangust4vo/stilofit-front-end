@@ -22,13 +22,6 @@
   }
 }
 
-.contract-table-container {
-  width: 100%;
-  min-height: 100vh;
-  background: vars.$bg-primary;
-  padding: 2rem 1rem;
-}
-
 .btn-icon-table {
   background: vars.$btn-bg-icon;
   color: vars.$text-header;
@@ -40,10 +33,6 @@
   transition: background 0.2s;
   display: flex;
   align-items: center;
-}
-
-.table-right {
-  justify-content: flex-end
 }
 
 .header-right {
