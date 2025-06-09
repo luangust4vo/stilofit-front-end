@@ -85,3 +85,10 @@
   border-radius: 16px;
   box-shadow: -4px 4px 12px 2px rgba(0, 0, 0, 0.25);
 }
+
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}

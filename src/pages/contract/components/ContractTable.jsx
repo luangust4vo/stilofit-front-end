@@ -75,7 +75,7 @@ function ContractTable() {
                 ? " meses"
                 : ""}
             </td>
-            <td>
+            <td className="buttons">
               <button
                 className="btn-icon-edit"
                 onClick={(e) => {
