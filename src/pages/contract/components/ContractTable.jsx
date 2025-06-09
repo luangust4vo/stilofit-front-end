@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import Table from "../../../components/Table/Table";
 import { goRegistration, goEdit } from "../../../components/Table/Table";
-import GenericContextProvider from "../../../contexts/GenericContext";
+import { GenericContextProvider } from "../../../contexts/GenericContext";
 import InfoContract from "../Info/index";
-import {Button} from "../../../components"
+import { Button } from "../../../components";
 
 import "./styles.scss";
 

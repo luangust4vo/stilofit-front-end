@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import RegisterContract from ".";
-import GenericContextProvider from "../../../contexts/GenericContext";
-import { useGenericContext } from "../../../contexts/GenericContext";
+import {
+  GenericContextProvider,
+  useGenericContext,
+} from "../../../contexts/GenericContext";
 
 const EditContract = () => {
   const { id } = useParams();

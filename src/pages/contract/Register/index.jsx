@@ -12,15 +12,15 @@ import {
   MonetaryInput,
   MultiSelect,
 } from "../../../components";
-import GenericContextProvider from "../../../contexts/GenericContext";
-import { useGenericContext } from "../../../contexts/GenericContext";
+import {
+  GenericContextProvider,
+  useGenericContext,
+} from "../../../contexts/GenericContext";
 
 import "./styles.scss";
 import "react-toastify/dist/ReactToastify.css";
 
 const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
-  console.log("teste", initialData);
-
   const navigate = useNavigate();
 
   const methods = useForm({
