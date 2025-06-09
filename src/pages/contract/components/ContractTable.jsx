@@ -38,7 +38,8 @@ function ContractTable() {
         headerCells={[
           "Nome",
           "Valor Total",
-          "Tipo de Vencimento",
+          "Parcelas",
+          "Valor da Parcela",
           "Vencimento",
           "",
         ]}
@@ -67,7 +68,13 @@ function ContractTable() {
             <td>
               {"R$ " + Number(element.totalValue).toFixed(2).replace(".", ",")}
             </td>
-            <td>{element.typeExpire}</td>
+            <td>{element.installments ? element.installments : "-"}</td>
+            <td>
+              {element.installmentsValue
+                ? "R$ " +
+                  Number(element.installmentsValue).toFixed(2).replace(".", ",")
+                : "-"}
+            </td>
             <td>
               {element.expire}
               {element.typeExpire === "por Seção"
