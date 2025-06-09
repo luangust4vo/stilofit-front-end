@@ -18,7 +18,6 @@ const InfoContract = ({ id: propId, onClose }) => {
       <button
         className="btn-icon"
         onClick={onClose}
-        style={{ marginTop: "1rem" }}
       >
         <i className="bi bi-arrow-left"></i>
         Voltar
