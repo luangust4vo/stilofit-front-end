@@ -23,12 +23,12 @@
 }
 
 .btn-icon-table {
+  font-size: 1.2rem;
   background: vars.$btn-bg-icon;
   color: vars.$text-header;
   border: none;
   border-radius: 6px;
   padding: 0.5rem 0.7rem;
-  font-size: 1.2rem;
   cursor: pointer;
   transition: background 0.2s;
   display: flex;

@@ -3,6 +3,7 @@ import Table from "../../../components/Table/Table";
 import { goRegistration, goEdit } from "../../../components/Table/Table";
 import GenericContextProvider from "../../../contexts/GenericContext";
 import InfoContract from "../Info/index";
+import {Button} from "../../../components"
 
 import "./styles.scss";
 
@@ -24,13 +25,13 @@ function ContractTable() {
                 onChange={(e) => setSearch(e.target.value)}
               />
               <i className="bi bi-funnel-fill"></i>
-              <button
+              <Button
                 className="btn-icon-table"
                 onClick={() => goRegistration(navigate, routeName)}
               >
                 Criar Contrato
                 <i className="bi-plus"></i>
-              </button>
+              </Button>
             </div>
           </>
         )}
@@ -76,7 +77,7 @@ function ContractTable() {
                 : ""}
             </td>
             <td className="buttons">
-              <button
+              <Button
                 className="btn-icon-edit"
                 onClick={(e) => {
                   e.stopPropagation();
@@ -85,7 +86,7 @@ function ContractTable() {
                 title="Editar"
               >
                 <i className="bi bi-pencil-fill bi-cell"></i>
-              </button>
+              </Button>
             </td>
           </>
         )}
