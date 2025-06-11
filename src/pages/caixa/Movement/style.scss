@@ -1,5 +1,10 @@
 @use "../../../styles/vars.scss" as vars;
 
+.table-container{
+  width: 100%;
+  min-height: 87vh;
+  padding: 2rem 1rem;
+}
 .cash-table-actions {
   border-top: 1px solid vars.$border-form;
   background-color: vars.$bg-primary;
@@ -27,47 +32,10 @@
 .modal-overlay {
   position: absolute;
   left: 0;
-  margin-top: 0.5rem;
+  margin-top: 3rem;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   z-index: 10;
   background: transparent;
 }
-
-.modal {
-  bottom: 250px;
-  position: relative;
-  background: #fff;
-  border: 1px solid vars.$icon-color;
-  padding: 1rem;
-  border-radius: 10px;
-  width: 280px;
-
-  &::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    transform: translateX(50%);
-    border-width: 20px;
-    border-style: solid;
-    border-color: vars.$icon-color transparent transparent transparent;
-  }
-}
-
-
-.modal input {
-  padding: 0.5rem;
-  font-size: 1rem;
-  width: 100%;
-}
-
-
-.modal-actions {
-  display: flex;
-  justify-content: space-between;
-}
-
-
-
-

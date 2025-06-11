@@ -3,37 +3,38 @@ import { useGenericContext } from "../../../contexts/GenericContext";
 import GenericContextProvider from "../../../contexts/GenericContext";
 import { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import movement from "./MovementCash.json";
+import movementCash from "./MovementCash.json";
 import MovementType from "./MovementType";
-import { Button, Input, MonetaryInput } from "../../../components";
+import { Button, Input, MonetaryInput, DialogBox } from "../../../components";
 import "./style.scss";
 
 function CashTable() {
   const [modalOpen, setModalOpen] = useState(false);
   const [typeMovement, setTypeMovement] = useState("dinheiro");
   const [value, setValue] = useState("");
-  const [description, setDescription] = useState("");
-  const [movement, setMovement] = useState("entrada");
   const methods = useForm();
   const { storageObject, initializeStorageObject, addStorageObject } =
     useGenericContext();
 
   useEffect(() => {
-    initializeStorageObject(movement);
+    initializeStorageObject(movementCash);
   }, [initializeStorageObject]);
 
   const calculateTotalCash = (cash) => {
     return cash.reduce((total, item) => {
-      return total + (item.movement === "saida" ? -item.valor : item.valor);
+      return total + (item.movement === "Saida" ? -item.valor : item.valor);
     }, 0);
   };
-  
+
   const calculateCashBack = (cash) => {
     return cash
-      .filter((item) => item.movimento === "entrada" || item.tipo === MovementType.DINHEIRO)
-      .reduce((total, item) => total + item.valor, 0);
+      .filter((item) => item.tipo === MovementType.DINHEIRO)
+      .reduce((total, item) => {
+        return total + (item.movement === "Saida" ? -item.valor : item.valor);
+      }, 0);
   };
   
+
   const cash = storageObject || [];
 
   const handleAddMovement = () => {
@@ -92,20 +93,19 @@ function CashTable() {
               Entrada
             </Button>
             {modalOpen === "Entrada" && (
-              <FormProvider {...methods}>
-                <div className="modal-overlay">
-                  <div className="modal">
-                    <h3>Adicionar Entrada</h3>
-                    <MonetaryInput placeholder="valor" name="valor" value={value} onChange={(e) => setValue(e.target.value)} />
-                    <div className="modal-actions">
-                      <Button onClick={handleAddMovement}>Confirmar</Button>
-                      <Button onClick={() => setModalOpen(false)}>
-                        Cancelar
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </FormProvider>
+              <DialogBox
+                title="Adicionar Entrada"
+                onConfirm={handleAddMovement}
+                onCancel={() => setModalOpen(false)}
+                methods={methods}
+              >
+                <MonetaryInput
+                  placeholder="valor"
+                  name="valor"
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                />
+              </DialogBox>
             )}
           </div>
 
@@ -119,20 +119,19 @@ function CashTable() {
               Saída
             </Button>
             {modalOpen === "Saida" && (
-              <FormProvider {...methods}>
-              <div className="modal-overlay">
-                <div className="modal">
-                  <h3>Adicionar Saída</h3>
-                  <MonetaryInput placeholder="valor" name="valor" value={value} onChange={(e) => setValue(e.target.value)} />
-                  <div className="modal-actions">
-                    <Button onClick={handleAddMovement}>Confirmar</Button>
-                    <Button onClick={() => setModalOpen(false)}>
-                      Cancelar
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </FormProvider>
+              <DialogBox
+                title="Adicionar Saida"
+                onConfirm={handleAddMovement}
+                onCancel={() => setModalOpen(false)}
+                methods={methods}
+              >
+                <MonetaryInput
+                  placeholder="valor"
+                  name="valor"
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                />
+              </DialogBox>
             )}
           </div>
         </div>
