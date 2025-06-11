@@ -1,4 +1,3 @@
-import React from 'react';
 import { useForm, FormProvider, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import './index.scss';

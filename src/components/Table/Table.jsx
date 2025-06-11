@@ -82,7 +82,9 @@ function Table({
           {filteredElements.map((element) => (
             <tr
               key={element.id}
-              {...(getRowProps ? getRowProps({ element, selectedId, setSelectedId }) : {})}
+              {...(getRowProps
+                ? getRowProps({ element, selectedId, setSelectedId })
+                : {})}
             >
               {typeof children === "function" ? children(element) : children}
             </tr>

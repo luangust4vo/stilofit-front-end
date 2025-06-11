@@ -1,11 +1,10 @@
 import Table from "../../../components/Table/Table";
-import { useGenericContext } from "../../../contexts/GenericContext";
-import GenericContextProvider from "../../../contexts/GenericContext";
+import {useGenericContext, GenericContextProvider } from "../../../contexts/GenericContext";
 import { useEffect, useState } from "react";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import movementCash from "./MovementCash.json";
 import MovementType from "./MovementType";
-import { Button, Input, MonetaryInput, DialogBox } from "../../../components";
+import { Button, MonetaryInput, DialogBox } from "../../../components";
 import "./style.scss";
 
 function CashTable() {
