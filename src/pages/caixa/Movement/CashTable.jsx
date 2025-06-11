@@ -13,6 +13,7 @@ function CashTable() {
   const [typeMovement, setTypeMovement] = useState("dinheiro");
   const [value, setValue] = useState("");
   const [description, setDescription] = useState("");
+  const [movement, setMovement] = useState("entrada");
   const methods = useForm();
   const { storageObject, initializeStorageObject, addStorageObject } =
     useGenericContext();
@@ -41,7 +42,7 @@ function CashTable() {
     if (isNaN(parsedValue) || parsedValue <= 0) return alert("Valor inválido.");
 
     const newMovement = {
-      venda: description || "-",
+      venda: modalOpen,
       tipo: typeMovement,
       movement: modalOpen,
       data: new Date().toLocaleDateString("pt-BR"),
@@ -55,7 +56,6 @@ function CashTable() {
     addStorageObject(newMovement);
     setModalOpen(false);
     setValue("");
-    setDescription("");
   };
 
   return (
@@ -86,18 +86,17 @@ function CashTable() {
             <Button
               onClick={() => {
                 setTypeMovement(MovementType.DINHEIRO);
-                setModalOpen("entrada");
+                setModalOpen("Entrada");
               }}
             >
               Entrada
             </Button>
-            {modalOpen === "entrada" && (
+            {modalOpen === "Entrada" && (
               <FormProvider {...methods}>
                 <div className="modal-overlay">
                   <div className="modal">
                     <h3>Adicionar Entrada</h3>
                     <MonetaryInput placeholder="valor" name="valor" value={value} onChange={(e) => setValue(e.target.value)} />
-                    <Input placeholder="descrição" name="descrição" value={description}  onChange={(e) => setDescription(e.target.value)}/>
                     <div className="modal-actions">
                       <Button onClick={handleAddMovement}>Confirmar</Button>
                       <Button onClick={() => setModalOpen(false)}>
@@ -114,18 +113,17 @@ function CashTable() {
             <Button
               onClick={() => {
                 setTypeMovement(MovementType.DINHEIRO);
-                setModalOpen("saida");
+                setModalOpen("Saida");
               }}
             >
               Saída
             </Button>
-            {modalOpen === "saida" && (
+            {modalOpen === "Saida" && (
               <FormProvider {...methods}>
               <div className="modal-overlay">
                 <div className="modal">
                   <h3>Adicionar Saída</h3>
                   <MonetaryInput placeholder="valor" name="valor" value={value} onChange={(e) => setValue(e.target.value)} />
-                  <Input placeholder="descrição" name="descrição" value={description}  onChange={(e) => setDescription(e.target.value)}/>
                   <div className="modal-actions">
                     <Button onClick={handleAddMovement}>Confirmar</Button>
                     <Button onClick={() => setModalOpen(false)}>
