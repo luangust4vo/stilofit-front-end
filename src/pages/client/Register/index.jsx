@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ToastContainer, toast } from "react-toastify";
 import { validationSchema, fetchAddressByCEP } from "../../../utils/validation";
 import {MaskedInput, Button, Input, Textarea, Select} from "../../../components";
-import { useClient } from "../../../contexts/ClientContext";
+import { useGenericContext } from "../../../contexts/GenericContext";
 
 import "./styles.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,7 +16,7 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
   });
 
   const { handleSubmit, setValue, watch } = methods;
-  const { addClient, updateClient } = useClient();
+  const { addStorageObject, updateStorageObject } = useGenericContext();
 
   const client = watch();
 
@@ -66,10 +66,10 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
     }
   
     if (initialData && initialData.id) {
-      updateClient(initialData.id, data);
+      updateStorageObject(initialData.id, data);
       toast.success("Cliente atualizado!");
     } else {
-      addClient(data);
+      addStorageObject(data);
       toast.success("Cliente cadastrado!");
       methods.reset();
     }

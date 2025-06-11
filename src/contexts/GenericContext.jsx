@@ -50,4 +50,4 @@ const GenericContextProvider = ({ lSName, children }) => {
   );
 };
 
-export default GenericContextProvider;
+export {GenericContextProvider};
