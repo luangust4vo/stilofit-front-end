@@ -7,7 +7,7 @@ import EditContract from "../pages/contract/Register/EditContract";
 import RegisterContract from "../pages/contract/Register";
 import Turma from "../pages/turma";
 import { GenericContextProvider } from "../contexts/GenericContext";
-import CashTable from "../pages/caixa/Movement/CashTable";
+import CheckoutTable from "../pages/checkout/Movement/CheckoutTable";
 
 // Aqui você pode adicionar as rotas do seu projeto
 // Você também pode adicionar rotas aninhadas e, se quiser, até dividir elas em arquivos diferentes
@@ -37,7 +37,7 @@ const AppRoutes = () => {
         <Route path="/turma" element={<Turma />} />
 
         <Route path="/caixa">
-          <Route index element={<CashTable/>} />
+          <Route index element={<CheckoutTable/>} />
         </Route>
       </Routes>
     </BrowserRouter>

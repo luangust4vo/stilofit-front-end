@@ -2,7 +2,7 @@ import Table from "../../../components/Table/Table";
 import {useGenericContext, GenericContextProvider } from "../../../contexts/GenericContext";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import movementCash from "./MovementCash.json";
+import movementCheckout from "./MovementCheckout.json";
 import MovementType from "./MovementType";
 import { Button, MonetaryInput, DialogBox } from "../../../components";
 import "./style.scss";
@@ -16,7 +16,7 @@ function CashTable() {
     useGenericContext();
 
   useEffect(() => {
-    initializeStorageObject(movementCash);
+    initializeStorageObject(movementCheckout);
   }, [initializeStorageObject]);
 
   const calculateTotalCash = (cash) => {
@@ -74,7 +74,10 @@ function CashTable() {
             <td>{element.tipo}</td>
             <td>{element.data}</td>
             <td>{element.hora}</td>
-            <td>{element.valor.toFixed(2)}</td>
+            <td>{new Intl.NumberFormat('pt-BR', {
+              style: 'currency',
+              currency: 'BRL'
+            }).format(element.valor)}</td>
             <td></td>
           </>
         )}
