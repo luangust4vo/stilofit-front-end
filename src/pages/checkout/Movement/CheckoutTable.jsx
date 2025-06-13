@@ -74,7 +74,10 @@ function CashTable() {
             <td>{element.tipo}</td>
             <td>{element.data}</td>
             <td>{element.hora}</td>
-            <td>{element.valor.toFixed(2)}</td>
+            <td>{new Intl.NumberFormat('pt-BR', {
+              style: 'currency',
+              currency: 'BRL'
+            }).format(element.valor)}</td>
             <td></td>
           </>
         )}
