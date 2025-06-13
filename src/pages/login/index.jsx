@@ -9,8 +9,8 @@ export default function Login() {
         <div className="login-box">
           <img src={xLogo} alt="logo" />
           <form className="form">
-            <input className="input" type="email" placeholder="Email"/>
-            <input className="input" type="password" placeholder="Senha"/>
+            <input className="input" placeholder="Email"/>
+            <input className="input" placeholder="Senha"/>
             <button className="button" type="submit">Entrar</button>
           </form>
         </div>

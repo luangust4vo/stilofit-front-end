@@ -30,13 +30,14 @@
 /* Caixa do formulário */
 .login-box {
   background-color: #e6e6e6;
-  padding: 2rem;
-  width: 300px;
-  border-radius: 8px;
+  padding: 2rem 2rem 6rem 2rem;
+  width: 22rem;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 4rem;
 
   .form {
     width: 100%;
