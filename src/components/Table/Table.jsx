@@ -41,7 +41,7 @@ function Table({
         element.name.toLowerCase().includes(search.toLowerCase())
       );
     }
-    result.sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
+    result.sort((a, b) => (a.name || "").localeCompare(b.name || "", "pt-BR"));
     setfilteredElements(result.slice(0, offset + limit));
   }, [search, storageObject, offset]);
 

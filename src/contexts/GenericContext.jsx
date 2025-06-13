@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, useContext } from "react";
+import { useState, useEffect, createContext, useContext, useCallback } from "react";
 
 const GenericContext = createContext();
 
@@ -36,11 +36,22 @@ const GenericContextProvider = ({ lSName, children }) => {
     return storageObject.find((c) => String(c.id) === String(id)) || null;
   };
 
+  const initializeStorageObject = useCallback(
+    (initialData) => {
+      if (!localStorage.getItem(lSName)) {
+        localStorage.setItem(lSName, JSON.stringify(initialData));
+        setStorageObject(initialData);
+      }
+    },
+    [lSName]
+  );
+
   const contextValue = {
     storageObject,
     addStorageObject,
     updateStorageObject,
     getStorageObjectById,
+    initializeStorageObject,
   };
 
   return (

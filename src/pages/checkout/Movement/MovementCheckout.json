@@ -1,0 +1,50 @@
+[
+    {
+      "id": 1,
+      "venda": "Venda 001",
+      "tipo": "dinheiro",
+      "data": "07/06/2025",
+      "hora": "16:30",
+      "valor": 100.00
+    },
+    {
+      "id": 2,
+      "venda": "Venda 002",
+      "tipo": "pix",
+      "data": "07/06/2025",
+      "hora": "16:45",
+      "valor": 250.00
+    },
+    {
+      "id": 3,
+      "venda": "Venda 003",
+      "tipo": "cartão crédito",
+      "data": "07/06/2025",
+      "hora": "17:00",
+      "valor": 150.00
+    },
+    {
+      "id": 4,
+      "venda": "Venda 004",
+      "tipo": "cheque",
+      "data": "07/06/2025",
+      "hora": "17:15",
+      "valor": 80.00
+    },
+    {
+      "id": 5,
+      "venda": "Venda 005",
+      "tipo": "dinheiro",
+      "data": "07/06/2025",
+      "hora": "17:30",
+      "valor": 200.00
+    },
+    {
+      "id": 6,
+      "venda": "Venda 006",
+      "tipo": "cartão débito",
+      "data": "07/06/2025",
+      "hora": "17:30",
+      "valor": 200.00
+    }
+  ]
