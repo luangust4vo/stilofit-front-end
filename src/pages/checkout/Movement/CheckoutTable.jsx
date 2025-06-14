@@ -1,5 +1,8 @@
 import Table from "../../../components/Table/Table";
-import {useGenericContext, GenericContextProvider } from "../../../contexts/GenericContext";
+import {
+  useGenericContext,
+  GenericContextProvider,
+} from "../../../contexts/GenericContext";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import movementCheckout from "./MovementCheckout.json";
@@ -12,7 +15,7 @@ function CashTable() {
   const [modalOpen, setModalOpen] = useState(false);
   const [typeMovement, setTypeMovement] = useState("dinheiro");
   const [value, setValue] = useState("");
-  const [date, setDate]= useState();
+  const [date, setDate] = useState();
   const [cash, setCash] = useState([]);
   const methods = useForm();
   const { storageObject, initializeStorageObject, addStorageObject } =
@@ -23,8 +26,7 @@ function CashTable() {
   }, [initializeStorageObject]);
 
   useEffect(() => {
-    setCash(
-      storageObject || []);
+    setCash(storageObject || []);
   }, [storageObject]);
 
   const calculateTotalCash = (cash) => {
@@ -40,26 +42,38 @@ function CashTable() {
         return total + (item.movement === "Saida" ? -item.valor : item.valor);
       }, 0);
   };
-  
+
   const exitCash = () => {
-    const caixaFechado = cash.map(item => {
-      if (item.tipo === MovementType.DINHEIRO) {
-        return { ...item, tipo: "DINHEIRO_FECHADO" };
-      }
-      return item;
-    });
-  
-    initializeStorageObject(caixaFechado);
-    setCash(caixaFechado);
+    const changeCurrent = calculateCashBack(cash);
+
+    if (changeCurrent > 0) {
+      const exitFinal = {
+        venda: "Fechamento",
+        tipo: MovementType.DINHEIRO,
+        movement: "Saida",
+        data: new Date().toLocaleDateString("pt-BR"),
+        hora: new Date().toLocaleTimeString("pt-BR", {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        valor: changeCurrent,
+      };
+
+      addStorageObject(exitFinal);
+    }
   };
-  
 
-  const saveDateExit= () => {
-    const now= new Date();
-    const formattedDate = now.toLocaleDateString("pt-BR");
-    setDate(formattedDate);
-
-  }
+  const saveDateExit = () => {
+    const now = new Date();
+    const formattedDateTime =
+      now.toLocaleDateString("pt-BR") +
+      " " +
+      now.toLocaleTimeString("pt-BR", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    setDate(formattedDateTime);
+  };
 
   const handleAddMovement = () => {
     const sanitizedValue = value.replace(/[^\d,]/g, "").replace(",", ".");
@@ -99,10 +113,12 @@ function CashTable() {
             <td>{element.tipo}</td>
             <td>{element.data}</td>
             <td>{element.hora}</td>
-            <td>{new Intl.NumberFormat('pt-BR', {
-              style: 'currency',
-              currency: 'BRL'
-            }).format(element.valor)}</td>
+            <td>
+              {new Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              }).format(element.valor)}
+            </td>
             <td></td>
           </>
         )}
@@ -110,10 +126,10 @@ function CashTable() {
 
       <div className="cash-table-actions">
         <div className="cash-table-actions-info">
-          <div style={{position: "relative"}}>
-            <Button  onClick={saveDateExit}>Fechar</Button>
+          <div style={{ position: "relative" }}>
+            <Button onClick={saveDateExit}>Fechar</Button>
             {date && (
-              <DialogBox 
+              <DialogBox
                 title="Fechar Caixa"
                 onConfirm={() => {
                   alert(`Caixa fechado em: ${date}`);
@@ -122,13 +138,16 @@ function CashTable() {
                 }}
                 onCancel={() => setDate(null)}
               >
-                <p className="cash-p">Certeza que gostaria de fechar o caixa?</p>
+                <p className="cash-p">
+                  Certeza que gostaria de fechar o caixa?
+                </p>
               </DialogBox>
             )}
           </div>
 
           <div style={{ position: "relative" }}>
-            <Button id="add-movement-button"
+            <Button
+              id="add-movement-button"
               onClick={() => {
                 setTypeMovement(MovementType.DINHEIRO);
                 setModalOpen("Entrada");
@@ -154,7 +173,8 @@ function CashTable() {
           </div>
 
           <div style={{ position: "relative" }}>
-            <Button id="add-movement-button-exit"
+            <Button
+              id="add-movement-button-exit"
               onClick={() => {
                 setTypeMovement(MovementType.DINHEIRO);
                 setModalOpen("Saida");
