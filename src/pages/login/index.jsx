@@ -1,16 +1,23 @@
 import { validationSchemaLogin } from "../../utils/validation";
-import xLogo from "../../assets/x.png"; // ou então public/assets
+import xLogo from "../../assets/x.png";
 import "./styles.scss";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useKeyPressed from "../../hooks/useKeyPressed";
+import { useNavigate } from "react-router-dom";
+import { InputSimple, Button } from "../../components";
 
 export default function Login() {
+  const navigate = useNavigate();
   const capsLockAtivo = useKeyPressed("CapsLock");
 
   const methods = useForm({
     resolver: yupResolver(validationSchemaLogin),
   });
+
+  const { handleSubmit } = methods;
+
+  const onSubmit = (data) => {};
 
   return (
     <div className="login-wrapper">
@@ -18,18 +25,31 @@ export default function Login() {
       <div className="login-container">
         <div className="login-box">
           <img src={xLogo} alt="logo" />
-          <form className="form">
-            <input className="input" placeholder="Email" />
-            <input className="input" placeholder="Senha" type="password" />
-            <div className="div-caps">
-              {capsLockAtivo ? (
-                <p className="msg-caps">CapsLock ATIVADO</p>
-              ) : (
-                <></>
-              )}
-            </div>
-            <button className="button">Entrar</button>
-          </form>
+          <FormProvider {...methods}>
+            <form className="form" onSubmit={handleSubmit(onSubmit)}>
+              <InputSimple
+                className="input"
+                name="email"
+                placeholder="Email"
+                required
+              />
+              <InputSimple
+                className="input"
+                name="password"
+                placeholder="Senha"
+                type="password"
+                required
+              />
+              <div className="div-caps">
+                {capsLockAtivo ? (
+                  <p className="msg-caps">CapsLock ATIVADO</p>
+                ) : (
+                  <></>
+                )}
+              </div>
+              <Button className="button">Entrar</Button>
+            </form>
+          </FormProvider>
         </div>
       </div>
     </div>
