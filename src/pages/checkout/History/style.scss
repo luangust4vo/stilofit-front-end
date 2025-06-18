@@ -1,0 +1,22 @@
+@use "../../../styles/vars.scss" as vars;
+
+.table-container {
+  min-height: 100vh;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  #select {
+    margin-top: 15px;
+    border: 1px solid vars.$table-border;
+  }
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
