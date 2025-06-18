@@ -5,9 +5,9 @@
 }
 
 .right {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 
   #select {
     margin-top: 15px;
@@ -15,8 +15,4 @@
   }
 }
 
-.left {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
+

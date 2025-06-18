@@ -12,16 +12,8 @@ function HistoryCash() {
   const { storageObject, initializeStorageObject } = useGenericContext();
   const [monthSelected, setMonthSelected] = useState(new Date().getMonth() + 1);
   const [yearSelected, setYearSelected] = useState(new Date().getFullYear());
-  const methods = useForm({
-    defaultValues: {
-      month: new Date().getMonth(),
-      year: new Date().getFullYear(),
-    },
-  });
 
-  useEffect(() => {
-    initializeStorageObject([]);
-  }, [initializeStorageObject]);
+  const methods = useForm();
 
   const months = [
     "Janeiro",
@@ -43,19 +35,62 @@ function HistoryCash() {
     (_, i) => new Date().getFullYear() - i
   );
 
-  const filteredHistory = (storageObject || [])
-    .filter((item) => {
-      if (!item.dataAbertura) return false;
-      const [day, month, year] = item.dataAbertura.split("/");
-      return (
-        parseInt(month) === monthSelected + 1 && parseInt(year) === yearSelected
+  useEffect(() => {
+    const fullHistory =
+      JSON.parse(localStorage.getItem("historicoCaixa")) || [];
+    initializeStorageObject(fullHistory);
+  }, [initializeStorageObject]);
+
+  useEffect(() => {
+    const fullHistory =
+      JSON.parse(localStorage.getItem("historicoCaixa")) || [];
+
+    const filtered = fullHistory
+      .filter((item) => {
+        if (!item.dataAbertura) return false;
+        const [day, month, year] = item.dataAbertura.split("/");
+        return (
+          parseInt(month) === monthSelected && parseInt(year) === yearSelected
+        );
+      })
+      .sort((a, b) => {
+        const dateA = new Date(a.dataAbertura.split("/").reverse().join("/"));
+        const dateB = new Date(b.dataAbertura.split("/").reverse().join("/"));
+        return dateB - dateA;
+      });
+
+    initializeStorageObject(filtered);
+  }, [monthSelected, yearSelected, initializeStorageObject]);
+
+  function openNewCash(responsavel) {
+    const history = JSON.parse(localStorage.getItem("historicoCaixa")) || [];
+    const existingOpenCash = history.some((item) => item.status === "Aberto");
+    if (existingOpenCash) {
+      alert(
+        "Já existe um caixa aberto. Feche o caixa atual antes de abrir um novo."
       );
-    })
-    .sort((a, b) => {
-      const dateA = new Date(a.dataAbertura.split("/").reverse().join("/"));
-      const dateB = new Date(b.dataAbertura.split("/").reverse().join("/"));
-      return dateB - dateA;
-    });
+      return;
+    }
+  
+
+  const now = new Date();
+  const dataAbertura = now.toLocaleDateString("pt-BR");
+  const horaAbertura = now.toLocaleTimeString("pt-BR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  const newCash = {
+    dataAbertura,
+    horaAbertura,
+    responsavel,
+    status: "Aberto",
+  };
+
+  history.push(newCash);
+  localStorage.setItem("historicoCaixa", JSON.stringify(history));
+  alert("Caixa aberto com sucesso!");
+}
 
   return (
     <>
@@ -63,44 +98,59 @@ function HistoryCash() {
         <form>
           <Table
             headerComponent={() => (
-                <>
-                <div className="left">
+              <>
+                {/* <div className="left">
                 <Button>Voltar</Button>
-                </div>
+                </div> */}
+                <div></div>
                 <div className="right">
-                <Select id="select" name="mes" >
-                  {months.map((month, index) => (
-                    <option key={index} value={index}>
-                      {month}
-                    </option>
-                  ))}
-                </Select>
-                <Select id="select" name="ano" >
-                  {years.map((year) => (
-                    <option key={year} value={year}>
-                      {year}
-                    </option>
-                  ))}
-                </Select>
-                <Button>teste</Button>
-               </div>
-               </>
+                  <Select
+                    id="select"
+                    name="mes"
+                    onChange={(e) => setMonthSelected(Number(e.target.value))}
+                    value={monthSelected}
+                  >
+                    {months.map((month, index) => (
+                      <option key={index} value={index + 1}>
+                        {month}
+                      </option>
+                    ))}
+                  </Select>
+                  <Select
+                    id="select"
+                    name="ano"
+                    onChange={(e) => setYearSelected(Number(e.target.value))}
+                    value={yearSelected}
+                  >
+                    {years.map((year) => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    ))}
+                  </Select>
+                  <Button onClick={() => openNewCash("Laryssa")}>teste</Button>
+                </div>
+              </>
             )}
             headerCells={[
-              "Abertura",
+              "Data",
               "Hora Abertura",
-              "Fechamento",
               "Hora Fechamento",
               "Responsável",
+              "Status",
+              "",
             ]}
           >
             {(element) => (
               <>
                 <td>{element.dataAbertura}</td>
                 <td>{element.horaAbertura}</td>
-                <td>{element.dataFechamento || "-"}</td>
-                <td>{element.horaFechamento || "-"}</td>
+                <td>{element.horaFechamento}</td>
                 <td>{element.responsavel}</td>
+                <td>{element.status}</td>
+                <td>
+                  <Button>Ver</Button>
+                </td>
               </>
             )}
           </Table>
