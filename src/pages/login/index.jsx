@@ -24,7 +24,7 @@ export default function Login() {
       <div className="background"></div>
       <div className="login-container">
         <div className="login-box">
-          <img src={xLogo} alt="logo" />
+          <img src={xLogo} alt="logo" className="logo" />
           <FormProvider {...methods}>
             <form className="form" onSubmit={handleSubmit(onSubmit)}>
               <InputSimple
