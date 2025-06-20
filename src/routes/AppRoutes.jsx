@@ -38,7 +38,7 @@ const AppRoutes = () => {
 
         <Route path="/caixa">
           <Route index element={<HistoryCash/>} />
-          <Route path="movimentacao" element={<CheckoutTable/>} />
+          <Route path="movimentacao/:id" element={<CheckoutTable/>} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -3,7 +3,7 @@ import {
   useGenericContext,
   GenericContextProvider,
 } from "../../../contexts/GenericContext";
-import { Button,  MonetaryInput } from "../../../components";
+import { Button, MonetaryInput } from "../../../components";
 import { useForm, FormProvider } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { DialogBox } from "../../../components";
@@ -13,14 +13,16 @@ import "./style.scss";
 
 function HistoryCash() {
   const [showInput, setShowInput] = useState(false);
-  const [changeInitial, SetChangeInitial] = useState("");
 
-  const methods = useForm();
+  const methods = useForm({
+    defaultValues: {
+      initialChange: "",
+    },
+  });
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Simula login apenas para testes
     if (!localStorage.getItem("funcionarioLogado")) {
       localStorage.setItem(
         "funcionarioLogado",
@@ -28,44 +30,65 @@ function HistoryCash() {
       );
     }
   }, []);
-  
-  function openNewCash() {
-    const employeeLoggedIn = JSON.parse(localStorage.getItem("funcionarioLogado"));
-  
-    if (!employeeLoggedIn || !employeeLoggedIn.id) {
+
+  function parseBrazilianCurrency(value) {
+    if (!value) return 0;
+    let cleaned = value.replace(/[^\d,.-]/g, "");
+    cleaned = cleaned.replace(",", ".");
+    const number = parseFloat(cleaned);
+    return isNaN(number) ? 0 : number;
+  }
+
+  function handleOpenNewCash(data) {
+    const loggedEmployee = JSON.parse(localStorage.getItem("funcionarioLogado"));
+
+    if (!loggedEmployee || !loggedEmployee.id) {
       alert("Funcionário não logado!");
       return;
     }
-  
-  
-    const now = new Date();
-    const dataAbertura = now.toLocaleDateString(); 
-    const horaAbertura = now.toLocaleTimeString();
-  
 
-    const newCash = {
-      id: Date.now(),
-      responsavelId: funcionarioLogado.id,
-      responsavel: funcionarioLogado.nome,
-      dataAbertura,
-      horaAbertura,
+    const now = new Date();
+    const openDate = now.toLocaleDateString();
+    const openTime = now.toLocaleTimeString();
+    const id = Date.now();
+    const initialCash = parseBrazilianCurrency(data.initialChange);
+
+    const newCashRegister = {
+      id,
+      responsavelId: loggedEmployee.id,
+      responsavel: loggedEmployee.nome,
+      dataAbertura: openDate,
+      horaAbertura: openTime,
       horaFechamento: null,
       status: "aberto",
-      trocoInicial: parseFloat(changeInitial),
+      trocoInicial: initialCash,
       movimentacoes: [],
     };
-  
-    let history = JSON.parse(localStorage.getItem("historicoCaixa")) || [];
-    history.push(newCash);
+
+    const history = JSON.parse(localStorage.getItem("historicoCaixa")) || [];
+    history.push(newCashRegister);
     localStorage.setItem("historicoCaixa", JSON.stringify(history));
-  
+
+    localStorage.setItem(
+      `movimentacao-${id}`,
+      JSON.stringify([
+        {
+          venda: "Abertura",
+          tipo: "dinheiro",
+          movement: "Entrada",
+          data: openDate,
+          hora: openTime,
+          valor: initialCash,
+        },
+      ])
+    );
+
     alert("Caixa aberto com sucesso!");
-    SetChangeInitial("");
     setShowInput(false);
-  
-    navigate("movimentacao");
+    methods.reset();
+    navigate(`movimentacao/${id}`);
   }
-  
+
   return (
     <FormProvider {...methods}>
       <form>
@@ -81,16 +104,14 @@ function HistoryCash() {
                   <DialogBox
                     title="Abrir Novo Caixa"
                     methods={methods}
-                    onConfirm={methods.handleSubmit(openNewCash)}
+                    onConfirm={methods.handleSubmit(handleOpenNewCash)}
                     onCancel={() => setShowInput(false)}
                     dialogClassName="modal--history-cash"
                   >
                     <MonetaryInput
                       placeholder="Informe o troco inicial"
-                      name="trocoInicial"
-                      value={trocoInicial}
-                      onChange={(e) => setTrocoInicial(e.target.value)}
-                    ></MonetaryInput>
+                      name="initialChange"
+                    />
                   </DialogBox>
                 )}
               </div>
