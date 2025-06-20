@@ -9,7 +9,7 @@ import movementCheckout from "./MovementCheckout.json";
 import MovementType from "./MovementType";
 import { Button, MonetaryInput, DialogBox } from "../../../components";
 import "./style.scss";
-import { set } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 function CashTable() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -18,6 +18,7 @@ function CashTable() {
   const [date, setDate] = useState();
   const [cash, setCash] = useState([]);
   const methods = useForm();
+  const navigate = useNavigate();
   const { storageObject, initializeStorageObject, addStorageObject } =
     useGenericContext();
 
@@ -135,6 +136,7 @@ function CashTable() {
                   alert(`Caixa fechado em: ${date}`);
                   exitCash();
                   setDate(null);
+                  navigate(-1);  
                 }}
                 onCancel={() => setDate(null)}
               >
