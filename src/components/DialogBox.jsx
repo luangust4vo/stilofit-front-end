@@ -7,11 +7,12 @@ export default function DialogBox({
   onCancel,
   methods,
   children,
+  dialogClassName = "",
 }) {
   return (
     <FormProvider {...methods}>
       <div className="modal-overlay">
-        <div className="modal">
+        <div className={`modal ${dialogClassName}`}>
           {title && <h3>{title}</h3>}
 
           <div className="modal-fields">

@@ -16,3 +16,33 @@
 }
 
 
+.dialog-trigger-wrapper {
+    position: relative;
+    display: inline-block; 
+  }
+  
+  .modal--history-cash {
+    position: absolute;
+    top: calc(100% + 20px); 
+    right: 0;
+    z-index: 10;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 10px;
+    width: 280px;
+    height: 200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
+    &::after {
+      content: "";
+      position: absolute;
+      top: -40px;
+      right: 50px;
+      border-width: 20px;
+      border-style: solid;
+      border-color: transparent transparent vars.$icon-color transparent;
+    }
+ 
+  }
+  
