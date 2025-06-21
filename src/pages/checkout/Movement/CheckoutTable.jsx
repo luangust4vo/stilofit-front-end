@@ -1,3 +1,4 @@
+// CheckoutTableWrapper.jsx
 import Table from "../../../components/Table/Table";
 import {
   useGenericContext,
@@ -5,25 +6,45 @@ import {
 } from "../../../contexts/GenericContext";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 import movementCheckout from "./MovementCheckout.json";
 import MovementType from "./MovementType";
 import { Button, MonetaryInput, DialogBox } from "../../../components";
 import "./style.scss";
-import { set } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
-function CashTable() {
+function CheckoutTable() {
   const [modalOpen, setModalOpen] = useState(false);
   const [typeMovement, setTypeMovement] = useState("dinheiro");
   const [value, setValue] = useState("");
   const [date, setDate] = useState();
   const [cash, setCash] = useState([]);
+  const { id } = useParams();
   const methods = useForm();
+  const navigate = useNavigate();
   const { storageObject, initializeStorageObject, addStorageObject } =
     useGenericContext();
 
-  useEffect(() => {
-    initializeStorageObject(movementCheckout);
-  }, [initializeStorageObject]);
+    useEffect(() => {
+      if (!id) return;
+    
+      const storageKey = `movimentacao-${id}`;
+      const flagKey = `mock-injected-${id}`;
+    
+      const existing = JSON.parse(localStorage.getItem(storageKey)) || [];
+    
+      const alreadyInjected = localStorage.getItem(flagKey);
+    
+      if (!alreadyInjected) {
+        const merged = [...existing, ...movementCheckout];
+        localStorage.setItem(storageKey, JSON.stringify(merged));
+        localStorage.setItem(flagKey, "true"); // marca como injetado
+        initializeStorageObject(merged);
+      } else {
+        initializeStorageObject(existing);
+      }
+    }, [id, initializeStorageObject]);
+    
 
   useEffect(() => {
     setCash(storageObject || []);
@@ -61,6 +82,18 @@ function CashTable() {
 
       addStorageObject(exitFinal);
     }
+
+    const history = JSON.parse(localStorage.getItem("historicoCaixa")) || [];
+    const updatedHistory = history.map((c) =>
+      c.id === Number(id)
+        ? {
+            ...c,
+            horaFechamento: new Date().toLocaleTimeString(),
+            status: "fechado",
+          }
+        : c
+    );
+    localStorage.setItem("historicoCaixa", JSON.stringify(updatedHistory));
   };
 
   const saveDateExit = () => {
@@ -100,7 +133,9 @@ function CashTable() {
   return (
     <>
       <Table
-        headerComponent={() => <Button>Voltar</Button>}
+        headerComponent={() => (
+          <Button onClick={() => navigate(-1)}>Voltar</Button>
+        )}
         headerCells={["Venda", "Tipo", "Data", "Hora", "Valor", ""]}
         getRowProps={({ element, setSelectedId }) => ({
           onClick: () => setSelectedId(element.id),
@@ -135,6 +170,7 @@ function CashTable() {
                   alert(`Caixa fechado em: ${date}`);
                   exitCash();
                   setDate(null);
+                  navigate(-1);
                 }}
                 onCancel={() => setDate(null)}
               >
@@ -184,7 +220,7 @@ function CashTable() {
             </Button>
             {modalOpen === "Saida" && (
               <DialogBox
-                title="Adicionar Saida"
+                title="Adicionar Saída"
                 onConfirm={handleAddMovement}
                 onCancel={() => setModalOpen(false)}
                 methods={methods}
@@ -209,10 +245,12 @@ function CashTable() {
   );
 }
 
-export default function CashTableWrapper() {
+export default function CheckoutTableWrapper() {
+  const { id } = useParams();
+  const key = `movimentacao-${id}`;
   return (
-    <GenericContextProvider lSName="caixa">
-      <CashTable />
+    <GenericContextProvider lSName={key}>
+      <CheckoutTable />
     </GenericContextProvider>
   );
 }

@@ -8,7 +8,7 @@ import RegisterContract from "../pages/contract/Register";
 import Turma from "../pages/turma";
 import { GenericContextProvider } from "../contexts/GenericContext";
 import CheckoutTable from "../pages/checkout/Movement/CheckoutTable";
-
+import HistoryCheckout from "../pages/checkout/History/HistoryCheckout";
 // Aqui você pode adicionar as rotas do seu projeto
 // Você também pode adicionar rotas aninhadas e, se quiser, até dividir elas em arquivos diferentes
 // Exemplo: clientRoutes.js, adminRoutes.js, etc. Ai faz a importação e exporta tudo aqui
@@ -37,7 +37,8 @@ const AppRoutes = () => {
         <Route path="/turma" element={<Turma />} />
 
         <Route path="/caixa">
-          <Route index element={<CheckoutTable/>} />
+          <Route index element={<HistoryCheckout/>} />
+          <Route path="movimentacao/:id" element={<CheckoutTable/>} />
         </Route>
       </Routes>
     </BrowserRouter>
