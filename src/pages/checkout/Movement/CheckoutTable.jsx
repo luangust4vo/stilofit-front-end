@@ -84,12 +84,16 @@ function CheckoutTable() {
     }
 
     const history = JSON.parse(localStorage.getItem("historicoCaixa")) || [];
-    const cashbox = history.find((c) => c.id === Number(id));
-    if (cashbox) {
-      cashbox.horaFechamento = new Date().toLocaleTimeString();
-      cashbox.status = "fechado";
-      localStorage.setItem("historicoCaixa", JSON.stringify(history));
-    }
+    const updatedHistory = history.map((c) =>
+      c.id === Number(id)
+        ? {
+            ...c,
+            horaFechamento: new Date().toLocaleTimeString(),
+            status: "fechado",
+          }
+        : c
+    );
+    localStorage.setItem("historicoCaixa", JSON.stringify(updatedHistory));
   };
 
   const saveDateExit = () => {
