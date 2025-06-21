@@ -1,4 +1,4 @@
-// CashTableWrapper.jsx
+// CheckoutTableWrapper.jsx
 import Table from "../../../components/Table/Table";
 import {
   useGenericContext,
@@ -13,7 +13,7 @@ import { Button, MonetaryInput, DialogBox } from "../../../components";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
 
-function CashTable() {
+function CheckoutTable() {
   const [modalOpen, setModalOpen] = useState(false);
   const [typeMovement, setTypeMovement] = useState("dinheiro");
   const [value, setValue] = useState("");
@@ -241,12 +241,12 @@ function CashTable() {
   );
 }
 
-export default function CashTableWrapper() {
+export default function CheckoutTableWrapper() {
   const { id } = useParams();
   const key = `movimentacao-${id}`;
   return (
     <GenericContextProvider lSName={key}>
-      <CashTable />
+      <CheckoutTable />
     </GenericContextProvider>
   );
 }

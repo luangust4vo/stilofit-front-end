@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 import "./style.scss";
 
-function HistoryCash() {
+function HistoryCheckout() {
   const [showInput, setShowInput] = useState(false);
 
   const methods = useForm({
@@ -144,10 +144,10 @@ function HistoryCash() {
   );
 }
 
-export default function CashTableHistory() {
+export default function CheckoutTableHistory() {
   return (
     <GenericContextProvider lSName="historicoCaixa">
-      <HistoryCash />
+      <HistoryCheckout />
     </GenericContextProvider>
   );
 }
