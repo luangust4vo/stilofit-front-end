@@ -1,92 +1,105 @@
-import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Table from "../../../components/Table/Table";
+import { goRegistration, goEdit } from "../../../components/Table/Table";
+import { GenericContextProvider } from "../../../contexts/GenericContext";
+import InfoContract from "../infoClass";
 import { Button } from "../../../components";
-import Formulario from "../index"; // Importa o modal de cadastro
+
 import "./ListClass.scss";
 
-const ListClass = () => {
-  const [turmas, setTurmas] = useState([]);
-  const [search, setSearch] = useState("");
-  const [filteredTurmas, setFilteredTurmas] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
-
-  useEffect(() => {
-    const turmasStorage = JSON.parse(localStorage.getItem("turmas")) || [];
-    setTurmas(turmasStorage);
-  }, [openModal]); // Atualiza lista ao fechar modal
-
-  useEffect(() => {
-    let result = [...turmas];
-    if (search.trim() !== "") {
-      result = result.filter((turma) =>
-        turma.turma.toLowerCase().includes(search.toLowerCase())
-      );
-    }
-    result.sort((a, b) => a.turma.localeCompare(b.turma, "pt-BR"));
-    setFilteredTurmas(result);
-  }, [search, turmas]);
+function ListClass() {
+  const navigate = useNavigate();
+  const routeName = "listclass";
 
   return (
-    <div className="class-table-container">
-      <div className="table-header">
-        <input
-          className="field-search"
-          placeholder="Buscar turma..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <Button onClick={() => setOpenModal(true)}>Nova Turma</Button>
-      </div>
-      <table className="class-table">
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Vagas</th>
-            <th>Duração</th>
-            <th>Local</th>
-            <th>Cor</th>
-            <th>Observações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredTurmas.length > 0 ? (
-            filteredTurmas.map((turma, idx) => (
-              <tr key={idx}>
-                <td>{turma.turma}</td>
-                <td>{turma.vagas}</td>
-                <td>{turma.tempo}</td>
-                <td>{turma.local}</td>
-                <td>
-                  <span style={{
-                    display: "inline-block",
-                    width: 20,
-                    height: 20,
-                    background: turma.cor,
-                    borderRadius: "50%",
-                    border: "1px solid #ccc"
-                  }} />
-                </td>
-                <td>{turma.observacoes}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={6} style={{ textAlign: "center" }}>
-                Nenhuma turma encontrada.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-      {openModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <Formulario />
-            <Button onClick={() => setOpenModal(false)}>Fechar</Button>
-          </div>
-        </div>
-      )}
-    </div>
+    <GenericContextProvider lSName="listclass">
+      <Table
+        headerComponent={({ search, setSearch }) => (
+          <>
+            <div className="header-left"></div>
+            <div className="header-right">
+              <input
+                className="field-search"
+                placeholder="Buscar..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <i className="bi bi-funnel-fill"></i>
+              <Button
+                className="btn-icon-table"
+                onClick={() => goRegistration(navigate, routeName)}
+              >
+                Criar Turma
+                <i className="bi-plus"></i>
+              </Button>
+            </div>
+          </>
+        )}
+        headerCells={[
+          "Nome da Turma",
+          "Modalidade",
+          "Local",
+          "Vagas",
+          "Duração",
+          "",
+        ]}
+        getRowProps={({ element, setSelectedId }) => ({
+          onClick: () => {
+            setSelectedId(element.id);
+          },
+          style: { cursor: "pointer" },
+        })}
+        visualize={({ selectedId, setSelectedId }) =>
+          selectedId !== null && (
+            <div className="modal-overlay">
+              <div className="modal-content">
+                <InfoContract
+                  id={selectedId}
+                  onClose={() => setSelectedId(null)}
+                />
+              </div>
+            </div>
+          )
+        }
+      >
+        {(element) => (
+          <>
+            <td>{element.name}</td>
+            <td>
+              {"R$ " + Number(element.totalValue).toFixed(2).replace(".", ",")}
+            </td>
+            <td>{element.installments ? element.installments : "-"}</td>
+            <td>
+              {element.installmentsValue
+                ? "R$ " +
+                  Number(element.installmentsValue).toFixed(2).replace(".", ",")
+                : "-"}
+            </td>
+            <td>
+              {element.expire}
+              {element.typeExpire === "por Seção"
+                ? " aulas"
+                : element.typeExpire === "por Tempo"
+                ? " meses"
+                : ""}
+            </td>
+            <td className="buttons">
+              <Button
+                className="btn-icon-edit"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goEdit(navigate, routeName, element.id);
+                }}
+                title="Editar"
+              >
+                <i className="bi bi-pencil-fill bi-cell"></i>
+              </Button>
+            </td>
+          </>
+        )}
+      </Table>
+    </GenericContextProvider>
   );
-};
+}
 
 export default ListClass;
