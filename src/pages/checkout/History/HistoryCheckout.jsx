@@ -6,13 +6,16 @@ import {
 import { Button, MonetaryInput } from "../../../components";
 import { useForm, FormProvider } from "react-hook-form";
 import { useState, useEffect } from "react";
-import { DialogBox } from "../../../components";
+import { DialogBox, Select } from "../../../components";
 import { useNavigate } from "react-router-dom";
 
 import "./style.scss";
 
 function HistoryCheckout() {
   const [showInput, setShowInput] = useState(false);
+  const { storageObject, initializeStorageObject } = useGenericContext();
+  const [monthSelected, setMonthSelected] = useState(new Date().getMonth() + 1);
+  const [yearSelected, setYearSelected] = useState(new Date().getFullYear());
 
   const methods = useForm({
     defaultValues: {
@@ -21,6 +24,53 @@ function HistoryCheckout() {
   });
 
   const navigate = useNavigate();
+
+  const months = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro",
+  ];
+
+  const years = Array.from(
+    { length: 5 },
+    (_, i) => new Date().getFullYear() - i
+  );
+
+  useEffect(() => {
+    const fullHistory =
+      JSON.parse(localStorage.getItem("historicoCaixa")) || [];
+    initializeStorageObject(fullHistory);
+  }, [initializeStorageObject]);
+
+  useEffect(() => {
+    const fullHistory =
+      JSON.parse(localStorage.getItem("historicoCaixa")) || [];
+
+    const filtered = fullHistory
+      .filter((item) => {
+        if (!item.dataAbertura) return false;
+        const [day, month, year] = item.dataAbertura.split("/");
+        return (
+          parseInt(month) === monthSelected && parseInt(year) === yearSelected
+        );
+      })
+      .sort((a, b) => {
+        const dateA = new Date(a.dataAbertura.split("/").reverse().join("/"));
+        const dateB = new Date(b.dataAbertura.split("/").reverse().join("/"));
+        return dateB - dateA;
+      });
+
+    initializeStorageObject(filtered);
+  }, [monthSelected, yearSelected, initializeStorageObject]);
 
   useEffect(() => {
     if (!localStorage.getItem("funcionarioLogado")) {
@@ -40,7 +90,9 @@ function HistoryCheckout() {
   }
 
   function handleOpenNewCash(data) {
-    const loggedEmployee = JSON.parse(localStorage.getItem("funcionarioLogado"));
+    const loggedEmployee = JSON.parse(
+      localStorage.getItem("funcionarioLogado")
+    );
 
     if (!loggedEmployee || !loggedEmployee.id) {
       alert("Funcionário não logado!");
@@ -97,6 +149,30 @@ function HistoryCheckout() {
             <>
               <div></div>
               <div className="dialog-trigger-wrapper">
+                <Select
+                  id="select"
+                  name="mes"
+                  onChange={(e) => setMonthSelected(Number(e.target.value))}
+                  value={monthSelected}
+                >
+                  {months.map((month, index) => (
+                    <option key={index} value={index + 1}>
+                      {month}
+                    </option>
+                  ))}
+                </Select>
+                <Select
+                  id="select"
+                  name="ano"
+                  onChange={(e) => setYearSelected(Number(e.target.value))}
+                  value={yearSelected}
+                >
+                  {years.map((year) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </Select>
                 <Button type="button" onClick={() => setShowInput(true)}>
                   Abrir Caixa
                 </Button>
