@@ -9,10 +9,10 @@ import "./ListClass.scss";
 
 function ListClass() {
   const navigate = useNavigate();
-  const routeName = "listclass";
+  const routeName = "ListClass";
 
   return (
-    <GenericContextProvider lSName="listclass">
+    <GenericContextProvider lSName="ListClass">
       <Table
         headerComponent={({ search, setSearch }) => (
           <>
@@ -27,7 +27,7 @@ function ListClass() {
               <i className="bi bi-funnel-fill"></i>
               <Button
                 className="btn-icon-table"
-                onClick={() => goRegistration(navigate, routeName)}
+                onClick={() => navigate("/turma/nova")}
               >
                 Criar Turma
                 <i className="bi-plus"></i>
