@@ -13,7 +13,8 @@ import "./style.scss";
 
 function HistoryCheckout() {
   const [showInput, setShowInput] = useState(false);
-  const { storageObject, initializeStorageObject } = useGenericContext();
+  const { initializeStorageObject } = useGenericContext();
+  const [storageObject, setStorageObject] = useState([]);
   const [monthSelected, setMonthSelected] = useState(new Date().getMonth() + 1);
   const [yearSelected, setYearSelected] = useState(new Date().getFullYear());
 
@@ -44,7 +45,7 @@ function HistoryCheckout() {
     { length: 5 },
     (_, i) => new Date().getFullYear() - i
   );
-
+  
   useEffect(() => {
     const fullHistory =
       JSON.parse(localStorage.getItem("historicoCaixa")) || [];
@@ -54,24 +55,33 @@ function HistoryCheckout() {
   useEffect(() => {
     const fullHistory =
       JSON.parse(localStorage.getItem("historicoCaixa")) || [];
-
+  
+    const normalizeDate = (dateString) => {
+      const [day, month, year] = dateString.split("/");
+      return {
+        day: parseInt(day),
+        month: parseInt(month),
+        year: parseInt(year),
+      };
+    };
+  
     const filtered = fullHistory
       .filter((item) => {
         if (!item.dataAbertura) return false;
-        const [day, month, year] = item.dataAbertura.split("/");
-        return (
-          parseInt(month) === monthSelected && parseInt(year) === yearSelected
-        );
+        const { month, year } = normalizeDate(item.dataAbertura);
+        return month === monthSelected && year === yearSelected;
       })
       .sort((a, b) => {
-        const dateA = new Date(a.dataAbertura.split("/").reverse().join("/"));
-        const dateB = new Date(b.dataAbertura.split("/").reverse().join("/"));
-        return dateB - dateA;
+        const dateA = normalizeDate(a.dataAbertura);
+        const dateB = normalizeDate(b.dataAbertura);
+        return new Date(dateB.year, dateB.month - 1, dateB.day) -
+               new Date(dateA.year, dateA.month - 1, dateA.day);
       });
-
+  
+    console.log("Dados filtrados e ordenados:", filtered);
     initializeStorageObject(filtered);
   }, [monthSelected, yearSelected, initializeStorageObject]);
-
+  
   useEffect(() => {
     if (!localStorage.getItem("funcionarioLogado")) {
       localStorage.setItem(
@@ -159,7 +169,11 @@ function HistoryCheckout() {
                 <Select
                   id="select"
                   name="mes"
-                  onChange={(e) => setMonthSelected(Number(e.target.value))}
+                  onChange={(e) => {
+                    const value = Number(e.target.value);
+                    console.log("Mês selecionado:", value); // Adicione um log para verificar
+                    setMonthSelected(value);
+                  }}
                   value={monthSelected}
                 >
                   {months.map((month, index) => (
@@ -171,7 +185,11 @@ function HistoryCheckout() {
                 <Select
                   id="select"
                   name="ano"
-                  onChange={(e) => setYearSelected(Number(e.target.value))}
+                  onChange={(e) => {
+                    const value = Number(e.target.value);
+                    console.log("Ano selecionado:", value); // Adicione um log para verificar
+                    setYearSelected(value);
+                  }}
                   value={yearSelected}
                 >
                   {years.map((year) => (
@@ -209,18 +227,25 @@ function HistoryCheckout() {
             "",
           ]}
         >
-          {(element) => (
-            <>
-              <td>{element.dataAbertura}</td>
-              <td>{element.horaAbertura}</td>
-              <td>{element.horaFechamento || "-"}</td>
-              <td>{element.responsavel}</td>
-              <td>{element.status}</td>
-              <td>
-                <Button>Ver</Button>
-              </td>
-            </>
-          )}
+          {(element) => {
+            console.log("Elemento renderizado:", element); // Verifique os elementos renderizados
+            return (
+              <>
+                <td>{element.dataAbertura}</td>
+                <td>{element.horaAbertura}</td>
+                <td>{element.horaFechamento || "-"}</td>
+                <td>{element.responsavel}</td>
+                <td>{element.status}</td>
+                <td>
+                  <Button
+                    onClick={() => navigate(`movimentacao/${element.id}`)}
+                  >
+                    Ver
+                  </Button>
+                </td>
+              </>
+            );
+          }}
         </Table>
       </form>
     </FormProvider>
