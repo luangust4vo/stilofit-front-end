@@ -118,6 +118,13 @@ function HistoryCheckout() {
     };
 
     const history = JSON.parse(localStorage.getItem("historicoCaixa")) || [];
+    const existingOpenCash = history.some((item) => item.status === "Aberto");
+    if (existingOpenCash) {
+      alert(
+        "Já existe um caixa aberto. Feche o caixa atual antes de abrir um novo."
+      );
+      return;
+    }
     history.push(newCashRegister);
     localStorage.setItem("historicoCaixa", JSON.stringify(history));
 
