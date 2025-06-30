@@ -46,12 +46,17 @@ const GenericContextProvider = ({ lSName, children }) => {
     [lSName]
   );
 
+  const setContextStorageObject = useCallback((data) => {
+    setStorageObject(data); 
+  }, []);
+
   const contextValue = {
     storageObject,
     addStorageObject,
     updateStorageObject,
     getStorageObjectById,
     initializeStorageObject,
+    setContextStorageObject,
   };
 
   return (

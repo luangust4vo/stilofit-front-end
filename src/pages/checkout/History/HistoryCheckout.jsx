@@ -5,7 +5,7 @@ import {
 } from "../../../contexts/GenericContext";
 import { Button, MonetaryInput } from "../../../components";
 import { useForm, FormProvider } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { DialogBox, Select } from "../../../components";
 import { useNavigate } from "react-router-dom";
 
@@ -13,8 +13,7 @@ import "./style.scss";
 
 function HistoryCheckout() {
   const [showInput, setShowInput] = useState(false);
-  const { initializeStorageObject } = useGenericContext();
-  const [storageObject, setStorageObject] = useState([]);
+  const { storageObject, initializeStorageObject } = useGenericContext();
   const [monthSelected, setMonthSelected] = useState(new Date().getMonth() + 1);
   const [yearSelected, setYearSelected] = useState(new Date().getFullYear());
 
@@ -47,16 +46,11 @@ function HistoryCheckout() {
   );
   
   useEffect(() => {
-    const fullHistory =
-      JSON.parse(localStorage.getItem("historicoCaixa")) || [];
-    initializeStorageObject(fullHistory);
+    initializeStorageObject(JSON.parse(localStorage.getItem("historicoCaixa")) || []);
   }, [initializeStorageObject]);
-
-  useEffect(() => {
-    const fullHistory =
-      JSON.parse(localStorage.getItem("historicoCaixa")) || [];
   
     const normalizeDate = (dateString) => {
+      if (!dateString) return { day: 1, month: 1, year: 2025};
       const [day, month, year] = dateString.split("/");
       return {
         day: parseInt(day),
@@ -65,22 +59,37 @@ function HistoryCheckout() {
       };
     };
   
-    const filtered = fullHistory
-      .filter((item) => {
-        if (!item.dataAbertura) return false;
-        const { month, year } = normalizeDate(item.dataAbertura);
-        return month === monthSelected && year === yearSelected;
-      })
-      .sort((a, b) => {
-        const dateA = normalizeDate(a.dataAbertura);
-        const dateB = normalizeDate(b.dataAbertura);
-        return new Date(dateB.year, dateB.month - 1, dateB.day) -
-               new Date(dateA.year, dateA.month - 1, dateA.day);
-      });
+    const normalizeTime = (timeString) => {
+      const parts = timeString.split(":");
+      const hours = parseInt(parts[0]);
+      const minutes = parseInt(parts[1]);
+      const seconds = parseInt(parts[2] || "0"); 
+      return hours * 3600 + minutes * 60 + seconds; 
+    };
+
+    const filteredAndSortedCashHistory = useMemo(() => {
+      console.log("Recalculando dados filtrados e ordenados...");
+      return storageObject
+        .filter((item) => {
+          return item.dataAbertura && item.horaAbertura;
+        })
+        .sort((a, b) => {
+          const dateA = normalizeDate(a.dataAbertura);
+          const dateB = normalizeDate(b.dataApertura);
+          const fullDateA = new Date(dateA.year, dateA.month - 1, dateA.day);
+          const fullDateB = new Date(dateB.year, dateB.month - 1, dateB.day);
   
-    console.log("Dados filtrados e ordenados:", filtered);
-    initializeStorageObject(filtered);
-  }, [monthSelected, yearSelected, initializeStorageObject]);
+          // Ordem decrescente por data (mais recente primeiro)
+          if (fullDateA.getTime() !== fullDateB.getTime()) {
+            return fullDateB.getTime() - fullDateA.getTime();
+          }
+  
+          // Se as datas são iguais, ordem decrescente por hora (mais recente primeiro)
+          const timeA = normalizeTime(a.horaAbertura);
+          const timeB = normalizeTime(b.horaAbertura);
+          return timeB - timeA;
+        });
+    }, [storageObject, monthSelected, yearSelected]);
   
   useEffect(() => {
     if (!localStorage.getItem("funcionarioLogado")) {
@@ -122,7 +131,7 @@ function HistoryCheckout() {
       dataAbertura: openDate,
       horaAbertura: openTime,
       horaFechamento: null,
-      status: "aberto",
+      status: "Aberto",
       trocoInicial: initialCash,
       movimentacoes: [],
     };
@@ -226,6 +235,7 @@ function HistoryCheckout() {
             "Status",
             "",
           ]}
+          data={filteredAndSortedCashHistory}
         >
           {(element) => {
             console.log("Elemento renderizado:", element); // Verifique os elementos renderizados

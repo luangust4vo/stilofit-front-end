@@ -25,6 +25,7 @@ function Table({
   getRowProps, // propriedades para quando clica em uma linha
   visualize, // caso haja um modal
   children, // formatação de linha
+  data,
 }) {
   const { storageObject } = useGenericContext();
   const [filteredElements, setfilteredElements] = useState([]);
@@ -32,10 +33,10 @@ function Table({
   const [offset, setOffset] = useState(0);
   const limit = 30;
   const [selectedId, setSelectedId] = useState(null);
-
+  const dataSource = data || storageObject;
   // Função para pesquisa de registro
   useEffect(() => {
-    let result = [...storageObject];
+    let result = [...dataSource];
     if (search.trim() !== "") {
       result = result.filter((element) =>
         element.name.toLowerCase().includes(search.toLowerCase())
@@ -43,7 +44,7 @@ function Table({
     }
     result.sort((a, b) => (a.name || "").localeCompare(b.name || "", "pt-BR"));
     setfilteredElements(result.slice(0, offset + limit));
-  }, [search, storageObject, offset]);
+  }, [search, dataSource, offset]);
 
   // Função para Scroll
   useEffect(() => {
@@ -51,14 +52,14 @@ function Table({
       const table = document.querySelector(".table-container");
       if (!table) return;
       if (window.innerHeight + window.scrollY >= table.offsetHeight - 100) {
-        if (filteredElements.length < storageObject.length) {
+        if (filteredElements.length < dataSource.length) {
           handleLoadMore();
         }
       }
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [filteredElements, storageObject]);
+  }, [filteredElements, dataSource]);
   const handleLoadMore = () => {
     setOffset((prev) => prev + limit);
   };
