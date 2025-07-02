@@ -71,20 +71,20 @@ function HistoryCheckout() {
       console.log("Recalculando dados filtrados e ordenados...");
       return storageObject
         .filter((item) => {
-          return item.dataAbertura && item.horaAbertura;
+          if(!item.dataAbertura || !item.horaAbertura) return false;
+            const { month, year } = normalizeDate(item.dataAbertura);
+            return month === monthSelected && year === yearSelected;
         })
         .sort((a, b) => {
           const dateA = normalizeDate(a.dataAbertura);
-          const dateB = normalizeDate(b.dataApertura);
+          const dateB = normalizeDate(b.dataAbertura);
           const fullDateA = new Date(dateA.year, dateA.month - 1, dateA.day);
           const fullDateB = new Date(dateB.year, dateB.month - 1, dateB.day);
   
-          // Ordem decrescente por data (mais recente primeiro)
           if (fullDateA.getTime() !== fullDateB.getTime()) {
             return fullDateB.getTime() - fullDateA.getTime();
           }
   
-          // Se as datas são iguais, ordem decrescente por hora (mais recente primeiro)
           const timeA = normalizeTime(a.horaAbertura);
           const timeB = normalizeTime(b.horaAbertura);
           return timeB - timeA;
