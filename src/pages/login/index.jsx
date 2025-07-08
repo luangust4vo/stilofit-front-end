@@ -17,7 +17,10 @@ export default function Login() {
 
   const { handleSubmit } = methods;
 
-  const onSubmit = (data) => {};
+  const onSubmit = (data) => {
+    console.log(data);
+    navigate("/");
+  };
 
   return (
     <div className="login-wrapper">
