@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Table from "../../../components/Table/Table";
 import { goRegistration, goEdit } from "../../../components/Table/Table";
@@ -10,9 +11,13 @@ import "./ListClass.scss";
 function ListClass() {
   const navigate = useNavigate();
   const routeName = "ListClass";
-
+  const [turmas, setTurmas] = useState([]);
+  useEffect(() => {
+    const turmasSalvas = JSON.parse(localStorage.getItem("turmas")) || [];
+    setTurmas(turmasSalvas);
+  }, []);
   return (
-    <GenericContextProvider lSName="ListClass">
+    <GenericContextProvider lSName="ListClass" data={turmas}>
       <Table
         headerComponent={({ search, setSearch }) => (
           <>
@@ -37,10 +42,10 @@ function ListClass() {
         )}
         headerCells={[
           "Nome da Turma",
-          "Modalidade",
           "Local",
           "Vagas",
           "Duração",
+          "Observações",
           "",
         ]}
         getRowProps={({ element, setSelectedId }) => ({
@@ -61,34 +66,21 @@ function ListClass() {
             </div>
           )
         }
+        data={turmas}
       >
         {(element) => (
           <>
-            <td>{element.name}</td>
-            <td>
-              {"R$ " + Number(element.totalValue).toFixed(2).replace(".", ",")}
-            </td>
-            <td>{element.installments ? element.installments : "-"}</td>
-            <td>
-              {element.installmentsValue
-                ? "R$ " +
-                  Number(element.installmentsValue).toFixed(2).replace(".", ",")
-                : "-"}
-            </td>
-            <td>
-              {element.expire}
-              {element.typeExpire === "por Seção"
-                ? " aulas"
-                : element.typeExpire === "por Tempo"
-                ? " meses"
-                : ""}
-            </td>
+             <td>{element.turma}</td>
+            <td>{element.local}</td>
+            <td>{element.vagas}</td>
+            <td>{element.tempo}</td>
+            <td>{element.observacoes || "-"}</td>
             <td className="buttons">
               <Button
                 className="btn-icon-edit"
                 onClick={(e) => {
                   e.stopPropagation();
-                  goEdit(navigate, routeName, element.id);
+                  goEdit(navigate, routeName, element.id); 
                 }}
                 title="Editar"
               >

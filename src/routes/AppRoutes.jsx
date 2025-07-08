@@ -37,6 +37,7 @@ const AppRoutes = () => {
         <Route path="/turma" element={<Turma />} >
           <Route index element={<ListClass />} />
           <Route path="nova" element={<Formulario />} />
+          <ToastContainer />
         </Route>
       </Routes>
     </BrowserRouter >

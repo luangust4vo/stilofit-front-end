@@ -1,6 +1,8 @@
 import { useForm, FormProvider, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import './index.scss';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 import { validationSchemaTurma } from '../../../utils/validation';
 import ColorPicker from '../../../components/selecaoCores';
 import { Input, Select, Textarea, Button } from "../../../components";
@@ -16,7 +18,7 @@ function Formulario() {
       tempo: '',
       local: '',
       observacoes: '',
-      cor: '#000000', // cor padrão
+      cor: '#000000', 
     },
   });
 
@@ -27,6 +29,7 @@ function Formulario() {
     console.log("Dados recebidos pelo formulário:", data);
 
     const novaTurma = {
+      id: Date.now(),
       turma: data.turma,
       vagas: data.vagas,
       tempo: `${data.tempo} minutos`,
@@ -69,6 +72,31 @@ function Formulario() {
       </FormProvider>
     </div>
   );
+  import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const onSubmit = (data) => {
+  const novaTurma = {
+    id: Date.now(),
+    turma: data.turma,
+    vagas: data.vagas,
+    tempo: `${data.tempo} minutos`,
+    local: data.local,
+    observacoes: data.observacoes,
+    cor: data.cor,
+  };
+
+  try {
+    const turmasSalvas = JSON.parse(localStorage.getItem('turmas')) || [];
+    turmasSalvas.push(novaTurma);
+    localStorage.setItem('turmas', JSON.stringify(turmasSalvas));
+    toast.success('Turma cadastrada com sucesso!');
+  } catch (e) {
+    console.error("Erro ao salvar turma:", e);
+    toast.error('Erro ao salvar turma!');
+  }
+};
+
 }
 
 export default Formulario;
