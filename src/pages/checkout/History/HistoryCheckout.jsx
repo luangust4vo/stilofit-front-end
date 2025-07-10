@@ -175,8 +175,8 @@ function HistoryCheckout() {
               <div></div>
               <div className="dialog-trigger-wrapper">
                 <Select
-                  id="select"
-                  name="mes"
+                  id="select-mes"
+                  name="select-mes"
                   onChange={(e) => {
                     const value = Number(e.target.value);
                     setMonthSelected(value);
@@ -190,8 +190,8 @@ function HistoryCheckout() {
                   ))}
                 </Select>
                 <Select
-                  id="select"
-                  name="ano"
+                  id="select-ano"
+                  name="select-ano"
                   onChange={(e) => {
                     const value = Number(e.target.value);
                     setYearSelected(value);
