@@ -50,7 +50,7 @@ function HistoryCheckout() {
   }, [initializeStorageObject]);
   
     const normalizeDate = (dateString) => {
-      if (!dateString) return { day: 1, month: 1, year: 2025};
+      if (!dateString) return { day: 1, month: 1, year: new Date().getFullYear()};
       const [day, month, year] = dateString.split("/");
       return {
         day: parseInt(day),
@@ -68,7 +68,6 @@ function HistoryCheckout() {
     };
 
     const filteredAndSortedCashHistory = useMemo(() => {
-      console.log("Recalculando dados filtrados e ordenados...");
       return storageObject
         .filter((item) => {
           if(!item.dataAbertura || !item.horaAbertura) return false;
@@ -180,7 +179,6 @@ function HistoryCheckout() {
                   name="mes"
                   onChange={(e) => {
                     const value = Number(e.target.value);
-                    console.log("Mês selecionado:", value); // Adicione um log para verificar
                     setMonthSelected(value);
                   }}
                   value={monthSelected}
@@ -196,7 +194,6 @@ function HistoryCheckout() {
                   name="ano"
                   onChange={(e) => {
                     const value = Number(e.target.value);
-                    console.log("Ano selecionado:", value); // Adicione um log para verificar
                     setYearSelected(value);
                   }}
                   value={yearSelected}
@@ -238,7 +235,6 @@ function HistoryCheckout() {
           data={filteredAndSortedCashHistory}
         >
           {(element) => {
-            console.log("Elemento renderizado:", element); // Verifique os elementos renderizados
             return (
               <>
                 <td>{element.dataAbertura}</td>
