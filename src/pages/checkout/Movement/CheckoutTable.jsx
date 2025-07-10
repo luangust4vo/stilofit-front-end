@@ -134,7 +134,7 @@ function CheckoutTable() {
     <>
       <Table
         headerComponent={() => (
-          <Button onClick={() => navigate(-1)}>Voltar</Button>
+          <Button onClick={() => navigate('/caixa')}>Voltar</Button>
         )}
         headerCells={["Venda", "Tipo", "Data", "Hora", "Valor", ""]}
         getRowProps={({ element, setSelectedId }) => ({
