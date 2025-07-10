@@ -27,14 +27,20 @@ const ListClient = ({ onClientSelect }) => {
   };
 
   useEffect(() => {
-    if (search.trim() === "") {
-      setFilteredClients(storageObject);
-    } else {
-      const result = storageObject.filter((client) =>
+    let result = [...storageObject]; 
+    if (search.trim() !== "") {
+      result = result.filter((client) =>
         client.name.toLowerCase().includes(search.toLowerCase())
       );
-      setFilteredClients(result);
     }
+    result.sort((a, b) => {
+      const nameA = a.name ? a.name.toLowerCase() : "";
+      const nameB = b.name ? b.name.toLowerCase() : "";
+      return nameA.localeCompare(nameB);
+    });
+
+    setFilteredClients(result);
+    setOffset(0); 
   }, [search, storageObject]);
 
   useEffect(() => {
@@ -77,7 +83,7 @@ const ListClient = ({ onClientSelect }) => {
       </div>
 
       <div className="scroller">
-        {(search ? filteredClients : storageObject).map((client) => (
+        {filteredClients.slice(0, offset + limit).map((client) => (
           <div
             className="user"
             key={client.id}
