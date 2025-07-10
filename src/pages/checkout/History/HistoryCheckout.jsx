@@ -50,7 +50,7 @@ function HistoryCheckout() {
   }, [initializeStorageObject]);
   
     const normalizeDate = (dateString) => {
-      if (!dateString) return { day: 1, month: 1, year: 2025};
+      if (!dateString) return { day: 1, month: 1, year: new Date().getFullYear()};
       const [day, month, year] = dateString.split("/");
       return {
         day: parseInt(day),
@@ -68,7 +68,6 @@ function HistoryCheckout() {
     };
 
     const filteredAndSortedCashHistory = useMemo(() => {
-      console.log("Recalculando dados filtrados e ordenados...");
       return storageObject
         .filter((item) => {
           if(!item.dataAbertura || !item.horaAbertura) return false;
