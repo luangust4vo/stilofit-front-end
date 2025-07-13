@@ -1,6 +1,6 @@
 import { useForm, FormProvider, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { validationSchemaTurma } from '../../utils/validation';
+import { classValidationSchema } from '../../schemas/classValidationSchema';
 import { Input, Select, Textarea, Button, ColorPicker } from "../../components";
 
 import './styles.scss';
@@ -9,7 +9,7 @@ const locaisPredefinidos = ['Sala 101', 'Laboratório 2', 'Auditório'];
 
 const Class = () => {
   const methods = useForm({
-    resolver: yupResolver(validationSchemaTurma),
+    resolver: yupResolver(classValidationSchema),
     defaultValues: {
       turma: '',
       vagas: '',
