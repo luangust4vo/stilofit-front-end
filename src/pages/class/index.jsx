@@ -7,7 +7,7 @@ import './styles.scss';
 
 const locaisPredefinidos = ['Sala 101', 'Laboratório 2', 'Auditório'];
 
-function Formulario() {
+const Class = () => {
   const methods = useForm({
     resolver: yupResolver(validationSchemaTurma),
     defaultValues: {
@@ -39,7 +39,7 @@ function Formulario() {
       const turmasSalvas = JSON.parse(localStorage.getItem('turmas')) || [];
       turmasSalvas.push(novaTurma);
       localStorage.setItem('turmas', JSON.stringify(turmasSalvas));
-      
+
       toast.success('Turma cadastrada com sucesso!');
     } catch (e) {
       console.error("Erro ao salvar turma:", e);
@@ -71,4 +71,4 @@ function Formulario() {
   );
 }
 
-export default Formulario;
+export default Class;
