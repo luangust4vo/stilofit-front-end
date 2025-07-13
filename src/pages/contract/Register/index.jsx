@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { contractValidationSchema } from "../../../schemas/contractSchema";
 import {
   Button,
@@ -202,7 +202,6 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
             <Button>{initialData ? "Atualizar" : "Salvar"}</Button>
           </form>
         </FormProvider>
-        <ToastContainer position="top-right" autoClose={3000} />
       </main>
     </div>
   );

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { clientValidationSchema } from "../../../schemas/clientSchema";
 import { fetchAddressByCEP } from "../../../services/viaCep";
 import { MaskedInput, Button, Input, Textarea, Select } from "../../../components";
@@ -199,7 +199,6 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
             <Button>{initialData ? "Atualizar" : "Salvar"}</Button>
           </form>
         </FormProvider>
-        <ToastContainer position="top-right" autoClose={3000} />
       </main>
     </div>
   );
