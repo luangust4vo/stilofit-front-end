@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -12,14 +12,15 @@ import {
   MonetaryInput,
   MultiSelect,
 } from "../../../components";
-import { useContract } from "../../../contexts/ContractContext";
+import {
+  GenericContextProvider,
+  useGenericContext,
+} from "../../../contexts/GenericContext";
 
 import "./styles.scss";
 import "react-toastify/dist/ReactToastify.css";
 
 const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
-  console.log("teste", initialData);
-
   const navigate = useNavigate();
 
   const methods = useForm({
@@ -28,8 +29,7 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   });
 
   const { handleSubmit, setValue, watch, reset } = methods;
-  const { addContract, updateContract } = useContract();
-
+  const { addStorageObject, updateStorageObject } = useGenericContext();
   const installmentable = watch("installmentable");
   const typeExpire = watch("typeExpire");
 
@@ -58,29 +58,37 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   }, []);
 
   const prepareData = (data) => {
+    const installments = data.installments ? Number(data.installments) : "";
+    const totalValue = data.totalValue
+      ? Number(
+          String(data.totalValue)
+            .replace("R$ ", "")
+            .replace(/\./g, "")
+            .replace(",", ".")
+        )
+      : "";
+    const installmentsValue =
+      installments && totalValue
+        ? Number((totalValue / installments).toFixed(2))
+        : "";
     const parsedData = {
       ...data,
       status: data.status || "",
       template: data.template || "",
       installmentable: data.installmentable || "",
-      installments: data.installments ? Number(data.installments) : "",
-      totalValue: data.totalValue
-        ? Number(
-            String(data.totalValue)
-              .replace("R$ ", "")
-              .replace(/\./g, "")
-              .replace(",", ".")
-          )
-        : "",
+      installments,
+      totalValue,
+      installmentsValue,
       expire: data.expire ? Number(data.expire) : "",
       classRoms: Array.isArray(data.classRoms)
         ? data.classRoms
         : data.classRoms
-          ? [data.classRoms]
-          : [],
+        ? [data.classRoms]
+        : [],
       timeMin: data.timeMin || "",
       timeMax: data.timeMax || "",
       weekdays: Array.isArray(data.weekdays) ? data.weekdays : [],
+      installmentsValue: totalValue / installments || "",
     };
     return parsedData;
   };
@@ -94,14 +102,14 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
     }
 
     if (initialData && initialData.id) {
-      updateContract(initialData.id, parsedData);
+      updateStorageObject(initialData.id, parsedData);
       toast.success("Contrato atualizado!");
-       navigate("/contrato");
+      //navigate("/contrato");
     } else {
-      addContract(parsedData);
+      addStorageObject(parsedData);
       toast.success("Contrato cadastrado!");
       reset();
-      navigate("/contrato");
+      //navigate("/contrato");
     }
   };
 
@@ -111,7 +119,7 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
         <i className="bi bi-arrow-left"></i>
         Voltar
       </Button>
-      
+
       <main className="form">
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -200,4 +208,8 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   );
 };
 
-export default RegisterContract;
+export default (props) => (
+  <GenericContextProvider lSName="contratos">
+    <RegisterContract {...props} />
+  </GenericContextProvider>
+);

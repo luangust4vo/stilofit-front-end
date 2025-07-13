@@ -41,7 +41,7 @@ function Table({
         element.name.toLowerCase().includes(search.toLowerCase())
       );
     }
-    result.sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
+    result.sort((a, b) => (a.name || "").localeCompare(b.name || "", "pt-BR"));
     setfilteredElements(result.slice(0, offset + limit));
   }, [search, storageObject, offset]);
 
@@ -82,7 +82,9 @@ function Table({
           {filteredElements.map((element) => (
             <tr
               key={element.id}
-              {...(getRowProps ? getRowProps({ element, selectedId, setSelectedId }) : {})}
+              {...(getRowProps
+                ? getRowProps({ element, selectedId, setSelectedId })
+                : {})}
             >
               {typeof children === "function" ? children(element) : children}
             </tr>

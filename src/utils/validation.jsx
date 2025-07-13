@@ -43,26 +43,41 @@ const validationSchemaContract = yup.object().shape({
   typeExpire: yup.string().required("Tipo de Validade é obrigatório"),
   expire: yup
     .number()
-    .typeError("Limite da Validade é obrigatório")
+    .typeError("A validade deve ser um número")
+    .integer("O número de parcelas deve ser inteiro")
     .required("Limite da Validade é obrigatório")
-    .min(1, "Valor deve ser maior ou igual a 1"),
+    .min(1, "A Validade deve ser um número positivo, maior ou igual a 1"),
+  installments: yup
+    .number()
+    .nullable()
+    .transform((value, originalValue) => (originalValue === "" ? null : value))
+    .integer("O número de parcelas deve ser inteiro")
+    .min(1, "O número de parcelas deve ser positivo, maior ou igual a 1")
+    .typeError("O número de parcelas deve ser um número"),
 });
 
 const validationSchemaTurma = yup.object().shape({
-  turma: yup.string().required('Nome da turma é obrigatório'),
-  vagas: yup.number()
-    .typeError('Deve ser um número')
-    .required('Número de vagas é obrigatório')
-    .positive('Deve ser positivo')
-    .integer('Deve ser inteiro'),
-  tempo: yup.number()
-    .typeError('Informe a duração em minutos')
-    .required('Duração é obrigatória')
-    .positive('Deve ser um número positivo')
-    .integer('A duração deve ser em minutos inteiros'),
-  local: yup.string().required('Local da aula é obrigatório'),
-  observacoes: yup.string().max(300, 'Máximo de 300 caracteres'),
-  cor: yup.string().required('Selecione uma cor'),
+  turma: yup.string().required("Nome da turma é obrigatório"),
+  vagas: yup
+    .number()
+    .typeError("Deve ser um número")
+    .required("Número de vagas é obrigatório")
+    .positive("Deve ser positivo")
+    .integer("Deve ser inteiro"),
+  tempo: yup
+    .number()
+    .typeError("Informe a duração em minutos")
+    .required("Duração é obrigatória")
+    .positive("Deve ser um número positivo")
+    .integer("A duração deve ser em minutos inteiros"),
+  local: yup.string().required("Local da aula é obrigatório"),
+  observacoes: yup.string().max(300, "Máximo de 300 caracteres"),
+  cor: yup.string().required("Selecione uma cor"),
 });
 
-export { fetchAddressByCEP, validationSchema, validationSchemaContract,validationSchemaTurma };
+export {
+  fetchAddressByCEP,
+  validationSchema,
+  validationSchemaContract,
+  validationSchemaTurma,
+};

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useClient } from "../../../contexts/ClientContext";
+import { useGenericContext } from "../../../contexts/GenericContext";
 
 import "./styles.scss";
 
 const ListClient = ({ onClientSelect }) => {
   const [expanded, setExpanded] = React.useState(false);
-  const { clients, loadMoreClients } = useClient();
+  const { storageObject } = useGenericContext();
   const [filteredClients, setFilteredClients] = useState([]);
   const [search, setSearch] = useState("");
   const [offset, setOffset] = useState(0);
@@ -28,14 +28,14 @@ const ListClient = ({ onClientSelect }) => {
 
   useEffect(() => {
     if (search.trim() === "") {
-      setFilteredClients(clients);
+      setFilteredClients(storageObject);
     } else {
-      const result = clients.filter((client) =>
+      const result = storageObject.filter((client) =>
         client.name.toLowerCase().includes(search.toLowerCase())
       );
       setFilteredClients(result);
     }
-  }, [search, clients]);
+  }, [search, storageObject]);
 
   useEffect(() => {
     const scroller = document.querySelector(".scroller");
@@ -77,7 +77,7 @@ const ListClient = ({ onClientSelect }) => {
       </div>
 
       <div className="scroller">
-        {(search ? filteredClients : clients).map((client) => (
+        {(search ? filteredClients : storageObject).map((client) => (
           <div
             className="user"
             key={client.id}
