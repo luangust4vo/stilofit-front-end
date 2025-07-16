@@ -75,9 +75,15 @@ const validationSchemaTurma = yup.object().shape({
   cor: yup.string().required("Selecione uma cor"),
 });
 
+const validationSchemaLogin = yup.object().shape({
+  email: yup.string().required("E-mail é necessário").email("E-mail inválido"),
+  password: yup.string().required("Senha é necessária"),
+});
+
 export {
   fetchAddressByCEP,
   validationSchema,
   validationSchemaContract,
   validationSchemaTurma,
+  validationSchemaLogin,
 };
