@@ -39,7 +39,7 @@ export default function Login() {
               <div className="div-caps">
                 {capsLockAtivo && <p className="msg-caps">CapsLock ATIVADO</p>}
               </div>
-              <Button className="button">Entrar</Button>
+              <Button className="button" aria-label="Entrar">Entrar</Button>
             </form>
           </FormProvider>
         </div>

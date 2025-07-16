@@ -24,6 +24,7 @@ const LoginInput = ({ name, label, ...rest }) => {
         {...register(name)}
         value={value || ""}
         placeholder={label}
+        aria-label={label}
         {...rest}
         className="input-login"
       />
