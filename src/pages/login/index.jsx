@@ -18,7 +18,6 @@ export default function Login() {
   const { handleSubmit } = methods;
 
   const onSubmit = (data) => {
-    console.log(data);
     navigate("/");
   };
 
@@ -30,16 +29,10 @@ export default function Login() {
           <img src={xLogo} alt="logo" className="logo" />
           <FormProvider {...methods}>
             <form className="form" onSubmit={handleSubmit(onSubmit)}>
+              <InputSimple name="email" label="Email" required />
               <InputSimple
-                className="input"
-                name="email"
-                placeholder="Email"
-                required
-              />
-              <InputSimple
-                className="input"
                 name="password"
-                placeholder="Senha"
+                label="Senha"
                 type="password"
                 required
               />

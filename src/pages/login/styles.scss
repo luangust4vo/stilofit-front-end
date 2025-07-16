@@ -45,27 +45,9 @@
     width: 100%;
 
     .form-group {
-      height: 4.4rem;
-      margin-bottom: 0.4rem;
-
-      label {
-        margin-bottom: 0;
-        //height: ;
-
-        span {
-          margin-left: 0;
-        }
-      }
-    }
-
-    .input {
-      font-size: 16px;
-      width: 100%;
-      padding: 10px;
-      border: none;
-      background-color: #ccc;
-      color: #333;
-      border-radius: 4px;
+      height: 4rem;
+      margin-top: 1rem;
+      margin-bottom: 0;
     }
 
     .button {
