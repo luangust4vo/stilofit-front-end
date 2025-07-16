@@ -37,11 +37,7 @@ export default function Login() {
                 required
               />
               <div className="div-caps">
-                {capsLockAtivo ? (
-                  <p className="msg-caps">CapsLock ATIVADO</p>
-                ) : (
-                  <></>
-                )}
+                {capsLockAtivo && <p className="msg-caps">CapsLock ATIVADO</p>}
               </div>
               <Button className="button">Entrar</Button>
             </form>

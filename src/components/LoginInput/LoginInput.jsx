@@ -3,7 +3,7 @@ import classNames from "classnames";
 
 import "./styles.scss";
 
-const InputSimple = ({ name, label, ...rest }) => {
+const LoginInput = ({ name, label, ...rest }) => {
   const {
     register,
     formState: { errors },
@@ -34,4 +34,4 @@ const InputSimple = ({ name, label, ...rest }) => {
   );
 };
 
-export default InputSimple;
+export default LoginInput;
