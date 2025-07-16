@@ -5,7 +5,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useKeyPressed from "../../hooks/useKeyPressed";
 import { useNavigate } from "react-router-dom";
-import { InputSimple, Button } from "../../components";
+import { LoginInput, Button } from "../../components";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -29,8 +29,8 @@ export default function Login() {
           <img src={xLogo} alt="logo" className="logo" />
           <FormProvider {...methods}>
             <form className="form" onSubmit={handleSubmit(onSubmit)}>
-              <InputSimple name="email" label="Email" required />
-              <InputSimple
+              <LoginInput name="email" label="Email" required />
+              <LoginInput
                 name="password"
                 label="Senha"
                 type="password"
