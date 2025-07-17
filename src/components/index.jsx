@@ -8,3 +8,4 @@ export { default as CheckboxPanel } from "./CheckboxPanel";
 export { default as MonetaryInput } from "./MonetaryInput";
 export { default as MultiSelect } from "./MultiSelect";
 export { default as DialogBox } from "./DialogBox";
+export { default as ColorPicker } from "./ColorPicker";

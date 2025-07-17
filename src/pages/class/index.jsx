@@ -1,6 +1,6 @@
 import { useForm, FormProvider, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { classValidationSchema } from '../../schemas/classValidationSchema';
+import { classValidationSchema } from '../../schemas';
 import { Input, Select, Textarea, Button, ColorPicker } from "../../components";
 
 import './styles.scss';

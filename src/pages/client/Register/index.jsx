@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
-import { clientValidationSchema } from "../../../schemas/clientSchema";
+import { clientValidationSchema } from "../../../schemas";
 import { fetchAddressByCEP } from "../../../services/viaCep";
 import { MaskedInput, Button, Input, Textarea, Select } from "../../../components";
 import { useGenericContext } from "../../../contexts/GenericContext";
