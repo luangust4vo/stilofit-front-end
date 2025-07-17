@@ -88,7 +88,6 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
       timeMin: data.timeMin || "",
       timeMax: data.timeMax || "",
       weekdays: Array.isArray(data.weekdays) ? data.weekdays : [],
-      installmentsValue: totalValue / installments || "",
     };
     return parsedData;
   };
