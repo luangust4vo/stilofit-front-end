@@ -8,14 +8,35 @@
   box-shadow: 0 2px 8px #0002;
 }
 
+.menu-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  padding: 0 2rem;
+}
+
+.menu-left {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.logo-menu {
+  height: 40px;
+  width: auto;
+}
+
 .menu-list {
   display: flex;
   flex-direction: row;
   align-items: center;
   margin: 0;
-  padding: 0 2rem;
-  height: 60px;
+  padding: 0;
+  height: 100%;
   list-style: none;
+  flex: 1;
+  justify-content: center;
 }
 
 .menu-item {
@@ -71,4 +92,16 @@
   background: #ffeb3b;
   color: #1a237e;
   font-weight: 600;
+}
+
+.menu-right {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.photo-user {
+  font-size: 2rem;
+  color: #fff;
+  margin-left: 1rem;
 }

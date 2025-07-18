@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./styles.scss";
 import { Link } from "react-router-dom";
+import logo from "../../assets/x_fundo.png";
 
 const menuOptions = [
   {
@@ -44,27 +45,35 @@ const Menu = () => {
 
   return (
     <nav className="menu">
-      <ul className="menu-list">
-        {menuOptions.map((option, idx) => (
-          <li
-            key={option.label}
-            className="menu-item"
-            onMouseEnter={() => setActiveIndex(idx)}
-            onMouseLeave={() => setActiveIndex(null)}
-          >
-            <span className="menu-label">{option.label}</span>
-            {activeIndex === idx && (
-              <ul className="submenu">
-                {option.submenu.map((sub) => (
-                  <li key={sub.label} className="submenu-item">
-                    <Link to={sub.to}>{sub.label}</Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
-        ))}
-      </ul>
+      <div className="menu-content">
+        <div className="menu-left">
+          <img src={logo} alt="Logo" className="logo-menu" />
+        </div>
+        <ul className="menu-list">
+          {menuOptions.map((option, idx) => (
+            <li
+              key={option.label}
+              className="menu-item"
+              onMouseEnter={() => setActiveIndex(idx)}
+              onMouseLeave={() => setActiveIndex(null)}
+            >
+              <span className="menu-label">{option.label}</span>
+              {activeIndex === idx && (
+                <ul className="submenu">
+                  {option.submenu.map((sub) => (
+                    <li key={sub.label} className="submenu-item">
+                      <Link to={sub.to}>{sub.label}</Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+        <div className="menu-right">
+          <i className="bi bi-person-fill photo-user"></i>
+        </div>
+      </div>
     </nav>
   );
 };
