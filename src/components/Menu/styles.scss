@@ -43,12 +43,9 @@
 
 .menu-item {
   position: relative;
-  //margin-right: 2.5rem;
-  //height: 50px;
   display: flex;
   align-items: flex-end;
-  min-width: 180px; // 150px
-  //justify-content: center;
+  min-width: 180px;
   cursor: pointer;
   border-radius: 4px 4px 4px 4px;
   margin-bottom: 6px;
@@ -64,7 +61,6 @@
 }
 
 .menu-item:hover {
-  // menu-label:hover
   background: #26328c;
 }
 
@@ -76,7 +72,7 @@
   min-width: 180px;
   box-shadow: 0 4px 12px #0002;
   border-radius: 0 0 10px 10px;
-  padding: 0; // 0.5rem 0
+  padding: 0;
   list-style: none;
   margin: 0;
 }
@@ -93,7 +89,6 @@
   font-size: 1rem;
   transition: background 0.2s, color 0.2s;
   font-weight: 500;
-  //border-radius: 0 0 10px 10px;
 }
 
 .submenu-item a:hover {
@@ -123,7 +118,7 @@
 }
 
 .menu-item.active {
-  background: #323fa6; //4351b7
+  background: #323fa6;
   border-radius: 8px 8px 0 0;
   box-shadow: 0 2px 8px #0001;
   transition: background 0.2s, color 0.2s;
