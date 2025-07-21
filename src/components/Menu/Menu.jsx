@@ -63,7 +63,7 @@ const Menu = () => {
           {menuOptions.map((option, idx) => (
             <li
               key={option.label}
-              className="menu-item"
+              className={`menu-item${activeIndex === idx ? " active" : ""}`}
               onClick={() => setActiveIndex(activeIndex === idx ? null : idx)}
             >
               <span className="menu-label">{option.label}</span>

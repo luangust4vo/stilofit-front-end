@@ -25,6 +25,7 @@
 .logo-menu {
   height: 40px;
   width: auto;
+  border-radius: 4px;
 }
 
 .menu-list {
@@ -49,7 +50,8 @@
   min-width: 180px; // 150px
   //justify-content: center;
   cursor: pointer;
-  border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 4px 4px;
+  margin-bottom: 6px;
 }
 
 .menu-label {
@@ -90,6 +92,7 @@
   text-decoration: none;
   font-size: 1rem;
   transition: background 0.2s, color 0.2s;
+  font-weight: 500;
   //border-radius: 0 0 10px 10px;
 }
 
@@ -117,4 +120,11 @@
 
 .with-menu {
   padding-top: 60px;
+}
+
+.menu-item.active {
+  background: #323fa6; //4351b7
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 2px 8px #0001;
+  transition: background 0.2s, color 0.2s;
 }
