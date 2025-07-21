@@ -99,11 +99,8 @@
   font-weight: 600;
 }
 
-.submenu:last-child a {
+.submenu-item:last-child a {
   border-radius: 0 0 10px 10px;
-  :hover {
-    border-radius: 0 0 10px 10px;
-  }
 }
 
 .menu-right {
