@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./styles.scss";
 import { Link } from "react-router-dom";
 import logo from "../../assets/x_fundo.png";
@@ -43,8 +43,18 @@ const menuOptions = [
 const Menu = () => {
   const [activeIndex, setActiveIndex] = useState(null);
 
+  useEffect(() => {
+    const handleClickOutside = () => setActiveIndex(null);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
+
+  const handleMenuClick = (e) => {
+    e.stopPropagation();
+  };
+
   return (
-    <nav className="menu">
+    <nav className="menu" onClick={handleMenuClick}>
       <div className="menu-content">
         <div className="menu-left">
           <img src={logo} alt="Logo" className="logo-menu" />
@@ -54,8 +64,7 @@ const Menu = () => {
             <li
               key={option.label}
               className="menu-item"
-              onMouseEnter={() => setActiveIndex(idx)}
-              onMouseLeave={() => setActiveIndex(null)}
+              onClick={() => setActiveIndex(activeIndex === idx ? null : idx)}
             >
               <span className="menu-label">{option.label}</span>
               {activeIndex === idx && (
