@@ -119,21 +119,21 @@ const Menu = () => {
               onClick={() => setShowUserDialog(true)}
             ></i>
           )}
+          {showUserDialog && (
+            <UserDialogBox>
+              <div onClick={handleUserDialogClick}>
+                <ul className="submenu user-submenu">
+                  <li className="submenu-item">
+                    <Link to={"/dados"}>Dados</Link>
+                  </li>
+                  <li className="submenu-item">
+                    <Link>Sair</Link>
+                  </li>
+                </ul>
+              </div>
+            </UserDialogBox>
+          )}
         </div>
-        {showUserDialog && (
-          <UserDialogBox>
-            <div onClick={handleUserDialogClick}>
-              <ul className="submenu">
-                <li className="submenu-item">
-                  <Link to={"/dados"}>Dados</Link>
-                </li>
-                <li className="submenu-item">
-                  <Link>Sair</Link>
-                </li>
-              </ul>
-            </div>
-          </UserDialogBox>
-        )}
       </div>
     </nav>
   );
