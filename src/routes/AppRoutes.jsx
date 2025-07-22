@@ -6,6 +6,7 @@ import InfoContract from "../pages/contract/Info";
 import EditContract from "../pages/contract/Register/EditContract";
 import RegisterContract from "../pages/contract/Register";
 import Turma from "../pages/turma";
+import RegistroFuncionario from "../pages/employees/register"
 import { GenericContextProvider } from "../contexts/GenericContext";
 import CheckoutTable from "../pages/checkout/Movement/CheckoutTable";
 import HistoryCheckout from "../pages/checkout/History/HistoryCheckout";
@@ -39,6 +40,9 @@ const AppRoutes = () => {
         <Route path="/caixa">
           <Route index element={<HistoryCheckout/>} />
           <Route path="movimentacao/:id" element={<CheckoutTable/>} />
+        </Route>
+        <Route path="/funcionario">
+          <Route index element={<RegistroFuncionario />} />
         </Route>
       </Routes>
     </BrowserRouter>
