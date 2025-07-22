@@ -143,7 +143,7 @@ i.bi-person-fill {
 
 .menu-modal-overlay {
   position: absolute;
-  top: 72px; // ajuste para ficar logo abaixo do ícone (44px ícone + 12px margem)
+  top: 72px;
   right: -1rem;
   min-width: 182px;
   height: 100px;
@@ -158,7 +158,6 @@ i.bi-person-fill {
   position: relative;
   background: #fff;
   border: 1px solid vars.$icon-color;
-  //padding: 1rem;
   border-radius: 10px;
   box-shadow: 0 4px 12px #0002;
   width: 100%;
@@ -166,15 +165,12 @@ i.bi-person-fill {
   &::after {
     content: "";
     position: absolute;
-    top: -20px;
+    top: -40px;
     right: 52px;
     transform: translateX(50%);
-    border-width: 20px 20px 20px 20px;
+    border-width: 20px;
     border-style: solid;
-    border-color: vars.$icon-color transparent transparent transparent;
-    width: 0;
-    height: 0;
-    z-index: 1;
+    border-color: transparent transparent vars.$icon-color transparent;
   }
 }
 
