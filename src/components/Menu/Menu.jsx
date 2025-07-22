@@ -47,21 +47,13 @@ const userSubmenu = [
 ];
 
 const Menu = () => {
-  const [activeIndex, setActiveIndex] = useState(null);
-  const [showUserDialog, setShowUserDialog] = useState(false);
+  const [activeMenu, setActiveMenu] = useState(null);
 
   useEffect(() => {
-    const handleClickOutside = () => setActiveIndex(null);
+    const handleClickOutside = () => setActiveMenu(null);
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
-
-  useEffect(() => {
-    if (!showUserDialog) return;
-    const handleClickOutsideUser = () => setShowUserDialog(false);
-    document.addEventListener("click", handleClickOutsideUser);
-    return () => document.removeEventListener("click", handleClickOutsideUser);
-  }, [showUserDialog]);
 
   const handleMenuClick = (e) => {
     e.stopPropagation();
@@ -89,11 +81,11 @@ const Menu = () => {
           {menuOptions.map((option, idx) => (
             <li
               key={option.label}
-              className={`menu-item${activeIndex === idx ? " active" : ""}`}
-              onClick={() => setActiveIndex(activeIndex === idx ? null : idx)}
+              className={`menu-item${activeMenu === idx ? " active" : ""}`}
+              onClick={() => setActiveMenu(activeMenu === idx ? null : idx)}
             >
               <span className="menu-label">{option.label}</span>
-              {activeIndex === idx && (
+              {activeMenu === idx && (
                 <ul className="submenu">
                   {option.submenu.map((sub) => (
                     <li key={sub.label} className="submenu-item">
@@ -111,15 +103,19 @@ const Menu = () => {
               className="photo-user"
               src={worker.photo}
               alt="foto"
-              onClick={() => setShowUserDialog(true)}
+              onClick={() =>
+                setActiveMenu(activeMenu === "user" ? null : "user")
+              }
             />
           ) : (
             <i
               className="bi bi-person-fill photo-user"
-              onClick={() => setShowUserDialog(true)}
+              onClick={() =>
+                setActiveMenu(activeMenu === "user" ? null : "user")
+              }
             ></i>
           )}
-          {showUserDialog && (
+          {activeMenu === "user" && (
             <UserDialogBox>
               <div onClick={handleUserDialogClick}>
                 <ul className="submenu user-submenu">

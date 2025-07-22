@@ -177,6 +177,7 @@ i.bi-person-fill {
     border-width: 20px;
     border-style: solid;
     border-color: transparent transparent #323fa6 transparent;
+    pointer-events: none;
   }
 }
 
@@ -185,7 +186,7 @@ i.bi-person-fill {
   top: 0;
   border-radius: 10px;
   box-shadow: none;
-  
+
   .submenu-item:first-child a {
     border-radius: 10px 10px 0 0;
   }
