@@ -43,7 +43,7 @@ const menuOptions = [
 
 const userSubmenu = [
   { label: "Dados", to: "/dados" },
-  { label: "Sair", to: "/sair" },
+  { label: "Sair", to: "" },
 ];
 
 const Menu = () => {
@@ -123,12 +123,11 @@ const Menu = () => {
             <UserDialogBox>
               <div onClick={handleUserDialogClick}>
                 <ul className="submenu user-submenu">
-                  <li className="submenu-item">
-                    <Link to={"/dados"}>Dados</Link>
-                  </li>
-                  <li className="submenu-item">
-                    <Link>Sair</Link>
-                  </li>
+                  {userSubmenu.map((sub) => (
+                    <li key={sub.label} className="submenu-item">
+                      <Link to={sub.to}>{sub.label}</Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </UserDialogBox>

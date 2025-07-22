@@ -50,7 +50,7 @@
   align-items: flex-end;
   min-width: 180px;
   cursor: pointer;
-  border-radius: 4px 4px 4px 4px;
+  border-radius: 10px;
   margin-bottom: 6px;
 }
 
@@ -127,7 +127,7 @@
 
 i.bi-person-fill {
   font-size: 32px;
-  color: vars.$icon-color;
+  color: #757575;
 }
 
 .with-menu {
@@ -136,7 +136,7 @@ i.bi-person-fill {
 
 .menu-item.active {
   background: #323fa6;
-  border-radius: 8px 8px 0 0;
+  border-radius: 10px 10px 0 0;
   box-shadow: 0 2px 8px #0001;
   transition: background 0.2s, color 0.2s;
 }
@@ -151,7 +151,7 @@ i.bi-person-fill {
   z-index: 9999;
   display: flex;
   justify-content: flex-end;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.557);
+  box-shadow: 0 4px 12px #0002;
   border-radius: 10px;
 }
 
