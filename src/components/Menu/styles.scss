@@ -1,3 +1,5 @@
+@use "../../styles/vars.scss" as vars;
+
 .menu {
   width: 100vw;
   background: #1a237e;
@@ -13,13 +15,14 @@
   align-items: center;
   justify-content: space-between;
   height: 60px;
-  padding: 0 2rem;
+  padding: 0 2rem 0 1rem;
 }
 
 .menu-left {
   display: flex;
   align-items: center;
   height: 100%;
+  padding: 0 1rem;
 }
 
 .logo-menu {
@@ -33,7 +36,7 @@
   flex-direction: row;
   align-items: flex-end;
   margin: 0;
-  padding: 0;
+  padding: 0 1rem;
   height: 100%;
   list-style: none;
   flex: 1;
@@ -105,12 +108,25 @@
   display: flex;
   align-items: center;
   height: 100%;
+  padding: 0 1rem;
 }
 
 .photo-user {
-  font-size: 2rem;
-  color: #fff;
-  margin-left: 1rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: vars.$user-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+i.bi-person-fill {
+  font-size: 32px;
+  color: vars.$icon-color;
 }
 
 .with-menu {

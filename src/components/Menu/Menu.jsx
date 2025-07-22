@@ -40,6 +40,11 @@ const menuOptions = [
   },
 ];
 
+const userSubmenu = [
+  { label: "Dados", to: "/dados" },
+  { label: "Sair", to: "/sair" },
+];
+
 const Menu = () => {
   const [activeIndex, setActiveIndex] = useState(null);
 
@@ -52,6 +57,14 @@ const Menu = () => {
   const handleMenuClick = (e) => {
     e.stopPropagation();
   };
+
+  const [worker, setWorker] = useState({});
+  useEffect(() => {
+    const workerStorage = sessionStorage.getItem("funcionario-logado");
+    if (workerStorage) {
+      setWorker(JSON.parse(workerStorage));
+    }
+  }, []);
 
   return (
     <nav className="menu" onClick={handleMenuClick}>
@@ -80,7 +93,11 @@ const Menu = () => {
           ))}
         </ul>
         <div className="menu-right">
-          <i className="bi bi-person-fill photo-user"></i>
+          {worker.photo ? (
+            <img className="photo-user" src={worker.photo} alt="foto" />
+          ) : (
+            <i className="bi bi-person-fill photo-user"></i>
+          )}
         </div>
       </div>
     </nav>
