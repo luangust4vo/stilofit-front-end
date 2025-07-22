@@ -109,6 +109,7 @@
   align-items: center;
   height: 100%;
   padding: 0 1rem;
+  position: "relative";
 }
 
 .photo-user {
@@ -138,4 +139,39 @@ i.bi-person-fill {
   border-radius: 8px 8px 0 0;
   box-shadow: 0 2px 8px #0001;
   transition: background 0.2s, color 0.2s;
+}
+
+.menu-modal-overlay {
+  position: absolute;
+  top: 72px; // ajuste para ficar logo abaixo do ícone (44px ícone + 12px margem)
+  right: 1rem;
+  width: 180px;
+  background: none;
+  z-index: 9999;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.menu-modal {
+  position: relative;
+  background: #fff;
+  border: 1px solid vars.$icon-color;
+  //padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px #0002;
+  width: 100%;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: -20px;
+    right: 52px;
+    transform: translateX(50%);
+    border-width: 20px 20px 20px 20px;
+    border-style: solid;
+    border-color: vars.$icon-color transparent transparent transparent;
+    width: 0;
+    height: 0;
+    z-index: 1;
+  }
 }

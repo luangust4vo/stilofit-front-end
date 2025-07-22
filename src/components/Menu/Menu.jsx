@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "./styles.scss";
 import { Link } from "react-router-dom";
 import logo from "../../assets/x_fundo.png";
+import UserDialogBox from "./UserDialogBox.jsx";
 
 const menuOptions = [
   {
@@ -47,6 +48,7 @@ const userSubmenu = [
 
 const Menu = () => {
   const [activeIndex, setActiveIndex] = useState(null);
+  const [showUserDialog, setShowUserDialog] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = () => setActiveIndex(null);
@@ -54,7 +56,18 @@ const Menu = () => {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (!showUserDialog) return;
+    const handleClickOutsideUser = () => setShowUserDialog(false);
+    document.addEventListener("click", handleClickOutsideUser);
+    return () => document.removeEventListener("click", handleClickOutsideUser);
+  }, [showUserDialog]);
+
   const handleMenuClick = (e) => {
+    e.stopPropagation();
+  };
+
+  const handleUserDialogClick = (e) => {
     e.stopPropagation();
   };
 
@@ -94,11 +107,33 @@ const Menu = () => {
         </ul>
         <div className="menu-right">
           {worker.photo ? (
-            <img className="photo-user" src={worker.photo} alt="foto" />
+            <img
+              className="photo-user"
+              src={worker.photo}
+              alt="foto"
+              onClick={() => setShowUserDialog(true)}
+            />
           ) : (
-            <i className="bi bi-person-fill photo-user"></i>
+            <i
+              className="bi bi-person-fill photo-user"
+              onClick={() => setShowUserDialog(true)}
+            ></i>
           )}
         </div>
+        {showUserDialog && (
+          <UserDialogBox>
+            <div onClick={handleUserDialogClick}>
+              <ul className="submenu">
+                <li className="submenu-item">
+                  <Link to={"/dados"}>Dados</Link>
+                </li>
+                <li className="submenu-item">
+                  <Link>Sair</Link>
+                </li>
+              </ul>
+            </div>
+          </UserDialogBox>
+        )}
       </div>
     </nav>
   );
