@@ -15,7 +15,7 @@
   align-items: center;
   justify-content: space-between;
   height: 60px;
-  padding: 0 2rem 0 1rem;
+  padding: 0 1rem 0 0;
 }
 
 .menu-left {
@@ -52,6 +52,7 @@
   cursor: pointer;
   border-radius: 10px;
   margin-bottom: 6px;
+  justify-content: center;
 }
 
 .menu-label {
@@ -171,12 +172,12 @@ i.bi-person-fill {
   &::after {
     content: "";
     position: absolute;
-    top: -40px;
+    top: -24px;
     right: 52px;
     transform: translateX(50%);
-    border-width: 20px;
+    border-width: 12px 20px;
     border-style: solid;
-    border-color: transparent transparent vars.$menu-active transparent;
+    border-color: transparent transparent #323fa6 transparent;
     pointer-events: none;
   }
 }

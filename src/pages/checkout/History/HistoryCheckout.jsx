@@ -3,7 +3,7 @@ import {
   useGenericContext,
   GenericContextProvider,
 } from "../../../contexts/GenericContext";
-import { Button, MonetaryInput } from "../../../components";
+import { Button, LayoutMenu, MonetaryInput } from "../../../components";
 import { useForm, FormProvider } from "react-hook-form";
 import { useState, useEffect, useMemo } from "react";
 import { DialogBox, Select } from "../../../components";
@@ -44,52 +44,55 @@ function HistoryCheckout() {
     { length: 5 },
     (_, i) => new Date().getFullYear() - i
   );
-  
-  useEffect(() => {
-    initializeStorageObject(JSON.parse(localStorage.getItem("historicoCaixa")) || []);
-  }, [initializeStorageObject]);
-  
-    const normalizeDate = (dateString) => {
-      if (!dateString) return { day: 1, month: 1, year: new Date().getFullYear()};
-      const [day, month, year] = dateString.split("/");
-      return {
-        day: parseInt(day),
-        month: parseInt(month),
-        year: parseInt(year),
-      };
-    };
-  
-    const normalizeTime = (timeString) => {
-      const parts = timeString.split(":");
-      const hours = parseInt(parts[0]);
-      const minutes = parseInt(parts[1]);
-      const seconds = parseInt(parts[2] || "0"); 
-      return hours * 3600 + minutes * 60 + seconds; 
-    };
 
-    const filteredAndSortedCashHistory = useMemo(() => {
-      return storageObject
-        .filter((item) => {
-          if(!item.dataAbertura || !item.horaAbertura) return false;
-            const { month, year } = normalizeDate(item.dataAbertura);
-            return month === monthSelected && year === yearSelected;
-        })
-        .sort((a, b) => {
-          const dateA = normalizeDate(a.dataAbertura);
-          const dateB = normalizeDate(b.dataAbertura);
-          const fullDateA = new Date(dateA.year, dateA.month - 1, dateA.day);
-          const fullDateB = new Date(dateB.year, dateB.month - 1, dateB.day);
-  
-          if (fullDateA.getTime() !== fullDateB.getTime()) {
-            return fullDateB.getTime() - fullDateA.getTime();
-          }
-  
-          const timeA = normalizeTime(a.horaAbertura);
-          const timeB = normalizeTime(b.horaAbertura);
-          return timeB - timeA;
-        });
-    }, [storageObject, monthSelected, yearSelected]);
-  
+  useEffect(() => {
+    initializeStorageObject(
+      JSON.parse(localStorage.getItem("historicoCaixa")) || []
+    );
+  }, [initializeStorageObject]);
+
+  const normalizeDate = (dateString) => {
+    if (!dateString)
+      return { day: 1, month: 1, year: new Date().getFullYear() };
+    const [day, month, year] = dateString.split("/");
+    return {
+      day: parseInt(day),
+      month: parseInt(month),
+      year: parseInt(year),
+    };
+  };
+
+  const normalizeTime = (timeString) => {
+    const parts = timeString.split(":");
+    const hours = parseInt(parts[0]);
+    const minutes = parseInt(parts[1]);
+    const seconds = parseInt(parts[2] || "0");
+    return hours * 3600 + minutes * 60 + seconds;
+  };
+
+  const filteredAndSortedCashHistory = useMemo(() => {
+    return storageObject
+      .filter((item) => {
+        if (!item.dataAbertura || !item.horaAbertura) return false;
+        const { month, year } = normalizeDate(item.dataAbertura);
+        return month === monthSelected && year === yearSelected;
+      })
+      .sort((a, b) => {
+        const dateA = normalizeDate(a.dataAbertura);
+        const dateB = normalizeDate(b.dataAbertura);
+        const fullDateA = new Date(dateA.year, dateA.month - 1, dateA.day);
+        const fullDateB = new Date(dateB.year, dateB.month - 1, dateB.day);
+
+        if (fullDateA.getTime() !== fullDateB.getTime()) {
+          return fullDateB.getTime() - fullDateA.getTime();
+        }
+
+        const timeA = normalizeTime(a.horaAbertura);
+        const timeB = normalizeTime(b.horaAbertura);
+        return timeB - timeA;
+      });
+  }, [storageObject, monthSelected, yearSelected]);
+
   useEffect(() => {
     if (!localStorage.getItem("funcionarioLogado")) {
       localStorage.setItem(
@@ -167,94 +170,96 @@ function HistoryCheckout() {
   }
 
   return (
-    <FormProvider {...methods}>
-      <form>
-        <Table
-          headerComponent={() => (
-            <>
-              <div></div>
-              <div className="dialog-trigger-wrapper">
-                <Select
-                  id="select-mes"
-                  name="select-mes"
-                  onChange={(e) => {
-                    const value = Number(e.target.value);
-                    setMonthSelected(value);
-                  }}
-                  value={monthSelected}
-                >
-                  {months.map((month, index) => (
-                    <option key={index} value={index + 1}>
-                      {month}
-                    </option>
-                  ))}
-                </Select>
-                <Select
-                  id="select-ano"
-                  name="select-ano"
-                  onChange={(e) => {
-                    const value = Number(e.target.value);
-                    setYearSelected(value);
-                  }}
-                  value={yearSelected}
-                >
-                  {years.map((year) => (
-                    <option key={year} value={year}>
-                      {year}
-                    </option>
-                  ))}
-                </Select>
-                <Button type="button" onClick={() => setShowInput(true)}>
-                  Abrir Caixa
-                </Button>
-                {showInput && (
-                  <DialogBox
-                    title="Abrir Novo Caixa"
-                    methods={methods}
-                    onConfirm={methods.handleSubmit(handleOpenNewCash)}
-                    onCancel={() => setShowInput(false)}
-                    dialogClassName="modal--history-cash"
-                  >
-                    <MonetaryInput
-                      placeholder="Informe o troco inicial"
-                      name="initialChange"
-                    />
-                  </DialogBox>
-                )}
-              </div>
-            </>
-          )}
-          headerCells={[
-            "Data",
-            "Hora Abertura",
-            "Hora Fechamento",
-            "Responsável",
-            "Status",
-            "",
-          ]}
-          data={filteredAndSortedCashHistory}
-        >
-          {(element) => {
-            return (
+    <LayoutMenu>
+      <FormProvider {...methods}>
+        <form>
+          <Table
+            headerComponent={() => (
               <>
-                <td>{element.dataAbertura}</td>
-                <td>{element.horaAbertura}</td>
-                <td>{element.horaFechamento || "-"}</td>
-                <td>{element.responsavel}</td>
-                <td>{element.status}</td>
-                <td>
-                  <Button
-                    onClick={() => navigate(`movimentacao/${element.id}`)}
+                <div></div>
+                <div className="dialog-trigger-wrapper">
+                  <Select
+                    id="select-mes"
+                    name="select-mes"
+                    onChange={(e) => {
+                      const value = Number(e.target.value);
+                      setMonthSelected(value);
+                    }}
+                    value={monthSelected}
                   >
-                    Ver
+                    {months.map((month, index) => (
+                      <option key={index} value={index + 1}>
+                        {month}
+                      </option>
+                    ))}
+                  </Select>
+                  <Select
+                    id="select-ano"
+                    name="select-ano"
+                    onChange={(e) => {
+                      const value = Number(e.target.value);
+                      setYearSelected(value);
+                    }}
+                    value={yearSelected}
+                  >
+                    {years.map((year) => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    ))}
+                  </Select>
+                  <Button type="button" onClick={() => setShowInput(true)}>
+                    Abrir Caixa
                   </Button>
-                </td>
+                  {showInput && (
+                    <DialogBox
+                      title="Abrir Novo Caixa"
+                      methods={methods}
+                      onConfirm={methods.handleSubmit(handleOpenNewCash)}
+                      onCancel={() => setShowInput(false)}
+                      dialogClassName="modal--history-cash"
+                    >
+                      <MonetaryInput
+                        placeholder="Informe o troco inicial"
+                        name="initialChange"
+                      />
+                    </DialogBox>
+                  )}
+                </div>
               </>
-            );
-          }}
-        </Table>
-      </form>
-    </FormProvider>
+            )}
+            headerCells={[
+              "Data",
+              "Hora Abertura",
+              "Hora Fechamento",
+              "Responsável",
+              "Status",
+              "",
+            ]}
+            data={filteredAndSortedCashHistory}
+          >
+            {(element) => {
+              return (
+                <>
+                  <td>{element.dataAbertura}</td>
+                  <td>{element.horaAbertura}</td>
+                  <td>{element.horaFechamento || "-"}</td>
+                  <td>{element.responsavel}</td>
+                  <td>{element.status}</td>
+                  <td>
+                    <Button
+                      onClick={() => navigate(`movimentacao/${element.id}`)}
+                    >
+                      Ver
+                    </Button>
+                  </td>
+                </>
+              );
+            }}
+          </Table>
+        </form>
+      </FormProvider>
+    </LayoutMenu>
   );
 }
 
