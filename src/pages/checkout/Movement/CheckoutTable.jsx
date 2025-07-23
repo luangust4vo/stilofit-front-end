@@ -71,24 +71,6 @@ function CheckoutTable() {
   };
 
   const exitCash = () => {
-    const changeCurrent = calculateCashBack(cash);
-
-    if (changeCurrent > 0) {
-      const exitFinal = {
-        venda: "Fechamento",
-        tipo: MovementType.DINHEIRO,
-        movement: "Saida",
-        data: new Date().toLocaleDateString("pt-BR"),
-        hora: new Date().toLocaleTimeString("pt-BR", {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-        valor: changeCurrent,
-      };
-
-      addStorageObject(exitFinal);
-    }
-
     const history = JSON.parse(localStorage.getItem("historicoCaixa")) || [];
     const updatedHistory = history.map((c) =>
       c.id === Number(id)
@@ -245,7 +227,7 @@ function CheckoutTable() {
         )}
         <div className="cash-table-summary">
           <p>Valor Total do Caixa: R$ {calculateTotalCash(cash).toFixed(2)}</p>
-          <p>Troco disponível: R$ {calculateCashBack(cash).toFixed(2)}</p>
+          <p>Troco disponível: R$ {isClosed ? "0,00" : calculateCashBack(cash).toFixed(2)}</p>
         </div>
       </div>
     </div>
