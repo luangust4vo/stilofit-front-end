@@ -1,10 +1,10 @@
 import { Route } from "react-router-dom";
-import CheckoutTable from "../pages/checkout/Movement/CheckoutTable";
+import CheckoutTableHistory from '../pages/checkout/History/HistoryCheckout';
 
 const CheckoutRoutes = () => {
     return (
         <Route path="/caixa">
-            <Route index element={<CheckoutTable />} />
+            <Route index element={<CheckoutTableHistory />} />
         </Route>
     );
 }
