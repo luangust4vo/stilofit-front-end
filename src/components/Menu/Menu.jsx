@@ -75,7 +75,9 @@ const Menu = () => {
     <nav className="menu" onClick={handleMenuClick}>
       <div className="menu-content">
         <div className="menu-left">
-          <img src={logo} alt="Logo" className="logo-menu" />
+          <Link to={"/"}>
+            <img src={logo} alt="Logo" className="logo-menu" />
+          </Link>
         </div>
         <ul className="menu-list">
           {menuOptions.map((option, idx) => (
