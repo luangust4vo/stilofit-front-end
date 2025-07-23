@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 function CheckoutTable() {
   const [modalOpen, setModalOpen] = useState(false);
   const [typeMovement, setTypeMovement] = useState("dinheiro");
+  const [isClosed, setIsClosed] = useState(false);
   const [value, setValue] = useState("");
   const [date, setDate] = useState();
   const [cash, setCash] = useState([]);
@@ -25,26 +26,31 @@ function CheckoutTable() {
   const { storageObject, initializeStorageObject, addStorageObject } =
     useGenericContext();
 
-    useEffect(() => {
-      if (!id) return;
-    
-      const storageKey = `movimentacao-${id}`;
-      const flagKey = `mock-injected-${id}`;
-    
-      const existing = JSON.parse(localStorage.getItem(storageKey)) || [];
-    
-      const alreadyInjected = localStorage.getItem(flagKey);
-    
-      if (!alreadyInjected) {
-        const merged = [...existing, ...movementCheckout];
-        localStorage.setItem(storageKey, JSON.stringify(merged));
-        localStorage.setItem(flagKey, "true"); // marca como injetado
-        initializeStorageObject(merged);
-      } else {
-        initializeStorageObject(existing);
-      }
-    }, [id, initializeStorageObject]);
-    
+  useEffect(() => {
+    if (!id) return;
+
+    const storageKey = `movimentacao-${id}`;
+    const flagKey = `mock-injected-${id}`;
+
+    const existing = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+    const alreadyInjected = localStorage.getItem(flagKey);
+
+    if (!alreadyInjected) {
+      const merged = [...existing, ...movementCheckout];
+      localStorage.setItem(storageKey, JSON.stringify(merged));
+      localStorage.setItem(flagKey, "true"); 
+      initializeStorageObject(merged);
+    } else {
+      initializeStorageObject(existing);
+    }
+
+    const historico = JSON.parse(localStorage.getItem("historicoCaixa")) || [];
+    const thisCaixa = historico.find((c) => c.id === Number(id));
+    if (thisCaixa?.status === "fechado") {
+      setIsClosed(true);
+    }
+  }, [id, initializeStorageObject]);
 
   useEffect(() => {
     setCash(storageObject || []);
@@ -131,10 +137,10 @@ function CheckoutTable() {
   };
 
   return (
-    <>
+    <div className="checkout-table-page">
       <Table
         headerComponent={() => (
-          <Button onClick={() => navigate('/caixa')}>Voltar</Button>
+          <Button onClick={() => navigate("/caixa")}>Voltar</Button>
         )}
         headerCells={["Venda", "Tipo", "Data", "Hora", "Valor", ""]}
         getRowProps={({ element, setSelectedId }) => ({
@@ -160,88 +166,89 @@ function CheckoutTable() {
       </Table>
 
       <div className="cash-table-actions">
-        <div className="cash-table-actions-info">
-          <div style={{ position: "relative" }}>
-            <Button onClick={saveDateExit}>Fechar</Button>
-            {date && (
-              <DialogBox
-                title="Fechar Caixa"
-                onConfirm={() => {
-                  alert(`Caixa fechado em: ${date}`);
-                  exitCash();
-                  setDate(null);
-                  navigate(-1);
+        {!isClosed && (
+          <div className="cash-table-actions-info">
+            <div style={{ position: "relative" }}>
+              <Button onClick={saveDateExit}>Fechar</Button>
+              {date && (
+                <DialogBox
+                  title="Fechar Caixa"
+                  onConfirm={() => {
+                    alert(`Caixa fechado em: ${date}`);
+                    exitCash();
+                    setDate(null);
+                    navigate(`/caixa`);
+                  }}
+                  onCancel={() => setDate(null)}
+                >
+                  <p className="cash-p">
+                    Certeza que gostaria de fechar o caixa?
+                  </p>
+                </DialogBox>
+              )}
+            </div>
+
+            <div style={{ position: "relative" }}>
+              <Button
+                id="add-movement-button"
+                onClick={() => {
+                  setTypeMovement(MovementType.DINHEIRO);
+                  setModalOpen("Entrada");
                 }}
-                onCancel={() => setDate(null)}
               >
-                <p className="cash-p">
-                  Certeza que gostaria de fechar o caixa?
-                </p>
-              </DialogBox>
-            )}
-          </div>
+                Entrada
+              </Button>
+              {modalOpen === "Entrada" && (
+                <DialogBox
+                  title="Adicionar Entrada"
+                  onConfirm={handleAddMovement}
+                  onCancel={() => setModalOpen(false)}
+                  methods={methods}
+                >
+                  <MonetaryInput
+                    placeholder="valor"
+                    name="valor"
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                  />
+                </DialogBox>
+              )}
+            </div>
 
-          <div style={{ position: "relative" }}>
-            <Button
-              id="add-movement-button"
-              onClick={() => {
-                setTypeMovement(MovementType.DINHEIRO);
-                setModalOpen("Entrada");
-              }}
-            >
-              Entrada
-            </Button>
-            {modalOpen === "Entrada" && (
-              <DialogBox
-                title="Adicionar Entrada"
-                onConfirm={handleAddMovement}
-                onCancel={() => setModalOpen(false)}
-                methods={methods}
+            <div style={{ position: "relative" }}>
+              <Button
+                id="add-movement-button-exit"
+                onClick={() => {
+                  setTypeMovement(MovementType.DINHEIRO);
+                  setModalOpen("Saida");
+                }}
               >
-                <MonetaryInput
-                  placeholder="valor"
-                  name="valor"
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
-                />
-              </DialogBox>
-            )}
+                Saída
+              </Button>
+              {modalOpen === "Saida" && (
+                <DialogBox
+                  title="Adicionar Saída"
+                  onConfirm={handleAddMovement}
+                  onCancel={() => setModalOpen(false)}
+                  methods={methods}
+                >
+                  <MonetaryInput
+                    placeholder="valor"
+                    name="valor"
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                  />
+                </DialogBox>
+              )}
+            </div>
           </div>
-
-          <div style={{ position: "relative" }}>
-            <Button
-              id="add-movement-button-exit"
-              onClick={() => {
-                setTypeMovement(MovementType.DINHEIRO);
-                setModalOpen("Saida");
-              }}
-            >
-              Saída
-            </Button>
-            {modalOpen === "Saida" && (
-              <DialogBox
-                title="Adicionar Saída"
-                onConfirm={handleAddMovement}
-                onCancel={() => setModalOpen(false)}
-                methods={methods}
-              >
-                <MonetaryInput
-                  placeholder="valor"
-                  name="valor"
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
-                />
-              </DialogBox>
-            )}
-          </div>
-        </div>
-
+        )}
         <div className="cash-table-summary">
           <p>Valor Total do Caixa: R$ {calculateTotalCash(cash).toFixed(2)}</p>
           <p>Troco disponível: R$ {calculateCashBack(cash).toFixed(2)}</p>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -250,7 +257,9 @@ export default function CheckoutTableWrapper() {
   const key = `movimentacao-${id}`;
   return (
     <GenericContextProvider lSName={key}>
-      <CheckoutTable />
+      <div className="checkout-table-page">
+        <CheckoutTable />
+      </div>
     </GenericContextProvider>
   );
 }
