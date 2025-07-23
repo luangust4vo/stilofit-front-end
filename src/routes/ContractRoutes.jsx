@@ -8,9 +8,9 @@ const ContractRoutes = () => {
     return (
         <Route path="/contrato">
             <Route index element={<ContractTable />} />
-            <Route path="info/:id" element={<InfoContract />} />
-            <Route path="editar/:id" element={<EditContract />} />
-            <Route path="registrar" element={<RegisterContract />} />
+            <Route path=":id" element={<InfoContract />} />
+            <Route path=":id/editar" element={<EditContract />} />
+            <Route path="novo" element={<RegisterContract />} />
         </Route>
     );
 }
