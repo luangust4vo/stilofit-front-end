@@ -1,8 +1,8 @@
 import { useForm, FormProvider, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import "./index.scss";
-import { validationSchemaTurma } from "../../utils/validation";
-import ColorPicker from "../../components/selecaoCores";
+import "./styles.scss";
+import { classValidationSchema } from "../../schemas/classSchema";
+import { ColorPicker } from "../../components";
 import { Input, Select, Textarea, Button, LayoutMenu } from "../../components";
 
 const locaisPredefinidos = ["Sala 101", "Laboratório 2", "Auditório"];
@@ -101,4 +101,4 @@ const Class = () => {
   );
 }
 
-export default Formulario;
+export default Class;

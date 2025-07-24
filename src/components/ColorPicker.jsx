@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { SketchPicker } from 'react-color';
 import { useController, useFormContext } from 'react-hook-form';
 
