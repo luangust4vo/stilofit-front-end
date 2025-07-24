@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import movementCheckout from "./MovementCheckout.json";
 import MovementType from "./MovementType";
-import { Button, MonetaryInput, DialogBox } from "../../../components";
+import { Button, MonetaryInput, DialogBox, LayoutMenu } from "../../../components";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
 
@@ -119,7 +119,8 @@ function CheckoutTable() {
   };
 
   return (
-    <div className="checkout-table-page">
+    <LayoutMenu>
+      <div className="checkout-table-page">
       <Table
         headerComponent={() => (
           <Button onClick={() => navigate("/caixa")}>Voltar</Button>
@@ -230,7 +231,9 @@ function CheckoutTable() {
           <p>Troco disponível: R$ {isClosed ? "0,00" : calculateCashBack(cash).toFixed(2)}</p>
         </div>
       </div>
-    </div>
+      </div>
+    </LayoutMenu>
+    
   );
 }
 

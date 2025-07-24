@@ -1,0 +1,194 @@
+@use "../../styles/vars.scss" as vars;
+
+.menu {
+  width: 100vw;
+  background: vars.$menu;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  box-shadow: 0 2px 8px #0002;
+}
+
+.menu-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  padding: 0 1rem 0 0;
+}
+
+.menu-left {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 1rem;
+}
+
+.logo-menu {
+  height: 40px;
+  width: auto;
+  border-radius: 4px;
+}
+
+.menu-list {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  margin: 0;
+  padding: 0 1rem;
+  height: 100%;
+  list-style: none;
+  flex: 1;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.menu-item {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-width: 180px;
+  cursor: pointer;
+  border-radius: 10px;
+  margin-bottom: 6px;
+  justify-content: center;
+}
+
+.menu-label {
+  color: vars.$menu-label;
+  font-size: 1.15rem;
+  font-weight: 500;
+  padding: 0.5rem 0.8rem;
+  transition: background 0.2s;
+  border-radius: 6px 6px 0 0;
+}
+
+.menu-item:hover {
+  background-color: vars.$menu-hover;
+}
+
+.submenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: vars.$submenu-background;
+  min-width: 180px;
+  box-shadow: 0 4px 12px #0002;
+  border-radius: 0 0 10px 10px;
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.submenu-item {
+  width: 100%;
+}
+
+.submenu-item a {
+  display: block;
+  color: vars.$menu;
+  padding: 0.7rem 1.2rem;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.2s, color 0.2s;
+  font-weight: 500;
+}
+
+.submenu-item a:hover {
+  background: vars.$submenu-hover;
+  color: vars.$menu;
+  font-weight: 600;
+}
+
+.submenu-item:last-child a {
+  border-radius: 0 0 10px 10px;
+}
+
+.menu-right {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 1rem;
+  position: relative;
+}
+
+.photo-user {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: vars.$user-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+i.bi-person-fill {
+  font-size: 32px;
+  color: vars.$user-fill-color;
+}
+
+.with-menu {
+  padding-top: 60px;
+}
+
+.menu-item.active {
+  background: vars.$menu-active;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 2px 8px #0001;
+  transition: background 0.2s, color 0.2s;
+}
+
+.menu-modal-overlay {
+  position: absolute;
+  top: 72px;
+  right: -16px;
+  min-width: auto;
+  height: auto;
+  background: none;
+  z-index: 9999;
+  display: flex;
+  justify-content: flex-end;
+  box-shadow: 0 4px 12px #0002;
+  border-radius: 10px;
+}
+
+.menu-modal {
+  position: relative;
+  background: #fff;
+  border: 1px solid vars.$menu-active;
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+
+  div {
+    width: auto;
+    height: auto;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: -24px;
+    right: 52px;
+    transform: translateX(50%);
+    border-width: 12px 20px;
+    border-style: solid;
+    border-color: transparent transparent #323fa6 transparent;
+    pointer-events: none;
+  }
+}
+
+.user-submenu {
+  position: relative;
+  top: 0;
+  border-radius: 10px;
+  box-shadow: none;
+
+  .submenu-item:first-child a {
+    border-radius: 10px 10px 0 0;
+  }
+}

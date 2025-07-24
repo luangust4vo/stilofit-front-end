@@ -1,18 +1,21 @@
+import { LayoutMenu } from "../../components";
 import ListClient from "./components/ListClient";
 import { Outlet } from "react-router-dom";
 
 // Cria aqui mesmo porque é algo simples para controlar o roteamento
 export const Layout = () => {
   return (
-    <div className="container">
-      <div className="list-container">
-        <ListClient />
-      </div>
+    <LayoutMenu>
+      <div className="container">
+        <div className="list-container">
+          <ListClient />
+        </div>
 
-      <div className="client-container">
-        <Outlet />
+        <div className="client-container">
+          <Outlet />
+        </div>
       </div>
-    </div>
+    </LayoutMenu>
   );
 };
 

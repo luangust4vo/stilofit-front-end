@@ -27,7 +27,7 @@ const ListClient = ({ onClientSelect }) => {
   };
 
   useEffect(() => {
-    let result = [...storageObject]; 
+    let result = [...storageObject];
     if (search.trim() !== "") {
       result = result.filter((client) =>
         client.name.toLowerCase().includes(search.toLowerCase())
@@ -40,24 +40,24 @@ const ListClient = ({ onClientSelect }) => {
     });
 
     setFilteredClients(result);
-    setOffset(0); 
+    setOffset(0);
   }, [search, storageObject]);
 
   useEffect(() => {
     const scroller = document.querySelector(".scroller");
     if (!scroller) return;
-  
+
     const handleScroll = () => {
-      const isBottom = scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight;
+      const isBottom =
+        scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight;
       if (isBottom) {
         setOffset((prev) => prev + limit);
       }
     };
-  
+
     scroller.addEventListener("scroll", handleScroll);
     return () => scroller.removeEventListener("scroll", handleScroll);
   }, [expanded]);
-  
 
   const handleLoadMore = () => {
     setOffset((prev) => prev + limit);

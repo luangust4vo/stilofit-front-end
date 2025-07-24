@@ -1,7 +1,7 @@
 @use "../../../styles/vars.scss" as vars;
 
 .table-container {
-  min-height: 100vh;
+  min-height: 91vh;
 }
 
 .dialog-trigger-wrapper {
@@ -20,7 +20,7 @@
 .modal--history-cash {
   position: absolute;
   top: calc(100% + 20px);
-  right: 0;
+  left: 45px;
   z-index: 10;
   background: #fff;
   border: 1px solid #ccc;
