@@ -66,6 +66,7 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
       return;
     }
 
+
     if (initialData && initialData.id) {
       updateStorageObject(initialData.id, data);
       toast.success("Cliente atualizado!");
@@ -102,6 +103,7 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
                 mask="000.000.000-00"
                 required
               />
+              <MaskedInput label="RG" name="rg" mask="00.000.000-0" />
               <MaskedInput label="RG" name="rg" mask="00.000.000-0" />
               <Select label="Estado Civil" name="maritalStatus">
                 <option value="">Selecione</option>

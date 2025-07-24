@@ -1,27 +1,30 @@
-import { useForm, FormProvider, useWatch } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { classValidationSchema } from '../../schemas';
-import { Input, Select, Textarea, Button, ColorPicker } from "../../components";
+import { useForm, FormProvider, useWatch } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import "./index.scss";
+import { validationSchemaTurma } from "../../utils/validation";
+import ColorPicker from "../../components/selecaoCores";
+import { Input, Select, Textarea, Button, LayoutMenu } from "../../components";
 
-import './styles.scss';
-
-const locaisPredefinidos = ['Sala 101', 'Laboratório 2', 'Auditório'];
+const locaisPredefinidos = ["Sala 101", "Laboratório 2", "Auditório"];
 
 const Class = () => {
   const methods = useForm({
     resolver: yupResolver(classValidationSchema),
     defaultValues: {
-      turma: '',
-      vagas: '',
-      tempo: '',
-      local: '',
-      observacoes: '',
-      cor: '#000000', // cor padrão
+      turma: "",
+      vagas: "",
+      tempo: "",
+      local: "",
+      observacoes: "",
+      cor: "#000000", // cor padrão
     },
   });
 
   const { handleSubmit } = methods;
-  const localSelecionado = useWatch({ name: 'local', control: methods.control });
+  const localSelecionado = useWatch({
+    name: "local",
+    control: methods.control,
+  });
 
   const onSubmit = (data) => {
     console.log("Dados recebidos pelo formulário:", data);
@@ -36,39 +39,66 @@ const Class = () => {
     };
 
     try {
-      const turmasSalvas = JSON.parse(localStorage.getItem('turmas')) || [];
+      const turmasSalvas = JSON.parse(localStorage.getItem("turmas")) || [];
       turmasSalvas.push(novaTurma);
-      localStorage.setItem('turmas', JSON.stringify(turmasSalvas));
+      localStorage.setItem("turmas", JSON.stringify(turmasSalvas));
 
-      toast.success('Turma cadastrada com sucesso!');
+      toast.success("Turma cadastrada com sucesso!");
     } catch (e) {
       console.error("Erro ao salvar turma:", e);
     }
   };
 
   return (
-    <div className="container-class">
-      <FormProvider {...methods}>
-        <form className="form-class" onSubmit={handleSubmit(onSubmit)}>
-          <h1>Cadastro de Turma</h1>
-          <Input name="turma" id="turma" label="Nome da turma" required placeholder="Digite o nome da turma" />
-          <div className="row">
-            <Input name="vagas" id="vagas" label="Quantidade de vagas" required placeholder="Ex: 30" />
-            <Input name="tempo" id="tempo" label="Duração (minutos)" required placeholder="Ex: 50" />
-            <Select name="local" id="local" label="Local da aula" required>
-              <option value="">Selecione o local</option>
-              {locaisPredefinidos.map(loc => (
-                <option key={loc} value={loc}>{loc}</option>
-              ))}
-            </Select>
-          </div>
-          <Textarea name="observacoes" id="observacoes" label="Observações" placeholder="Caso necessário" />
-          <ColorPicker name="cor" label="Selecione uma cor:" />
-          <Button type="submit">Cadastrar Turma</Button>
-        </form>
-      </FormProvider>
-    </div>
+    <LayoutMenu>
+      <div className="container-class">
+        <FormProvider {...methods}>
+          <form className="form-class" onSubmit={handleSubmit(onSubmit)}>
+            <h1>Cadastro de Turma</h1>
+            <Input
+              name="turma"
+              id="turma"
+              label="Nome da turma"
+              required
+              placeholder="Digite o nome da turma"
+            />
+            <div className="row">
+              <Input
+                name="vagas"
+                id="vagas"
+                label="Quantidade de vagas"
+                required
+                placeholder="Ex: 30"
+              />
+              <Input
+                name="tempo"
+                id="tempo"
+                label="Duração (minutos)"
+                required
+                placeholder="Ex: 50"
+              />
+              <Select name="local" id="local" label="Local da aula" required>
+                <option value="">Selecione o local</option>
+                {locaisPredefinidos.map((loc) => (
+                  <option key={loc} value={loc}>
+                    {loc}
+                  </option>
+                ))}
+              </Select>
+            </div>
+            <Textarea
+              name="observacoes"
+              id="observacoes"
+              label="Observações"
+              placeholder="Caso necessário"
+            />
+            <ColorPicker name="cor" label="Selecione uma cor:" />
+            <Button type="submit">Cadastrar Turma</Button>
+          </form>
+        </FormProvider>
+      </div>
+    </LayoutMenu>
   );
 }
 
-export default Class;
+export default Formulario;

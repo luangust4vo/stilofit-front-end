@@ -76,7 +76,7 @@
   }
 }
 
-.modal-overlay {
+.center-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -88,7 +88,7 @@
   justify-content: center;
   z-index: 1000;
 
-  .modal-content {
+  .center-modal-content {
     background: vars.$bg-secondary;
     padding: 1.6rem;
     min-width: 60vw;

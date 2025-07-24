@@ -1,6 +1,6 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
-import Input from "./Input";
+import Input from "./Input.jsx";
 
 const MonetaryInput = ({
   name,
