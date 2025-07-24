@@ -103,8 +103,7 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
                 mask="000.000.000-00"
                 required
               />
-              <MaskedInput label="RG" name="rg" mask="00.000.000-0" />
-              <MaskedInput label="RG" name="rg" mask="00.000.000-0" />
+              <MaskedInput label="RG" name="rg" />
               <Select label="Estado Civil" name="maritalStatus">
                 <option value="">Selecione</option>
                 <option value="Solteiro">Solteiro</option>
