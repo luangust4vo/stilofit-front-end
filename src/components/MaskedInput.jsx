@@ -1,6 +1,5 @@
-import React from "react";
-import { IMaskInput } from "react-imask";
-import { useFormContext, Controller } from "react-hook-form";
+import { IMaskInput } from 'react-imask';
+import { useFormContext, Controller } from 'react-hook-form';
 
 const MaskedInput = ({ name, label, mask, required, ...rest }) => {
   const {

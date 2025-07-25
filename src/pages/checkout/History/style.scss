@@ -10,8 +10,7 @@
   align-items: center;
   gap: 1rem;
 
-  #select-mes,
-  #select-ano {
+  .select {
     margin-top: 15px;
     border: 1px solid vars.$table-border;
   }

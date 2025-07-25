@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ToastContainer, toast } from "react-toastify";
-import { validationSchemaContract } from "../../../utils/validation";
+import { toast } from "react-toastify";
+import { contractValidationSchema } from "../../../schemas";
 import {
   Button,
   Input,
@@ -25,7 +25,7 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   const navigate = useNavigate();
 
   const methods = useForm({
-    resolver: yupResolver(validationSchemaContract),
+    resolver: yupResolver(contractValidationSchema),
     defaultValues: initialData || {},
   });
 
@@ -62,11 +62,11 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
     const installments = data.installments ? Number(data.installments) : "";
     const totalValue = data.totalValue
       ? Number(
-          String(data.totalValue)
-            .replace("R$ ", "")
-            .replace(/\./g, "")
-            .replace(",", ".")
-        )
+        String(data.totalValue)
+          .replace("R$ ", "")
+          .replace(/\./g, "")
+          .replace(",", ".")
+      )
       : "";
     const installmentsValue =
       installments && totalValue
@@ -84,8 +84,8 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
       classRoms: Array.isArray(data.classRoms)
         ? data.classRoms
         : data.classRoms
-        ? [data.classRoms]
-        : [],
+          ? [data.classRoms]
+          : [],
       timeMin: data.timeMin || "",
       timeMax: data.timeMax || "",
       weekdays: Array.isArray(data.weekdays) ? data.weekdays : [],
@@ -203,7 +203,6 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
               <Button>{initialData ? "Atualizar" : "Salvar"}</Button>
             </form>
           </FormProvider>
-          <ToastContainer position="top-right" autoClose={3000} />
         </main>
       </div>
     </LayoutMenu>
