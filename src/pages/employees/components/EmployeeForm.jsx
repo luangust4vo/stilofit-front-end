@@ -7,8 +7,8 @@ import { Input, Select } from "../../../components"; // ajuste para seu alias
 import "react-toastify/dist/ReactToastify.css";
 
 const validationSchema = yup.object().shape({
-  nome: yup.string().required("Nome é obrigatório"),
   cpf: yup.string().required("CPF é obrigatório").length(11, "CPF inválido"),
+  nome: yup.string().required("Nome é obrigatório"),
   sexo: yup.string().required("Sexo é obrigatório"),
   email: yup.string().email("E-mail inválido").required("E-mail é obrigatório"),
   senha: yup.string().min(6, "Senha muito curta").required("Senha é obrigatória"),
@@ -40,7 +40,7 @@ const EmployeeForm = ({ initialData = null, onSubmit: externalSubmit }) => {
         const id = Date.now().toString();
         localStorage.setItem("funcionarios", JSON.stringify([...funcionarios, { ...data, id }]));
         toast.success("Funcionário cadastrado com sucesso!");
-        reset(); // limpa o formulário
+        reset();
       }
     }
   };
