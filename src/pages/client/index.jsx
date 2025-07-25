@@ -2,7 +2,6 @@ import { LayoutMenu } from "../../components";
 import ListClient from "./components/ListClient";
 import { Outlet } from "react-router-dom";
 
-// Cria aqui mesmo porque é algo simples para controlar o roteamento
 export const Layout = () => {
   return (
     <LayoutMenu>

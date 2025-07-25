@@ -16,7 +16,7 @@ const Class = () => {
       tempo: "",
       local: "",
       observacoes: "",
-      cor: "#000000", // cor padrão
+      cor: "#000000",
     },
   });
 

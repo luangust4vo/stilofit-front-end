@@ -104,12 +104,10 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
     if (initialData && initialData.id) {
       updateStorageObject(initialData.id, parsedData);
       toast.success("Contrato atualizado!");
-      //navigate("/contrato");
     } else {
       addStorageObject(parsedData);
       toast.success("Contrato cadastrado!");
       reset();
-      //navigate("/contrato");
     }
   };
 

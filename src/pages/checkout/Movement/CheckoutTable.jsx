@@ -1,4 +1,3 @@
-// CheckoutTableWrapper.jsx
 import Table from "../../../components/Table/Table";
 import {
   useGenericContext,
