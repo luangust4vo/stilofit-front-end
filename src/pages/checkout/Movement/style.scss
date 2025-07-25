@@ -1,10 +1,14 @@
 @use "../../../styles/vars.scss" as vars;
 
-.table-container{
-  width: 100%;
-  min-height: 87vh;
-  padding: 2rem 1rem;
+.checkout-table-page {
+  min-height: 90vh; 
+  .table-container {
+    width: 100%;
+    min-height: 79vh !important;
+    padding: 2rem 1rem;
+  }
 }
+
 .cash-table-actions {
   border-top: 1px solid vars.$border-form;
   background-color: vars.$bg-primary;
@@ -41,7 +45,6 @@
 .modal-overlay {
   position: absolute;
   left: 0;
-  margin-top: 3rem;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;

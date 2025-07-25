@@ -203,7 +203,6 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
               <Button>{initialData ? "Atualizar" : "Salvar"}</Button>
             </form>
           </FormProvider>
-          <ToastContainer position="top-right" autoClose={3000} />
         </main>
       </div>
     </LayoutMenu>
