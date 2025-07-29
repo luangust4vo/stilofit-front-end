@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ToastContainer, toast } from "react-toastify";
-import { validationSchema, fetchAddressByCEP } from "../../../utils/validation";
-import {MaskedInput, Button, Input, Textarea, Select} from "../../../components";
+import { toast } from "react-toastify";
+import { clientValidationSchema } from "../../../schemas";
+import { fetchAddressByCEP } from "../../../services/viaCep";
+import { MaskedInput, Button, Input, Textarea, Select } from "../../../components";
 import { useGenericContext } from "../../../contexts/GenericContext";
 
 import "./styles.scss";
@@ -11,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
   const methods = useForm({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(clientValidationSchema),
     defaultValues: initialData || {},
   });
 
@@ -64,7 +65,8 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
       externalSubmit(data);
       return;
     }
-  
+
+
     if (initialData && initialData.id) {
       updateStorageObject(initialData.id, data);
       toast.success("Cliente atualizado!");
@@ -101,7 +103,7 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
                 mask="000.000.000-00"
                 required
               />
-              <MaskedInput label="RG" name="rg" mask="00.000.000-0"/>
+              <MaskedInput label="RG" name="rg" />
               <Select label="Estado Civil" name="maritalStatus">
                 <option value="">Selecione</option>
                 <option value="Solteiro">Solteiro</option>
@@ -198,7 +200,6 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
             <Button>{initialData ? "Atualizar" : "Salvar"}</Button>
           </form>
         </FormProvider>
-        <ToastContainer position="top-right" autoClose={3000} />
       </main>
     </div>
   );

@@ -9,7 +9,6 @@
   flex-direction: column;
 
   .btn-icon {
-    // background: none;
     border: none;
     color: vars.$btn-bg-icon;
     font-size: 1.2rem;
@@ -42,7 +41,7 @@
 
     .side {
       display: flex;
-      gap: 16px; // Espaço entre os elementos
+      gap: 16px;
       width: 100%;
 
       > * {

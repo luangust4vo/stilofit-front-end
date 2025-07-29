@@ -2,29 +2,24 @@ import { useState, useEffect } from "react";
 import { useGenericContext } from "../../contexts/GenericContext";
 import "./styles.scss";
 
-/* Funções que podem ser usadas externas ao arquivo */
-
-// Roteia para página de registro
 export const goRegistration = (navigate, routeName) => {
   navigate(`/${routeName}/novo`);
 };
 
-// Roteia para página de visualização
 export const goView = (navigate, routeName, id) => {
   navigate(`/${routeName}/${id}`);
 };
 
-// Roteia para página de edição
 export const goEdit = (navigate, routeName, id) => {
   navigate(`/${routeName}/${id}/editar`);
 };
 
 function Table({
-  headerComponent, // componentes acima do cabeçalho da tabela, relacionados a ações
-  headerCells, // descrições do cabeçalho da tabela
-  getRowProps, // propriedades para quando clica em uma linha
-  visualize, // caso haja um modal
-  children, // formatação de linha
+  headerComponent,
+  headerCells,
+  getRowProps,
+  visualize,
+  children,
   data,
 }) {
   const { storageObject } = useGenericContext();
@@ -34,7 +29,7 @@ function Table({
   const limit = 30;
   const [selectedId, setSelectedId] = useState(null);
   const dataSource = data || storageObject;
-  // Função para pesquisa de registro
+  
   useEffect(() => {
     let result = [...dataSource];
     if (search.trim() !== "") {
@@ -46,7 +41,6 @@ function Table({
     setfilteredElements(result.slice(0, offset + limit));
   }, [search, dataSource, offset]);
 
-  // Função para Scroll
   useEffect(() => {
     const handleScroll = () => {
       const table = document.querySelector(".table-container");
@@ -99,7 +93,7 @@ function Table({
           )}
         </tbody>
       </table>
-      {/* Exibição do Modal (fora da tabela)*/}
+      
       {typeof visualize === "function"
         ? visualize({ selectedId, setSelectedId })
         : visualize}

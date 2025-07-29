@@ -9,8 +9,6 @@
 
 .table-header {
   display: flex;
-  //align-items: center;
-  // justify-content: flex-end;
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 1.5rem;
@@ -31,7 +29,7 @@
     padding: 1rem 0.6rem;
     text-align: center;
     font-size: 1rem;
-    border: none; // Remove qualquer borda interna
+    border: none;
     vertical-align: middle;
   }
 

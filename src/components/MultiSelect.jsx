@@ -1,4 +1,3 @@
-import React from "react";
 import Select from "react-select";
 import { Controller, useFormContext } from "react-hook-form";
 
@@ -8,7 +7,6 @@ const MultiSelect = ({ name, label, options = [], required }) => {
     formState: { errors },
   } = useFormContext();
 
-  // react-select espera { value, label } para cada opção
   const selectOptions = options.map((opt) => ({
     value: opt.id,
     label: opt.name,
@@ -38,7 +36,6 @@ const MultiSelect = ({ name, label, options = [], required }) => {
             closeMenuOnSelect={false}
             placeholder="Selecione..."
             onChange={(selected) => {
-              // Salva apenas os ids selecionados no formulário
               field.onChange(selected ? selected.map((opt) => opt.value) : []);
             }}
             value={selectOptions.filter((opt) =>
