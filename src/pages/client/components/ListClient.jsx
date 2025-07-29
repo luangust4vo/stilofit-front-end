@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useClient } from "../../../contexts/ClientContext";
+import { useGenericContext } from "../../../contexts/GenericContext";
 
 import "./styles.scss";
 
 const ListClient = ({ onClientSelect }) => {
   const [expanded, setExpanded] = React.useState(false);
-  const { clients, loadMoreClients } = useClient();
+  const { storageObject } = useGenericContext();
   const [filteredClients, setFilteredClients] = useState([]);
   const [search, setSearch] = useState("");
   const [offset, setOffset] = useState(0);
@@ -27,31 +27,37 @@ const ListClient = ({ onClientSelect }) => {
   };
 
   useEffect(() => {
-    if (search.trim() === "") {
-      setFilteredClients(clients);
-    } else {
-      const result = clients.filter((client) =>
+    let result = [...storageObject];
+    if (search.trim() !== "") {
+      result = result.filter((client) =>
         client.name.toLowerCase().includes(search.toLowerCase())
       );
-      setFilteredClients(result);
     }
-  }, [search, clients]);
+    result.sort((a, b) => {
+      const nameA = a.name ? a.name.toLowerCase() : "";
+      const nameB = b.name ? b.name.toLowerCase() : "";
+      return nameA.localeCompare(nameB);
+    });
+
+    setFilteredClients(result);
+    setOffset(0);
+  }, [search, storageObject]);
 
   useEffect(() => {
     const scroller = document.querySelector(".scroller");
     if (!scroller) return;
-  
+
     const handleScroll = () => {
-      const isBottom = scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight;
+      const isBottom =
+        scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight;
       if (isBottom) {
         setOffset((prev) => prev + limit);
       }
     };
-  
+
     scroller.addEventListener("scroll", handleScroll);
     return () => scroller.removeEventListener("scroll", handleScroll);
   }, [expanded]);
-  
 
   const handleLoadMore = () => {
     setOffset((prev) => prev + limit);
@@ -77,7 +83,7 @@ const ListClient = ({ onClientSelect }) => {
       </div>
 
       <div className="scroller">
-        {(search ? filteredClients : clients).map((client) => (
+        {filteredClients.slice(0, offset + limit).map((client) => (
           <div
             className="user"
             key={client.id}

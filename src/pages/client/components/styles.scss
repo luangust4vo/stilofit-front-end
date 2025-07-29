@@ -1,12 +1,19 @@
+@use "../../../styles/vars.scss" as vars;
+
+.list-container {
+  margin-top: 15px;
+}
+
 .sidebar {
   width: 70px;
-  background-color: #cfcfcf;
+  background-color: vars.$bg-form;
   transition: width 0.3s ease;
   height: 100%;
   padding: 10px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  border-radius: 0 5px 0 0;
 
   &:hover {
     width: 280px;
@@ -52,7 +59,7 @@
     .btn-icon {
       background: none;
       border: none;
-      color: #000080;
+      color: vars.$btn-bg-icon;
       padding: 10px;
       font-size: 24px;
       cursor: pointer;
@@ -74,7 +81,7 @@
       }
   
       &::-webkit-scrollbar-thumb {
-        background: #000080;
+        background: vars.$btn-primary;
         border-radius: 10px;
       }
   
@@ -92,14 +99,14 @@
     cursor: pointer;
 
     &:hover {
-      background-color: #e0e0e0;
+      background-color: vars.$bg-list;
     }
 
     .icon-user {
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background-color: #f1f1f1;
+      background-color: vars.$user-color;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -110,7 +117,7 @@
 
     i.bi-person-fill {
       font-size: 24px;
-      color: #000080;
+      color: vars.$icon-color;
     }
 
     .username {

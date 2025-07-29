@@ -1,3 +1,5 @@
+@use "../styles/vars.scss" as vars;
+
 .form-group {
   margin-bottom: 1rem;
 
@@ -19,7 +21,7 @@
     resize: none;
     width: 100%;
     padding: 0.5rem;
-    border: 1px solid #ccc;
+    border: 1px solid vars.$border-form;
     border-radius: 4px;
     outline: none;
     transition: border-color 0.2s;
@@ -57,8 +59,8 @@
 
 .btn {
   padding: 10px 20px;
-  background-color: #000080;
-  color: white;
+  background-color: vars.$btn-primary;
+  color: vars.$text-header;
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -66,6 +68,45 @@
   margin: 5px;
 
   &:hover {
-    background-color: #100053e7;
+    background-color: vars.$btn-hoover;
   }
+}
+
+.modal-overlay {
+  position: flex;
+  background: transparent;
+}
+
+.modal {
+  bottom: 250px;
+  position: relative;
+  background: #fff;
+  border: 1px solid vars.$icon-color;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 280px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    transform: translateX(50%);
+    border-width: 20px;
+    border-style: solid;
+    border-color: vars.$icon-color transparent transparent transparent;
+  }
+}
+
+
+.modal input {
+  margin-top: 15px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 100%;
+}
+
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
 }

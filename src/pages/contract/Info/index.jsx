@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { Button } from "../../../components";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import {Button} from "../../../components"
 import "./styles.scss";
 
 const InfoContract = ({ id: propId, onClose }) => {
@@ -16,14 +16,12 @@ const InfoContract = ({ id: propId, onClose }) => {
 
   return (
     <div className="container-contract-info">
-      <button
-        className="btn-icon"
+      <Button
         onClick={onClose}
-        style={{ marginTop: "1rem" }}
       >
         <i className="bi bi-arrow-left"></i>
         Voltar
-      </button>
+      </Button>
       {selectedContract ? (
         <>
           <p>
