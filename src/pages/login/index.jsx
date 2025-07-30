@@ -1,4 +1,4 @@
-import { validationSchemaLogin } from "../../utils/validation";
+import { loginValidationSchema } from "../../schemas";
 import xLogo from "../../assets/x.png";
 import "./styles.scss";
 import { useForm, FormProvider } from "react-hook-form";
@@ -12,7 +12,7 @@ export default function Login() {
   const capsLockAtivo = useKeyPressed("CapsLock");
 
   const methods = useForm({
-    resolver: yupResolver(validationSchemaLogin),
+    resolver: yupResolver(loginValidationSchema),
   });
 
   const { handleSubmit } = methods;
