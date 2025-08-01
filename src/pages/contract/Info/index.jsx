@@ -17,7 +17,6 @@ const InfoContract = ({ id: propId, onClose }) => {
   return (
     <div className="container-contract-info">
       <Button
-        //className="btn-icon"
         onClick={onClose}
       >
         <i className="bi bi-arrow-left"></i>
