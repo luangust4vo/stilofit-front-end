@@ -1,9 +1,10 @@
 import { useForm, FormProvider, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import "./styles.scss";
-import { classValidationSchema } from "../../schemas/classSchema";
-import { ColorPicker } from "../../components";
-import { Input, Select, Textarea, Button, LayoutMenu } from "../../components";
+import { classValidationSchema } from "../../../schemas/classSchema";
+import { ColorPicker } from "../../../components";
+import { Input, Select, Textarea, Button, LayoutMenu } from "../../../components";
+import { useNavigate } from "react-router-dom";
 
 const locaisPredefinidos = ["Sala 101", "Laboratório 2", "Auditório"];
 
@@ -19,6 +20,8 @@ const Class = () => {
       cor: "#000000",
     },
   });
+  const navigate = useNavigate();
+
 
   const { handleSubmit } = methods;
   const localSelecionado = useWatch({
@@ -93,7 +96,7 @@ const Class = () => {
               placeholder="Caso necessário"
             />
             <ColorPicker name="cor" label="Selecione uma cor:" />
-            <Button type="submit">Cadastrar Turma</Button>
+            <Button type="submit" onClick={() => navigate("/turma")}>Cadastrar Turma</Button>
           </form>
         </FormProvider>
       </div>
