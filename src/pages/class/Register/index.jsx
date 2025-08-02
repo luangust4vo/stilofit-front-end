@@ -33,6 +33,7 @@ const Class = () => {
     console.log("Dados recebidos pelo formulário:", data);
 
     const novaTurma = {
+      id: Date.now(),
       turma: data.turma,
       vagas: data.vagas,
       tempo: `${data.tempo} minutos`,
@@ -47,6 +48,7 @@ const Class = () => {
       localStorage.setItem("turmas", JSON.stringify(turmasSalvas));
 
       toast.success("Turma cadastrada com sucesso!");
+      navigate("/turma");
     } catch (e) {
       console.error("Erro ao salvar turma:", e);
     }

@@ -3,13 +3,13 @@ import Table from "../../../components/Table/Table";
 import { goRegistration, goEdit } from "../../../components/Table/Table";
 import { GenericContextProvider } from "../../../contexts/GenericContext";
 import { Button, LayoutMenu } from "../../../components";
-
+import InfoTurma from "../Info/index";
 import "./styles.scss";
 
 function ClassTable() {
   const navigate = useNavigate();
   const routeName = "turma";
-
+  
   return (
     <LayoutMenu>
       <GenericContextProvider lSName="turmas">
@@ -54,7 +54,7 @@ function ClassTable() {
             selectedId !== null && (
               <div className="center-modal-overlay">
                 <div className="center-modal-content">
-                  <InfoContract
+                  <InfoTurma
                     id={selectedId}
                     onClose={() => setSelectedId(null)}
                   />
@@ -65,7 +65,9 @@ function ClassTable() {
         >
           {(element) => (
             <>
-              <td style={{ textAlign: "center" }}>{element.turma ? element.turma : "-"}</td>
+              <td style={{ textAlign: "center" }}>
+                {element.turma ? element.turma : "-"}
+              </td>
               <td>{element.vagas ? element.vagas : "-"}</td>
               <td>{element.tempo ? element.tempo : "-"}</td>
               <td>{element.local ? element.local : "-"}</td>
