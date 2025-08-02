@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useMemo } from "react";
+import ClassModal from "../Register/index";
 import Table from "../../../components/Table/Table";
-import { goRegistration, goEdit } from "../../../components/Table/Table";
+import { goEdit } from "../../../components/Table/Table";
 import { GenericContextProvider } from "../../../contexts/GenericContext";
 import { Button, LayoutMenu } from "../../../components";
 import InfoTurma from "../Info/index";
@@ -9,12 +11,37 @@ import "./styles.scss";
 function ClassTable() {
   const navigate = useNavigate();
   const routeName = "turma";
-  
+  const [turmas, setTurmas] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    const dados = JSON.parse(localStorage.getItem("turmas")) || [];
+    setTurmas(dados);
+  }, []);
+
+  const handleCadastroSucesso = () => {
+    const dadosAtualizados = JSON.parse(localStorage.getItem("turmas")) || [];
+    setTurmas(dadosAtualizados);
+    setShowModal(false);
+  };
+
+const turmasFiltradas = useMemo(() => {
+    if (!search.trim()) return turmas;
+    const textoLower = search.toLowerCase();
+    return turmas.filter((turma) =>
+      (turma.turma && turma.turma.toLowerCase().includes(textoLower)) ||
+      (turma.local && turma.local.toLowerCase().includes(textoLower)) ||
+      (turma.observacoes && turma.observacoes.toLowerCase().includes(textoLower))
+    );
+  }, [search, turmas]);
+
   return (
     <LayoutMenu>
       <GenericContextProvider lSName="turmas">
         <Table
-          headerComponent={({ search, setSearch }) => (
+          data={turmasFiltradas}
+          headerComponent={() => (
             <>
               <div className="header-left"></div>
               <div className="header-right">
@@ -27,7 +54,7 @@ function ClassTable() {
                 <i className="bi bi-funnel-fill"></i>
                 <Button
                   className="btn-icon-table"
-                  onClick={() => goRegistration(navigate, routeName)}
+                  onClick={() => setShowModal(true)}
                 >
                   Criar Turma
                   <i className="bi-plus"></i>
@@ -65,13 +92,11 @@ function ClassTable() {
         >
           {(element) => (
             <>
-              <td style={{ textAlign: "center" }}>
-                {element.turma ? element.turma : "-"}
-              </td>
-              <td>{element.vagas ? element.vagas : "-"}</td>
-              <td>{element.tempo ? element.tempo : "-"}</td>
-              <td>{element.local ? element.local : "-"}</td>
-              <td>{element.observacoes ? element.observacoes : "-"}</td>
+              <td style={{ textAlign: "center" }}>{element.turma || "-"}</td>
+              <td>{element.vagas || "-"}</td>
+              <td>{element.tempo || "-"}</td>
+              <td>{element.local || "-"}</td>
+              <td>{element.observacoes || "-"}</td>
               <td>
                 {element.cor ? (
                   <div
@@ -109,6 +134,13 @@ function ClassTable() {
             </>
           )}
         </Table>
+
+        {showModal && (
+          <ClassModal
+            onClose={() => setShowModal(false)}
+            onSuccess={handleCadastroSucesso}
+          />
+        )}
       </GenericContextProvider>
     </LayoutMenu>
   );

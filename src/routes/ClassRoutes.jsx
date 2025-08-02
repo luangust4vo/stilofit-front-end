@@ -6,7 +6,6 @@ const ClassRoutes = () => {
     return (
         <Route path="/turma">
           <Route index element={<ClassTable />} />
-          <Route path="novo" element={<Class />} />
         </Route>
     );
 }
