@@ -52,7 +52,7 @@ const ClassModal = ({ onClose, onSuccess }) => {
   };
 
   return (
-    <div className="modal-overlay">
+    <div className="class-modal-overlay">
       <div className="modal-content form-class">
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)}>
