@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./styles.scss";
 import { Link } from "react-router-dom";
-import logo from "../../assets/x_fundo.png";
+import logo from "../../assets/x_com_fundo.png";
 import UserDialogBox from "./UserDialogBox.jsx";
 
 const menuOptions = [

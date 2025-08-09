@@ -1,5 +1,5 @@
 import { loginValidationSchema } from "../../schemas";
-import xLogo from "../../assets/x.png";
+import xLogo from "../../assets/x_sem_fundo.png";
 import "./styles.scss";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
