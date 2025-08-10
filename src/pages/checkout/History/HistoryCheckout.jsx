@@ -10,6 +10,7 @@ import { DialogBox, Select } from "../../../components";
 import { useNavigate } from "react-router-dom";
 
 import "./style.scss";
+import { toast } from "react-toastify";
 
 function HistoryCheckout() {
   const [showInput, setShowInput] = useState(false);
@@ -116,7 +117,7 @@ function HistoryCheckout() {
     );
 
     if (!loggedEmployee || !loggedEmployee.id) {
-      alert("Funcionário não logado!");
+      toast.error("Funcionário não logado!");
       return;
     }
 
@@ -163,7 +164,7 @@ function HistoryCheckout() {
       ])
     );
 
-    alert("Caixa aberto com sucesso!");
+    toast.success("Caixa aberto com sucesso!");
     setShowInput(false);
     methods.reset();
     navigate(`movimentacao/${id}`);

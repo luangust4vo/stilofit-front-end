@@ -12,6 +12,7 @@ import { Button, MonetaryInput, DialogBox, LayoutMenu } from "../../../component
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
 import { formatCurrency } from "../../../utils/helpers";
+import { toast } from "react-toastify";
 
 function CheckoutTable() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -117,7 +118,7 @@ function CheckoutTable() {
   const handleAddMovement = () => {
     const sanitizedValue = value.replace(/[^\d,]/g, "").replace(",", ".");
     const parsedValue = parseFloat(sanitizedValue);
-    if (isNaN(parsedValue) || parsedValue <= 0) return alert("Valor inválido.");
+    if (isNaN(parsedValue) || parsedValue <= 0) return toast.warn("Valor inválido.");
 
     const newMovement = {
       venda: modalOpen,
@@ -172,7 +173,7 @@ function CheckoutTable() {
                   <DialogBox
                     title="Fechar Caixa"
                     onConfirm={() => {
-                      alert(`Caixa fechado em: ${date}`);
+                      toast.success(`Caixa fechado em: ${date}`);
                       exitCash();
                       setDate(null);
                       navigate(`/caixa`);
