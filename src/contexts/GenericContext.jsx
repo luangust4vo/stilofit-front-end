@@ -1,4 +1,10 @@
-import { useState, useEffect, createContext, useContext, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  createContext,
+  useContext,
+  useCallback,
+} from "react";
 
 const GenericContext = createContext();
 
@@ -47,7 +53,7 @@ const GenericContextProvider = ({ lSName, children }) => {
   );
 
   const setContextStorageObject = useCallback((data) => {
-    setStorageObject(data); 
+    setStorageObject(data);
   }, []);
 
   const contextValue = {
@@ -66,4 +72,4 @@ const GenericContextProvider = ({ lSName, children }) => {
   );
 };
 
-export {GenericContextProvider};
+export { GenericContextProvider };

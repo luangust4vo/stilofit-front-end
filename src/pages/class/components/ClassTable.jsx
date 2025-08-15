@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
 import ClassModal from "../Register/index";
 import Table from "../../../components/Table/Table";
-import { goEdit } from "../../../components/Table/Table";
 import { GenericContextProvider } from "../../../contexts/GenericContext";
 import { Button, LayoutMenu } from "../../../components";
 import InfoTurma from "../Info/index";
@@ -14,6 +13,9 @@ function ClassTable() {
   const [turmas, setTurmas] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [search, setSearch] = useState("");
+  const [idEdit, setIdEdit] = useState(null);
+  const [showInfoModal, setShowInfoModal] = useState(false);
+  const [selectedInfoId, setSelectedInfoId] = useState(null);
 
   useEffect(() => {
     const dados = JSON.parse(localStorage.getItem("turmas")) || [];
@@ -24,15 +26,23 @@ function ClassTable() {
     const dadosAtualizados = JSON.parse(localStorage.getItem("turmas")) || [];
     setTurmas(dadosAtualizados);
     setShowModal(false);
+    setIdEdit(null);
   };
 
-const turmasFiltradas = useMemo(() => {
+  const handleOpenEditModal = (id) => {
+    setIdEdit(id);
+    setShowModal(true);
+  };
+
+  const turmasFiltradas = useMemo(() => {
     if (!search.trim()) return turmas;
     const textoLower = search.toLowerCase();
-    return turmas.filter((turma) =>
-      (turma.turma && turma.turma.toLowerCase().includes(textoLower)) ||
-      (turma.local && turma.local.toLowerCase().includes(textoLower)) ||
-      (turma.observacoes && turma.observacoes.toLowerCase().includes(textoLower))
+    return turmas.filter(
+      (turma) =>
+        (turma.turma && turma.turma.toLowerCase().includes(textoLower)) ||
+        (turma.local && turma.local.toLowerCase().includes(textoLower)) ||
+        (turma.observacoes &&
+          turma.observacoes.toLowerCase().includes(textoLower))
     );
   }, [search, turmas]);
 
@@ -54,7 +64,10 @@ const turmasFiltradas = useMemo(() => {
                 <i className="bi bi-funnel-fill"></i>
                 <Button
                   className="btn-icon-table"
-                  onClick={() => setShowModal(true)}
+                  onClick={() => {
+                    setIdEdit(null);
+                    setShowModal(true);
+                  }}
                 >
                   Criar Turma
                   <i className="bi-plus"></i>
@@ -73,11 +86,13 @@ const turmasFiltradas = useMemo(() => {
           ]}
           getRowProps={({ element, setSelectedId }) => ({
             onClick: () => {
-              setSelectedId(element.id);
+              setSelectedInfoId(element.id); // Seta o ID para o modal de info
+              setShowInfoModal(true); // Abre o modal de info
             },
             style: { cursor: "pointer" },
           })}
-          visualize={({ selectedId, setSelectedId }) =>
+        >
+          {/*visualize={({ selectedId, setSelectedId }) =>
             selectedId !== null && (
               <div className="center-modal-overlay">
                 <div className="center-modal-content">
@@ -88,8 +103,8 @@ const turmasFiltradas = useMemo(() => {
                 </div>
               </div>
             )
-          }
-        >
+          }*/}
+
           {(element) => (
             <>
               <td style={{ textAlign: "center" }}>{element.turma || "-"}</td>
@@ -124,7 +139,7 @@ const turmasFiltradas = useMemo(() => {
                   className="btn-icon-edit"
                   onClick={(e) => {
                     e.stopPropagation();
-                    goEdit(navigate, routeName, element.id);
+                    handleOpenEditModal(element.id);
                   }}
                   title="Editar"
                 >
@@ -137,8 +152,15 @@ const turmasFiltradas = useMemo(() => {
 
         {showModal && (
           <ClassModal
+            id={idEdit}
             onClose={() => setShowModal(false)}
             onSuccess={handleCadastroSucesso}
+          />
+        )}
+        {showInfoModal && (
+          <InfoTurma
+            id={selectedInfoId}
+            onClose={() => setShowInfoModal(false)}
           />
         )}
       </GenericContextProvider>
