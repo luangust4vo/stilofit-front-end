@@ -81,4 +81,4 @@ const InfoEmployee = ({ id: propId, onClose }) => {
   );
 };
 
-export default InfoEmpoloyee;
+export default InfoEmployee;

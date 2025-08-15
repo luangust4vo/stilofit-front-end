@@ -120,21 +120,25 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
         </Button>
 
         <main className="form">
+          {/* Nome. email, senha, data nascimento, sexo, cpf, rg, registro profissional, estado civil, cargo, status (Ativo, cancelado)
+Contato
+Endereço
+Jornada (Se trabalha de manhã, tarde ou noite e em que hora) */}
           <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="block">
                 <h3>Dados Gerais do Contrato</h3>
-                <Input label="Nome do Contrato" name="name" required />
-                <Select label="Status" name="status">
-                  <option value="Disponível">Disponível</option>
-                  <option value="Não Disponível">Não Disponível</option>
-                </Select>
-                <Select label="Template" name="template">
-                  <option value="">Selecione</option>
-                  <option value="Template Azul">Template Azul</option>
-                  <option value="Template Verde">Template Verde</option>
-                  <option value="Template Amarelo">Template Amarelo</option>
-                </Select>
+                <Input label="Nome do Funcionário" name="name" required />
+                <Select label="Email" name="email"></Select>
+                <Select label="Senha" name="password"></Select>
+                <Select label="Data Nascimento" name="birthday"></Select>
+                <Select label="Sexo" name="gender"></Select>
+                <Select label="cpf" name="cpf"></Select>
+                <Select label="rg" name="rg"></Select>
+                <Select label="Registro Profissional" name="ProfissionalRegister"></Select>
+                <Select label="Estado Civil" name="senha"></Select>
+                <Select label="Senha" name="senha"></Select>
+                
               </div>
 
               <div className="block">
