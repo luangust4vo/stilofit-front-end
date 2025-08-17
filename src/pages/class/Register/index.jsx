@@ -10,10 +10,7 @@ import {
   Textarea,
   Button,
 } from "../../../components";
-import {
-  GenericContextProvider,
-  useGenericContext,
-} from "../../../contexts/GenericContext";
+import { useGenericContext } from "../../../contexts/GenericContext";
 import { toast } from "react-toastify";
 
 const locaisPredefinidos = ["Sala 101", "Laboratório 2", "Auditório"];
@@ -64,33 +61,22 @@ const ClassModal = ({ onClose, onSuccess, id = null }) => {
   });
 
   const onSubmit = (data) => {
-    const turmaASalvar = {
-      id: Date.now(),
-      turma: data.turma,
-      vagas: data.vagas,
-      tempo: `${data.tempo}`,
-      local: data.local,
-      observacoes: data.observacoes,
-      cor: data.cor,
-    };
-
     try {
-      let turmasSalvas = [...storageObject];
+      let updatedTurmas;
       if (id) {
-        const updatedTurmas = turmasSalvas.map((turma) =>
+        updatedTurmas = storageObject.map((turma) =>
           String(turma.id) === String(id)
-            ? { ...turma, ...turmaASalvar }
+            ? { ...turma, ...data, id: turma.id }
             : turma
         );
-        saveToStorage(updatedTurmas);
         toast.success("Turma atualizada com sucesso!");
       } else {
-        const newObj = { ...turmaASalvar, id: Date.now() };
-        const updatedTurmas = [...turmasSalvas, newObj];
-        saveToStorage(updatedTurmas); // Usa a função do contexto para salvar
+        const newObj = { ...data, id: Date.now() };
+        updatedTurmas = [...storageObject, newObj];
         toast.success("Turma cadastrada com sucesso!");
       }
 
+      saveToStorage(updatedTurmas);
       onSuccess();
       onClose();
     } catch (e) {
@@ -106,7 +92,7 @@ const ClassModal = ({ onClose, onSuccess, id = null }) => {
       <div className="modal-content form-class">
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <h1>Cadastro de Turma</h1>
+            <h1>{id ? "Editar Turma" : "Cadastro de Turma"}</h1>
             <Input
               name="turma"
               id="turma"

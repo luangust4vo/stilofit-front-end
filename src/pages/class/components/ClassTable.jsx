@@ -86,25 +86,12 @@ function ClassTable() {
           ]}
           getRowProps={({ element, setSelectedId }) => ({
             onClick: () => {
-              setSelectedInfoId(element.id); // Seta o ID para o modal de info
-              setShowInfoModal(true); // Abre o modal de info
+              setSelectedInfoId(element.id);
+              setShowInfoModal(true);
             },
             style: { cursor: "pointer" },
           })}
         >
-          {/*visualize={({ selectedId, setSelectedId }) =>
-            selectedId !== null && (
-              <div className="center-modal-overlay">
-                <div className="center-modal-content">
-                  <InfoTurma
-                    id={selectedId}
-                    onClose={() => setSelectedId(null)}
-                  />
-                </div>
-              </div>
-            )
-          }*/}
-
           {(element) => (
             <>
               <td style={{ textAlign: "center" }}>{element.turma || "-"}</td>

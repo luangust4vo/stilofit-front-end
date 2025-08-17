@@ -63,6 +63,7 @@ const GenericContextProvider = ({ lSName, children }) => {
     getStorageObjectById,
     initializeStorageObject,
     setContextStorageObject,
+    saveToStorage,
   };
 
   return (
