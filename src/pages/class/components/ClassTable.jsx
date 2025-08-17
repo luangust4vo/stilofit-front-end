@@ -7,7 +7,7 @@ import InfoTurma from "../Info/index";
 import "./styles.scss";
 
 function ClassTable() {
-  const [turmas, setTurmas] = useState([]);
+  const [classes, setClasses] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [search, setSearch] = useState("");
   const [idEdit, setIdEdit] = useState(null);
@@ -15,13 +15,13 @@ function ClassTable() {
   const [selectedInfoId, setSelectedInfoId] = useState(null);
 
   useEffect(() => {
-    const dados = JSON.parse(localStorage.getItem("turmas")) || [];
-    setTurmas(dados);
+    const data = JSON.parse(localStorage.getItem("turmas")) || [];
+    setClasses(data);
   }, []);
 
   const handleCadastroSucesso = () => {
-    const dadosAtualizados = JSON.parse(localStorage.getItem("turmas")) || [];
-    setTurmas(dadosAtualizados);
+    const updatedData = JSON.parse(localStorage.getItem("turmas")) || [];
+    setClasses(updatedData);
     setShowModal(false);
     setIdEdit(null);
   };
@@ -31,23 +31,23 @@ function ClassTable() {
     setShowModal(true);
   };
 
-  const turmasFiltradas = useMemo(() => {
-    if (!search.trim()) return turmas;
-    const textoLower = search.toLowerCase();
-    return turmas.filter(
-      (turma) =>
-        (turma.turma && turma.turma.toLowerCase().includes(textoLower)) ||
-        (turma.local && turma.local.toLowerCase().includes(textoLower)) ||
-        (turma.observacoes &&
-          turma.observacoes.toLowerCase().includes(textoLower))
+  const filteredClasses = useMemo(() => {
+    if (!search.trim()) return classes;
+    const textLower = search.toLowerCase();
+    return classes.filter(
+      (element) =>
+        (element.turma && element.turma.toLowerCase().includes(textLower)) ||
+        (element.local && element.local.toLowerCase().includes(textLower)) ||
+        (element.observacoes &&
+          element.observacoes.toLowerCase().includes(textLower))
     );
-  }, [search, turmas]);
+  }, [search, classes]);
 
   return (
     <LayoutMenu>
       <GenericContextProvider lSName="turmas">
         <Table
-          data={turmasFiltradas}
+          data={filteredClasses}
           headerComponent={() => (
             <>
               <div className="header-left"></div>
@@ -81,7 +81,7 @@ function ClassTable() {
             "Cor",
             "",
           ]}
-          getRowProps={({ element, setSelectedId }) => ({
+          getRowProps={({ element }) => ({
             onClick: () => {
               setSelectedInfoId(element.id);
               setShowInfoModal(true);

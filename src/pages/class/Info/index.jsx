@@ -16,7 +16,7 @@ const InfoTurma = ({ id: propId, onClose }) => {
   }, [id, getStorageObjectById]);
 
   return (
-    <div className="info-turma">
+    <div className="info-class">
       <h2>Detalhes da Turma</h2>
 
       {selectedClass ? (

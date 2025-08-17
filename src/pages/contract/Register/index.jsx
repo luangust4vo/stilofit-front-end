@@ -176,7 +176,7 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
                 <MultiSelect
                   name="classRoms"
                   label="Turmas"
-                  labelKey={"turma"}
+                  labelKey={"class"}
                   options={classRoms}
                 />
                 <div className="side">

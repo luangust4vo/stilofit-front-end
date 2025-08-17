@@ -13,13 +13,17 @@ import {
 import { useGenericContext } from "../../../contexts/GenericContext";
 import { toast } from "react-toastify";
 
-const locaisPredefinidos = ["Sala 101", "Laboratório 2", "Auditório"];
+const predefinedPlaces = ["Sala 101", "Laboratório 2", "Auditório"];
 
 const ClassModal = ({ onClose, onSuccess, id = null }) => {
   const [classData, setClassData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { storageObject, getStorageObjectById, addStorageObject, updateStorageObject } =
-    useGenericContext();
+  const {
+    storageObject,
+    getStorageObjectById,
+    addStorageObject,
+    updateStorageObject,
+  } = useGenericContext();
 
   useEffect(() => {
     if (id) {
@@ -55,7 +59,7 @@ const ClassModal = ({ onClose, onSuccess, id = null }) => {
     }
   }, [classData, reset]);
 
-  const localSelecionado = useWatch({
+  const selectedPlace = useWatch({
     name: "local",
     control: methods.control,
   });
@@ -88,7 +92,6 @@ const ClassModal = ({ onClose, onSuccess, id = null }) => {
             <h1>{id ? "Editar Turma" : "Cadastro de Turma"}</h1>
             <Input
               name="turma"
-              id="turma"
               label="Nome da turma"
               required
               placeholder="Digite o nome da turma"
@@ -96,7 +99,6 @@ const ClassModal = ({ onClose, onSuccess, id = null }) => {
             <div className="row">
               <Input
                 name="vagas"
-                id="vagas"
                 type="number"
                 label="Quantidade de vagas"
                 required
@@ -104,15 +106,14 @@ const ClassModal = ({ onClose, onSuccess, id = null }) => {
               />
               <Input
                 name="tempo"
-                id="tempo"
                 type="number"
                 label="Duração (minutos)"
                 required
                 placeholder="Ex: 50"
               />
-              <Select name="local" id="local" label="Local da aula" required>
+              <Select name="local" label="Local da aula" required>
                 <option value="">Selecione o local</option>
-                {locaisPredefinidos.map((loc) => (
+                {predefinedPlaces.map((loc) => (
                   <option key={loc} value={loc}>
                     {loc}
                   </option>
@@ -121,7 +122,6 @@ const ClassModal = ({ onClose, onSuccess, id = null }) => {
             </div>
             <Textarea
               name="observacoes"
-              id="observacoes"
               label="Observações"
               placeholder="Caso necessário"
             />
