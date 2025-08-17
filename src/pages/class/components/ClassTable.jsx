@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
 import ClassModal from "../Register/index";
 import Table from "../../../components/Table/Table";
@@ -8,8 +7,6 @@ import InfoTurma from "../Info/index";
 import "./styles.scss";
 
 function ClassTable() {
-  const navigate = useNavigate();
-  const routeName = "turma";
   const [turmas, setTurmas] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [search, setSearch] = useState("");
@@ -145,10 +142,14 @@ function ClassTable() {
           />
         )}
         {showInfoModal && (
-          <InfoTurma
-            id={selectedInfoId}
-            onClose={() => setShowInfoModal(false)}
-          />
+          <div className="center-modal-overlay">
+            <div className="center-modal-content">
+              <InfoTurma
+                id={selectedInfoId}
+                onClose={() => setShowInfoModal(false)}
+              />
+            </div>
+          </div>
         )}
       </GenericContextProvider>
     </LayoutMenu>
