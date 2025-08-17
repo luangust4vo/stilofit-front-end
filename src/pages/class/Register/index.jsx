@@ -18,7 +18,7 @@ const locaisPredefinidos = ["Sala 101", "Laboratório 2", "Auditório"];
 const ClassModal = ({ onClose, onSuccess, id = null }) => {
   const [classData, setClassData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { storageObject, getStorageObjectById, saveToStorage } =
+  const { storageObject, getStorageObjectById, addStorageObject, updateStorageObject } =
     useGenericContext();
 
   useEffect(() => {
@@ -62,21 +62,14 @@ const ClassModal = ({ onClose, onSuccess, id = null }) => {
 
   const onSubmit = (data) => {
     try {
-      let updatedTurmas;
       if (id) {
-        updatedTurmas = storageObject.map((turma) =>
-          String(turma.id) === String(id)
-            ? { ...turma, ...data, id: turma.id }
-            : turma
-        );
+        updateStorageObject(id, data);
         toast.success("Turma atualizada com sucesso!");
       } else {
-        const newObj = { ...data, id: Date.now() };
-        updatedTurmas = [...storageObject, newObj];
+        addStorageObject(data);
         toast.success("Turma cadastrada com sucesso!");
       }
 
-      saveToStorage(updatedTurmas);
       onSuccess();
       onClose();
     } catch (e) {
