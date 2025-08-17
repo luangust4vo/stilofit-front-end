@@ -59,11 +59,6 @@ const ClassModal = ({ onClose, onSuccess, id = null }) => {
     }
   }, [classData, reset]);
 
-  const selectedPlace = useWatch({
-    name: "local",
-    control: methods.control,
-  });
-
   const onSubmit = (data) => {
     try {
       if (id) {
