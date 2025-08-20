@@ -1,30 +1,22 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "../../../components";
+import { useGenericContext } from "../../../contexts/GenericContext";
 import "./styles.scss";
 
 const InfoTurma = ({ id: propId, onClose }) => {
   const params = useParams();
   const id = propId || params.id;
   const [selectedClass, setSelectedClass] = useState(null);
+  const { getStorageObjectById } = useGenericContext();
 
   useEffect(() => {
-    console.log(
-      "[InfoTurma] Componente recebeu o ID:",
-      id,
-      "do tipo:",
-      typeof id
-    );
-
-    const classes = JSON.parse(localStorage.getItem("turmas")) || [];
-    console.log(classes);
-const classId = classes.find((t) => t.id === Number(id));
-
-    setSelectedClass(classId);
-  }, [id]);
+    const found = getStorageObjectById(id);
+    setSelectedClass(found);
+  }, [id, getStorageObjectById]);
 
   return (
-    <div className="info-turma">
+    <div className="info-class">
       <h2>Detalhes da Turma</h2>
 
       {selectedClass ? (

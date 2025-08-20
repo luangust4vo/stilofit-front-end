@@ -1,4 +1,10 @@
-import { useState, useEffect, createContext, useContext, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  createContext,
+  useContext,
+  useCallback,
+} from "react";
 
 const GenericContext = createContext();
 
@@ -19,7 +25,7 @@ const GenericContextProvider = ({ lSName, children }) => {
   };
 
   const addStorageObject = (contractData) => {
-    const newObj = { ...contractData, id: crypto.randomUUID() };
+    const newObj = { ...contractData, id: Date.now() };
     const updated = [...storageObject, newObj];
     saveToStorage(updated);
     return newObj;
@@ -47,7 +53,7 @@ const GenericContextProvider = ({ lSName, children }) => {
   );
 
   const setContextStorageObject = useCallback((data) => {
-    setStorageObject(data); 
+    setStorageObject(data);
   }, []);
 
   const contextValue = {
@@ -57,6 +63,7 @@ const GenericContextProvider = ({ lSName, children }) => {
     getStorageObjectById,
     initializeStorageObject,
     setContextStorageObject,
+    saveToStorage,
   };
 
   return (
@@ -66,4 +73,4 @@ const GenericContextProvider = ({ lSName, children }) => {
   );
 };
 
-export {GenericContextProvider};
+export { GenericContextProvider };

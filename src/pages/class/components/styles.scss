@@ -98,39 +98,35 @@
     border-radius: 16px;
     box-shadow: -4px 4px 12px 2px rgba(0, 0, 0, 0.25);
 
-    
-  .info-turma {
-    h2 {
-      margin-bottom: 3rem;
-    }
+    .info-class {
+      h2 {
+        margin-bottom: 3rem;
+      }
 
-    p {
-      margin: 1.5rem 0.5rem;
-      font-size: 1.1rem;
-    }
+      p {
+        margin: 1.5rem 0.5rem;
+        font-size: 1.1rem;
+      }
 
-    .color-info{
-      display: flex;
-      align-items: center;
+      .color-info {
+        display: flex;
+        align-items: center;
 
-      p{
-        margin: 0 0.5rem;
+        p {
+          margin: 0 0.5rem;
+        }
+      }
+
+      .color-box {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #ccc;
+        margin: 0.5rem 0;
+      }
+
+      Button {
+        margin-top: 30px;
       }
     }
-
-    .color-box {
-      width: 20px;
-      height: 20px;
-      border: 1px solid #ccc;
-      margin: 0.5rem 0;
-    }
-
-    Button{
-      margin-top: 30px;
-    }
-  } 
-
   }
-
-
 }
