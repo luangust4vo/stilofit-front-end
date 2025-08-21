@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import Table from "../../../components/Table/Table";
-import { goRegistration, goEdit } from "../../../components/Table/Table";
-import { GenericContextProvider } from "../../../contexts/GenericContext";
+import Table from "../../../components/Table/Table.jsx";
+import { goRegistration, goEdit } from "../../../components/Table/Table.jsx";
+import { GenericContextProvider } from "../../../contexts/GenericContext.jsx";
 import InfoEmployee from "../info/InfoEmployee.jsx";
-import { Button, LayoutMenu } from "../../../components";
+import { Button, LayoutMenu } from "../../../components/index.jsx";
 
 import "./style.scss";
 
@@ -36,14 +36,23 @@ function EmployeeTable() {
               </div>
             </>
           )}
-          headerCells={[
-            "Nome",
-            "Valor Total",
-            "Parcelas",
-            "Valor da Parcela",
-            "Vencimento",
-            "",
-          ]}
+          /*
+          Nome
+          email
+          senha
+          data nascimento
+          sexo
+          cpf
+          rg
+          registro profissional
+          estado civil
+          cargo
+          status (Ativo, cancelado)
+          Contato
+          Endereço
+          Jornada (Se trabalha de manhã, tarde ou noite e em que hora)
+          */
+          headerCells={["Nome", "Cargo", "Status", "Jornada", ""]}
           getRowProps={({ element, setSelectedId }) => ({
             onClick: () => {
               setSelectedId(element.id);
@@ -65,28 +74,10 @@ function EmployeeTable() {
         >
           {(element) => (
             <>
-              <td>{element.name}</td>
-              <td>
-                {"R$ " +
-                  Number(element.totalValue).toFixed(2).replace(".", ",")}
-              </td>
-              <td>{element.installments ? element.installments : "-"}</td>
-              <td>
-                {element.installmentsValue
-                  ? "R$ " +
-                    Number(element.installmentsValue)
-                      .toFixed(2)
-                      .replace(".", ",")
-                  : "-"}
-              </td>
-              <td>
-                {element.expire}
-                {element.typeExpire === "por Seção"
-                  ? " aulas"
-                  : element.typeExpire === "por Tempo"
-                  ? " meses"
-                  : ""}
-              </td>
+              <td>{element.nome}</td>
+              <td>{element.carto}</td>
+              <td>{element.status}</td>
+              <td>{element.jornada}</td>
               <td className="buttons">
                 <Button
                   className="btn-icon-edit"
