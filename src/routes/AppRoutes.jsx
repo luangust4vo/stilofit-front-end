@@ -14,6 +14,7 @@ const AppRoutes = () => {
         {CheckoutRoutes()}
         {ClassRoutes()}
         {LoginRoutes()}
+        {EmployeeRoutes()}
       </Routes>
     </BrowserRouter>
   );
