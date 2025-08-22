@@ -21,6 +21,7 @@ function Table({
   visualize,
   children,
   data,
+  searchBy = "name",
 }) {
   const { storageObject } = useGenericContext();
   const [filteredElements, setfilteredElements] = useState([]);
@@ -29,16 +30,19 @@ function Table({
   const limit = 30;
   const [selectedId, setSelectedId] = useState(null);
   const dataSource = data || storageObject;
-  
+
   useEffect(() => {
     let result = [...dataSource];
     if (search.trim() !== "") {
       result = result.filter((element) =>
-        element.name.toLowerCase().includes(search.toLowerCase())
+        (element[searchBy] || "").toLowerCase().includes(search.toLowerCase())
       );
     }
-    result.sort((a, b) => (a.name || "").localeCompare(b.name || "", "pt-BR"));
-    setfilteredElements(result.slice(0, offset + limit));
+    result.sort((a, b) =>
+      (a[searchBy] || "").localeCompare(b[searchBy] || "", "pt-BR")
+    );
+    //setfilteredElements(result.slice(0, offset + limit));
+    setfilteredElements(dataSource);
   }, [search, dataSource, offset]);
 
   useEffect(() => {
@@ -93,7 +97,7 @@ function Table({
           )}
         </tbody>
       </table>
-      
+
       {typeof visualize === "function"
         ? visualize({ selectedId, setSelectedId })
         : visualize}

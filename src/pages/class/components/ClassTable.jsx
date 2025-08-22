@@ -48,6 +48,7 @@ function ClassTable() {
       <GenericContextProvider lSName="turmas">
         <Table
           data={filteredClasses}
+          searchBy="nome"
           headerComponent={() => (
             <>
               <div className="header-left"></div>
