@@ -120,6 +120,10 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
         </Button>
 
         <main className="form">
+          {/* Nome. email, senha, data nascimento, sexo, cpf, rg, registro profissional, estado civil, cargo, status (Ativo, cancelado)
+Contato
+Endereço
+Jornada (Se trabalha de manhã, tarde ou noite e em que hora) */}
           <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="block">
