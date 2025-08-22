@@ -6,12 +6,12 @@ import "./style.scss";
 const InfoEmployee = ({ id: propId, onClose }) => {
   const params = useParams();
   const id = propId || params.id;
-  const [selectedContract, setSelectedContract] = useState(null);
+  const [selectedEmployee, setselectedEmployee] = useState(null);
 
   useEffect(() => {
     const contracts = JSON.parse(localStorage.getItem("contratos")) || [];
     const foundContract = contracts.find((c) => String(c.id) === id);
-    setSelectedContract(foundContract);
+    setselectedEmployee(foundContract);
   }, [id]);
 
   return (
@@ -22,56 +22,60 @@ const InfoEmployee = ({ id: propId, onClose }) => {
         <i className="bi bi-arrow-left"></i>
         Voltar
       </Button>
-      {selectedContract ? (
+      {selectedEmployee ? (
         <>
           <p>
-            <strong>Nome:</strong> {" " + selectedContract.name}
+            <strong>Nome:</strong> {" " + selectedEmployee.name}
           </p>
           <p>
-            <strong>Status:</strong> {" " + selectedContract.status}
+            <strong>Email:</strong> {" " + selectedEmployee.email}
           </p>
           <p>
-            <strong>Template:</strong> {" " + selectedContract.template}
+            <strong>Senha:</strong> {" " + selectedEmployee.password}
           </p>
           <p>
-            <strong>Forma de Parcelamento:</strong>
-            {" " + selectedContract.installmentable}
-          </p>
-          {selectedContract.installmentable === "Parcelável" ? (
-            <p>
-              <strong>Número de Parcelas:</strong>
-              {" " + selectedContract.installments}
-            </p>
-          ) : (
-            ""
-          )}
-          <p>
-            <strong>Valor Total:</strong>{" "}
-            {" R$ " +
-              Number(selectedContract.totalValue)
-                .toFixed(2)
-                .replace(".", ",")}{" "}
+            <strong>Data de Nascimento:</strong>
+            {" " + selectedEmployee.birthDate}
           </p>
           <p>
-            <strong>Vencimento:</strong>
-            {" " + selectedContract.expire}
-            {selectedContract.typeExpire === "por Seção"
+            <strong>Sexo:</strong>{" "}
+            {" " +
+              Number(selectedEmployee.gender === "Masculino" ? 1 : 0) +
+              (selectedEmployee.gender === "Masculino" ? "Masculino" : "Feminino")}
+          </p>
+          <p>
+            <strong>CPF:</strong>
+            {" " + selectedEmployee.expire}
+            {selectedEmployee.typeExpire === "por Seção"
               ? " aulas"
-              : selectedContract.typeExpire === "por Tempo"
+              : selectedEmployee.typeExpire === "por Tempo"
                 ? " meses"
                 : ""}
           </p>
           <p>
-            <strong>Turmas:</strong>
-            {" " + selectedContract.classRoms}
+            <strong>RG:</strong>
+            {" " + selectedEmployee.classRoms}
           </p>
           <p>
-            <strong>Horário de Entrada:</strong>
-            {" " + selectedContract.timeMin + " - " + selectedContract.timeMax}
+            <strong>Registro Profissional:</strong>
+            {" " + selectedEmployee.professionalRecord}
           </p>
           <p>
-            <strong>Dias da Semana:</strong>
-            {" " + selectedContract.weekdays}
+            <strong>Estado Civil:</strong>
+            {" " + selectedEmployee.civilStatus}
+          </p>
+          <p>
+            <strong>Cargo:</strong>
+            {" " + selectedEmployee.role}
+          </p>
+          <p>
+            <strong>Status:</strong>
+            {" " + selectedEmployee.status}
+            {selectedEmployee.status === "Ativo" ? (
+              <span className="status-active">Ativo</span>
+            ) : (
+              <span className="status-inactive">Inativo</span>
+            )}
           </p>
         </>
       ) : (
@@ -81,4 +85,4 @@ const InfoEmployee = ({ id: propId, onClose }) => {
   );
 };
 
-export default InfoEmpoloyee;
+export default InfoEmployee;
