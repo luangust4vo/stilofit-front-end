@@ -1,8 +1,9 @@
 import { Route } from "react-router-dom";
 import { GenericContextProvider } from "../contexts/GenericContext.jsx";
 import EmployeeTable from "../pages/employee/components/EmployeeTable";
-//import EmployeeEdit from "../pages/employees/Register/EmployeeEdit";
-//import RegisterCt from "../pages/employees/Register";
+import InfoEmployee from "../pages/employee/info/InfoEmployee";
+//import EmployeeEdit from "../pages/employee/Register/EmployeeEdit";
+//import RegisterCt from "../pages/employee/Register";
 
 const EmployeeRoutes = () => {
   return (
@@ -15,6 +16,7 @@ const EmployeeRoutes = () => {
           </GenericContextProvider>
         }
       />
+      <Route path=":id/" element={<InfoEmployee />} />
       {/*<Route path=":id/editar" element={<EmployeeEdit />} />*/}
       {/*<Route path="novo" element={<RegisterCt />} />*/}
     </Route>

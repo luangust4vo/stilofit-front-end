@@ -1,97 +1,83 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "../../../components";
+import { LayoutMenu } from "../../../components/index.jsx";
 import "./style.scss";
 
-const InfoEmployee = ({ id: propId, onClose }) => {
-  const params = useParams();
-  const id = propId || params.id;
-  const [selectedContract, setSelectedContract] = useState(null);
+const InfoEmployee = () => {
+  const { id } = useParams();
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const contracts = JSON.parse(localStorage.getItem("contratos")) || [];
-    const foundContract = contracts.find((c) => String(c.id) === id);
-    setSelectedContract(foundContract);
+    const employees = JSON.parse(localStorage.getItem("funcionarios")) || [];
+    const foundEmployee = employees.find((c) => String(c.id) === id);
+    setSelectedEmployee(foundEmployee);
   }, [id]);
 
   return (
-    <div className="container-employee-info">
-      <Button onClick={onClose}>
-        <i className="bi bi-arrow-left"></i>
-        Voltar
-      </Button>
-      {selectedContract ? (
-        <>
-          {/*
-          Nome
-          email
-          senha
-          data nascimento
-          sexo
-          cpf
-          rg
-          registro profissional
-          estado civil
-          cargo
-          status (Ativo, cancelado)
-          Contato
-          Endereço
-          Jornada (Se trabalha de manhã, tarde ou noite e em que hora)
-          */}
-          <p>
-            <strong>Nome:</strong> {" " + selectedContract.name}
-          </p>
-          <p>
-            <strong>Status:</strong> {" " + selectedContract.status}
-          </p>
-          <p>
-            <strong>Template:</strong> {" " + selectedContract.template}
-          </p>
-          <p>
-            <strong>Forma de Parcelamento:</strong>
-            {" " + selectedContract.installmentable}
-          </p>
-          {selectedContract.installmentable === "Parcelável" ? (
+    <LayoutMenu>
+      <div className="container-employee-info">
+        <Button onClick={() => navigate("/funcionario")}>
+          <i className="bi bi-arrow-left"></i>
+          Voltar
+        </Button>
+        {selectedEmployee ? (
+          <>
             <p>
-              <strong>Número de Parcelas:</strong>
-              {" " + selectedContract.installments}
+              <strong>Nome:</strong> {" " + selectedEmployee.nome}
             </p>
-          ) : (
-            ""
-          )}
-          <p>
-            <strong>Valor Total:</strong>{" "}
-            {" R$ " +
-              Number(selectedContract.totalValue)
-                .toFixed(2)
-                .replace(".", ",")}{" "}
-          </p>
-          <p>
-            <strong>Vencimento:</strong>
-            {" " + selectedContract.expire}
-            {selectedContract.typeExpire === "por Seção"
-              ? " aulas"
-              : selectedContract.typeExpire === "por Tempo"
-              ? " meses"
-              : ""}
-          </p>
-          <p>
-            <strong>Turmas:</strong>
-            {" " + selectedContract.classRoms}
-          </p>
-          <p>
-            <strong>Horário de Entrada:</strong>
-            {" " + selectedContract.timeMin + " - " + selectedContract.timeMax}
-          </p>
-          <p>
-            <strong>Dias da Semana:</strong>
-            {" " + selectedContract.weekdays}
-          </p>
-        </>
-      ) : (
-        "Nenhuma Informação encontrada"
-      )}
-    </div>
+            <p>
+              <strong>Email:</strong> {" " + selectedEmployee.email}
+            </p>
+            <p>
+              <strong>Data de Nascimento:</strong>
+              {" " + selectedEmployee.dataNascimento}
+            </p>
+            <p>
+              <strong>Sexo:</strong>
+              {" " + selectedEmployee.sexo}
+            </p>
+            <p>
+              <strong>CPF:</strong>
+              {" " + selectedEmployee.cpf}
+            </p>
+            <p>
+              <strong>RG:</strong>
+              {" " + selectedEmployee.registroProfissional}
+            </p>
+            <p>
+              <strong>Registro Profissional:</strong>
+              {" " + selectedEmployee.registroProfissional}
+            </p>
+            <p>
+              <strong>Estado Civil:</strong>
+              {" " + selectedEmployee.estadoCivil}
+            </p>
+            <p>
+              <strong>Cargo:</strong>
+              {" " + selectedEmployee.cargo}
+            </p>
+            <p>
+              <strong>Status:</strong> {" " + selectedEmployee.status}
+            </p>
+            <p>
+              <strong>Contrato:</strong> {" " + selectedEmployee.contrato}
+            </p>
+            <p>
+              <strong>Endereço:</strong>
+              {" " + selectedEmployee.endereco}
+            </p>
+            <p>
+              <strong>Jornada:</strong>
+              {" " + selectedEmployee.jornada}
+            </p>
+          </>
+        ) : (
+          "Nenhuma Informação encontrada"
+        )}
+      </div>
+    </LayoutMenu>
   );
 };
 

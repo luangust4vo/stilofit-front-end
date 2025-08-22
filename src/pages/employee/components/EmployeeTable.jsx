@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Table from "../../../components/Table/Table.jsx";
-import { goRegistration, goEdit } from "../../../components/Table/Table.jsx";
+import {
+  goRegistration,
+  goEdit,
+  goView,
+} from "../../../components/Table/Table.jsx";
 import { useGenericContext } from "../../../contexts/GenericContext.jsx";
-import InfoEmployee from "../info/InfoEmployee.jsx";
 import { Button, LayoutMenu } from "../../../components/index.jsx";
 
 import "./style.scss";
@@ -57,24 +60,12 @@ function EmployeeTable() {
           </>
         )}
         headerCells={["Nome", "Cargo", "Status", "Jornada", ""]}
-        getRowProps={({ element, setSelectedId }) => ({
+        getRowProps={({ element }) => ({
           onClick: () => {
-            setSelectedId(element.id);
+            goView(navigate, routeName, element.id);
           },
           style: { cursor: "pointer" },
         })}
-        visualize={({ selectedId, setSelectedId }) =>
-          selectedId !== null && (
-            <div className="center-modal-overlay">
-              <div className="center-modal-content">
-                <InfoEmployee
-                  id={selectedId}
-                  onClose={() => setSelectedId(null)}
-                />
-              </div>
-            </div>
-          )
-        }
       >
         {(element) => (
           <>
