@@ -36,22 +36,6 @@ function EmployeeTable() {
               </div>
             </>
           )}
-          /*
-          Nome
-          email
-          senha
-          data nascimento
-          sexo
-          cpf
-          rg
-          registro profissional
-          estado civil
-          cargo
-          status (Ativo, cancelado)
-          Contato
-          Endereço
-          Jornada (Se trabalha de manhã, tarde ou noite e em que hora)
-          */
           headerCells={["Nome", "Cargo", "Status", "Jornada", ""]}
           getRowProps={({ element, setSelectedId }) => ({
             onClick: () => {
@@ -75,7 +59,7 @@ function EmployeeTable() {
           {(element) => (
             <>
               <td>{element.nome}</td>
-              <td>{element.carto}</td>
+              <td>{element.cargo}</td>
               <td>{element.status}</td>
               <td>{element.jornada}</td>
               <td className="buttons">

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import {Button} from "../../../components"
+import { Button } from "../../../components";
 import "./style.scss";
 
 const InfoEmployee = ({ id: propId, onClose }) => {
@@ -16,14 +16,28 @@ const InfoEmployee = ({ id: propId, onClose }) => {
 
   return (
     <div className="container-employee-info">
-      <Button
-        onClick={onClose}
-      >
+      <Button onClick={onClose}>
         <i className="bi bi-arrow-left"></i>
         Voltar
       </Button>
       {selectedContract ? (
         <>
+          {/*
+          Nome
+          email
+          senha
+          data nascimento
+          sexo
+          cpf
+          rg
+          registro profissional
+          estado civil
+          cargo
+          status (Ativo, cancelado)
+          Contato
+          Endereço
+          Jornada (Se trabalha de manhã, tarde ou noite e em que hora)
+          */}
           <p>
             <strong>Nome:</strong> {" " + selectedContract.name}
           </p>
@@ -58,8 +72,8 @@ const InfoEmployee = ({ id: propId, onClose }) => {
             {selectedContract.typeExpire === "por Seção"
               ? " aulas"
               : selectedContract.typeExpire === "por Tempo"
-                ? " meses"
-                : ""}
+              ? " meses"
+              : ""}
           </p>
           <p>
             <strong>Turmas:</strong>
