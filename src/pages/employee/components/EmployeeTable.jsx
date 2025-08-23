@@ -72,7 +72,11 @@ function EmployeeTable() {
             <td>{element.nome}</td>
             <td>{element.cargo}</td>
             <td>{element.status}</td>
-            <td>{element.jornada}</td>
+            <td>
+              {element && element.jornada
+                ? element.jornada.inicio + " - " + element.jornada.fim
+                : " - "}
+            </td>
             <td className="buttons">
               <Button
                 className="btn-icon-edit"
