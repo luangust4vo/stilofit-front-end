@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { fetchAddressByCEP } from "../../../services/viaCep";
 import { toast } from "react-toastify";
 import { contractValidationSchema } from "../../../schemas";
 import {
@@ -23,7 +24,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   const navigate = useNavigate();
-
+  const [cep, setCep] = useState("");
   const methods = useForm({
     resolver: yupResolver(contractValidationSchema),
     defaultValues: initialData || {},
@@ -111,6 +112,19 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
     }
   };
 
+  const handlerBlur = async () => {
+    if (cep && cep.length >= 8) {
+      const address = await fetchAddressByCEP(cep.replace(/\D/g, ""));
+      if (address) {
+        setValue("street", address.logradouro || "");
+        setValue("neighborhood", address.bairro || "");
+        setValue("city", address.localidade || "");
+        setValue("state", address.uf || "");
+      } else {
+        toast.error("CEP não encontrado!");
+      }
+    }
+  };
   return (
     <LayoutMenu>
       <div className="container-contract-register">
@@ -120,82 +134,82 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
         </Button>
 
         <main className="form">
-          {/* Nome. email, senha, data nascimento, sexo, cpf, rg, registro profissional, estado civil, cargo, status (Ativo, cancelado)
-Contato
-Endereço
-Jornada (Se trabalha de manhã, tarde ou noite e em que hora) */}
+
           <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="block">
-  <h3>Dados Gerais do Funcionário</h3>
-  <Input label="Nome" name="name" required />
-  <Input label="Email" name="email" type="email" required />
-  <Input label="Senha" name="password" type="password" required />
-  <Input label="Data de Nascimento" name="birthDate" type="date" required />
-  <Select label="Sexo" name="gender" required>
-    <option value="">Selecione</option>
-    <option value="Masculino">Masculino</option>
-    <option value="Feminino">Feminino</option>
-    <option value="Outro">Outro</option>
-  </Select>
-  <Input label="CPF" name="cpf" required />
-  <Input label="RG" name="rg" />
-  <Input label="Registro Profissional" name="professionalRegister" required />
-  <Select label="Estado Civil" name="maritalStatus">
-    <option value="">Selecione</option>
-    <option value="Solteiro">Solteiro</option>
-    <option value="Casado">Casado</option>
-    <option value="Divorciado">Divorciado</option>
-    <option value="Viúvo">Viúvo</option>
-  </Select>
-  <Input label="Cargo" name="role" required />
-  <Select label="Status" name="status" required>
-    <option value="Ativo">Ativo</option>
-    <option value="Cancelado">Cancelado</option>
-  </Select>
-</div>
+                <h3>Dados Gerais do Funcionário</h3>
+                <Input label="Nome" name="name" required />
+                <Input label="Email" name="email" type="email" required />
+                <Input label="Senha" name="password" type="password" required />
+                <Input label="Data de Nascimento" name="birthDate" type="date" required />
+                <Select label="Sexo" name="gender" required>
+                  <option value="">Selecione</option>
+                  <option value="Masculino">Masculino</option>
+                  <option value="Feminino">Feminino</option>
+                  <option value="Outro">Outro</option>
+                </Select>
+                <Input label="CPF" name="cpf" required />
+                <Input label="RG" name="rg" />
+                <Input label="Registro Profissional" name="professionalRegister" required />
+                <Select label="Estado Civil" name="maritalStatus">
+                  <option value="">Selecione</option>
+                  <option value="Solteiro">Solteiro</option>
+                  <option value="Casado">Casado</option>
+                  <option value="Divorciado">Divorciado</option>
+                  <option value="Viúvo">Viúvo</option>
+                </Select>
+                <Input label="Cargo" name="role" required />
+                <Select label="Status" name="status" required>
+                  <option value="Ativo">Ativo</option>
+                  <option value="Cancelado">Cancelado</option>
+                </Select>
+              </div>
 
-<div className="block">
-  <h3>Contato</h3>
-  <Input label="Telefone" name="phone" />
-  <Input label="Celular" name="cellphone" />
-</div>
+              <div className="block">
+                <h3>Contato</h3>
+                <Input label="Telefone" name="phone" />
+                <Input label="Celular" name="cellphone" />
+              </div>
 
-<div className="block">
-  <h3>Endereço</h3>
-  <Input label="CEP" name="cep" />
-  <Input label="Rua" name="street" />
-  <Input label="Número" name="number" />
-  <Input label="Complemento" name="complement" />
-  <Input label="Bairro" name="neighborhood" />
-  <Input label="Cidade" name="city" />
-  <Input label="Estado" name="state" />
-</div>
+              <div className="block">
+                <h3>Endereço</h3>
+                <Input label="CEP" name="cep"
+                  onChange={(e) => setCep(e.target.value)}
+                  onBlur={handlerBlur}
+                />
+                <Input label="Rua" name="street" />
+                <Input label="Número" name="number" />
+                <Input label="Complemento" name="complement" />
+                <Input label="Bairro" name="neighborhood" />
+                <Input label="Cidade" name="city" />
+                <Input label="Estado" name="state" />
+              </div>
 
-<div className="block">
-  <h3>Jornada</h3>
-  <Select label="Turno" name="shift">
-    <option value="">Selecione</option>
-    <option value="Manhã">Manhã</option>
-    <option value="Tarde">Tarde</option>
-    <option value="Noite">Noite</option>
-  </Select>
-  <Input label="Horário de Entrada" name="timeMin" type="time" />
-  <Input label="Horário de Saída" name="timeMax" type="time" />
-  <CheckboxPanel
-    name="weekdays"
-    label="Dias da Semana"
-    options={[
-      { value: "domingo", label: "Dom" },
-      { value: "segunda", label: "Seg" },
-      { value: "terca", label: "Ter" },
-      { value: "quarta", label: "Qua" },
-      { value: "quinta", label: "Qui" },
-      { value: "sexta", label: "Sex" },
-      { value: "sabado", label: "Sáb" },
-    ]}
-  />
-</div>
+              <div className="block">
+                <h3>Jornada</h3>
+                <Select label="Turno" name="shift">
+                  <option value="">Selecione</option>
+                  <option value="Manhã">Manhã</option>
+                  <option value="Tarde">Tarde</option>
+                  <option value="Noite">Noite</option>
+                </Select>
+                <Input label="Horário de Entrada" name="timeMin" type="time" />
+                <Input label="Horário de Saída" name="timeMax" type="time" />
+                <CheckboxPanel
+                  name="weekdays"
+                  label="Dias da Semana"
+                  options={[
+                    { value: "domingo", label: "Dom" },
+                    { value: "segunda", label: "Seg" },
+                    { value: "terca", label: "Ter" },
+                    { value: "quarta", label: "Qua" },
+                    { value: "quinta", label: "Qui" },
+                    { value: "sexta", label: "Sex" },
+                    { value: "sabado", label: "Sáb" },
+                  ]}
+                />
+              </div>
 
               <Button>{initialData ? "Atualizar" : "Salvar"}</Button>
             </form>

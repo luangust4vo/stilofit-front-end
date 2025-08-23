@@ -14,6 +14,7 @@ const InfoEmployee = ({ id: propId, onClose }) => {
     setselectedEmployee(foundContract);
   }, [id]);
 
+  const[cep, setCep] = useState("");  
   return (
     <div className="container-contract-info">
       <Button
