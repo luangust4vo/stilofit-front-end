@@ -100,7 +100,7 @@ const InfoEmployee = () => {
                 : " - "}
             </p>
             <p>
-              <strong>Jornada:</strong>
+              <strong>Jornada: </strong>
               {selectedEmployee && selectedEmployee.jornada
                 ? selectedEmployee.jornada.inicio +
                   " - " +

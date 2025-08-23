@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { useGenericContext } from "../../contexts/GenericContext";
+import { useState } from "react";
 import "./styles.scss";
 
 export const goRegistration = (navigate, routeName) => {
@@ -21,52 +20,14 @@ function Table({
   visualize,
   children,
   data,
-  searchBy = "name",
 }) {
-  const { storageObject } = useGenericContext();
-  const [filteredElements, setfilteredElements] = useState([]);
-  const [search, setSearch] = useState("");
-  const [offset, setOffset] = useState(0);
-  const limit = 30;
   const [selectedId, setSelectedId] = useState(null);
-  const dataSource = data || storageObject;
-
-  useEffect(() => {
-    let result = [...dataSource];
-    if (search.trim() !== "") {
-      result = result.filter((element) =>
-        (element[searchBy] || "").toLowerCase().includes(search.toLowerCase())
-      );
-    }
-    result.sort((a, b) =>
-      (a[searchBy] || "").localeCompare(b[searchBy] || "", "pt-BR")
-    );
-    //setfilteredElements(result.slice(0, offset + limit));
-    setfilteredElements(dataSource);
-  }, [search, dataSource, offset]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const table = document.querySelector(".table-container");
-      if (!table) return;
-      if (window.innerHeight + window.scrollY >= table.offsetHeight - 100) {
-        if (filteredElements.length < dataSource.length) {
-          handleLoadMore();
-        }
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [filteredElements, dataSource]);
-  const handleLoadMore = () => {
-    setOffset((prev) => prev + limit);
-  };
 
   return (
     <div className="table-container">
       <div className="table-header">
         {typeof headerComponent === "function"
-          ? headerComponent({ search, setSearch })
+          ? headerComponent({})
           : headerComponent}
       </div>
       <table className="table">
@@ -78,19 +39,20 @@ function Table({
           </tr>
         </thead>
         <tbody>
-          {filteredElements.map((element) => (
-            <tr
-              key={element.id}
-              {...(getRowProps
-                ? getRowProps({ element, selectedId, setSelectedId })
-                : {})}
-            >
-              {typeof children === "function" ? children(element) : children}
-            </tr>
-          ))}
-          {filteredElements.length === 0 && (
+          {data.length > 0 ? (
+            data.map((element) => (
+              <tr
+                key={element.id}
+                {...(getRowProps
+                  ? getRowProps({ element, selectedId, setSelectedId })
+                  : {})}
+              >
+                {typeof children === "function" ? children(element) : children}
+              </tr>
+            ))
+          ) : (
             <tr>
-              <td colSpan={5} style={{ textAlign: "center" }}>
+              <td colSpan={headerCells.length} style={{ textAlign: "center" }}>
                 Nenhum elemento encontrado.
               </td>
             </tr>
