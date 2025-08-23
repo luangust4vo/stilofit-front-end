@@ -139,76 +139,96 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="block">
                 <h3>Dados Gerais do Funcionário</h3>
-                <Input label="Nome" name="name" required />
-                <Input label="Email" name="email" type="email" required />
-                <Input label="Senha" name="password" type="password" required />
-                <Input label="Data de Nascimento" name="birthDate" type="date" required />
-                <Select label="Sexo" name="gender" required>
-                  <option value="">Selecione</option>
-                  <option value="Masculino">Masculino</option>
-                  <option value="Feminino">Feminino</option>
-                  <option value="Outro">Outro</option>
-                </Select>
-                <Input label="CPF" name="cpf" required />
-                <Input label="RG" name="rg" />
-                <Input label="Registro Profissional" name="professionalRegister" required />
-                <Select label="Estado Civil" name="maritalStatus">
-                  <option value="">Selecione</option>
-                  <option value="Solteiro">Solteiro</option>
-                  <option value="Casado">Casado</option>
-                  <option value="Divorciado">Divorciado</option>
-                  <option value="Viúvo">Viúvo</option>
-                </Select>
-                <Input label="Cargo" name="role" required />
-                <Select label="Status" name="status" required>
-                  <option value="Ativo">Ativo</option>
-                  <option value="Cancelado">Cancelado</option>
-                </Select>
-              </div>
+                <Input label="Nome Completo" name="name" required className="full-width" />
+                <div className='row'>
+                  <Input label="Email" name="email" type="email" required />
+                  <Input label="Senha" name="password" type="password" required />
+                </div>
 
-              <div className="block">
-                <h3>Contato</h3>
-                <Input label="Telefone" name="phone" />
-                <Input label="Celular" name="cellphone" />
-              </div>
+                <div className='row'>
+                  <Input label="Data de Nascimento" name="birthDate" type="date" required />
+                  <Select label="Sexo" name="gender" required>
+                    <option value="">Selecione</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Feminino">Feminino</option>
+                    <option value="Outro">Outro</option>
+                  </Select>
+                  <Select label="Estado Civil" name="maritalStatus">
+                    <option value="">Selecione</option>
+                    <option value="Solteiro">Solteiro</option>
+                    <option value="Casado">Casado</option>
+                    <option value="Divorciado">Divorciado</option>
+                    <option value="Viúvo">Viúvo</option>
+                  </Select>
+                </div>
+                <div className='row'>
+                  <Input label="CPF" name="cpf" required />
+                  <Input label="RG" name="rg" />
+                  <Input label="Registro Profissional" name="professionalRegister" required />
+                </div>
 
+                <div className='row'>
+                  <Input label="Telefone" name="phone" />
+                  <Input label="Celular" name="cellphone" />
+
+                  <Select label="Cargo" name="role" required>
+                    <option value="">Selecione</option>
+                    <option value="Administrador">Administrador</option>
+                    <option value="Professor">Professor</option>
+                    <option value="Personal Trainer">Personal Trainer</option>
+                    <option value="Recepcionista">Recepcionista</option>
+                  </Select>
+                  <Select label="Status" name="status" required>
+                    <option value="Ativo">Ativo</option>
+                    <option value="Cancelado">Cancelado</option>
+                  </Select>
+                </div>
+              </div>
               <div className="block">
                 <h3>Endereço</h3>
-                <Input label="CEP" name="cep"
-                  onChange={(e) => setCep(e.target.value)}
-                  onBlur={handlerBlur}
-                />
-                <Input label="Rua" name="street" />
-                <Input label="Número" name="number" />
-                <Input label="Complemento" name="complement" />
-                <Input label="Bairro" name="neighborhood" />
-                <Input label="Cidade" name="city" />
-                <Input label="Estado" name="state" />
+                <div className="row">
+                  <Input label="CEP" name="cep"
+                    onChange={(e) => setCep(e.target.value)}
+                    onBlur={handlerBlur}
+                  />
+
+                  <Input label="Rua" name="street" />
+                  <Input label="Número" name="number" />
+                </div>
+                <div className="row">
+                  <Input label="Complemento" name="complement" />
+                  <Input label="Bairro" name="neighborhood" />
+                  <Input label="Cidade" name="city" />
+                  <Input label="Estado" name="state" />
+                </div>
               </div>
 
               <div className="block">
                 <h3>Jornada</h3>
-                <Select label="Turno" name="shift">
-                  <option value="">Selecione</option>
-                  <option value="Manhã">Manhã</option>
-                  <option value="Tarde">Tarde</option>
-                  <option value="Noite">Noite</option>
-                </Select>
-                <Input label="Horário de Entrada" name="timeMin" type="time" />
-                <Input label="Horário de Saída" name="timeMax" type="time" />
-                <CheckboxPanel
-                  name="weekdays"
-                  label="Dias da Semana"
-                  options={[
-                    { value: "domingo", label: "Dom" },
-                    { value: "segunda", label: "Seg" },
-                    { value: "terca", label: "Ter" },
-                    { value: "quarta", label: "Qua" },
-                    { value: "quinta", label: "Qui" },
-                    { value: "sexta", label: "Sex" },
-                    { value: "sabado", label: "Sáb" },
-                  ]}
-                />
+                <div className="row">
+                  <Select label="Turno" name="shift">
+                    <option value="">Selecione</option>
+                    <option value="Manhã">Manhã</option>
+                    <option value="Tarde">Tarde</option>
+                    <option value="Noite">Noite</option>
+                  </Select>
+                  <Input label="Horário de Entrada" name="timeMin" type="time" />
+                  <Input label="Horário de Saída" name="timeMax" type="time" />
+                </div>
+                  <CheckboxPanel
+                    name="weekdays"
+                    label="Dias da Semana"
+                    options={[
+                      { value: "domingo", label: "Dom" },
+                      { value: "segunda", label: "Seg" },
+                      { value: "terca", label: "Ter" },
+                      { value: "quarta", label: "Qua" },
+                      { value: "quinta", label: "Qui" },
+                      { value: "sexta", label: "Sex" },
+                      { value: "sabado", label: "Sáb" },
+                    ]}
+                  />
+                
               </div>
 
               <Button>{initialData ? "Atualizar" : "Salvar"}</Button>
