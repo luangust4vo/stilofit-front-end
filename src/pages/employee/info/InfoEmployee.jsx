@@ -51,7 +51,7 @@ const InfoEmployee = () => {
                 ? new Intl.DateTimeFormat("pt-BR").format(
                     new Date(selectedEmployee.dataNascimento)
                   )
-                : " -"}
+                : " - "}
             </p>
             <p>
               <strong>Sexo:</strong>
@@ -65,7 +65,7 @@ const InfoEmployee = () => {
               <strong>RG:</strong>
               {selectedEmployee && selectedEmployee.rg
                 ? " " + formatRG(selectedEmployee.rg)
-                : " -"}
+                : " - "}
             </p>
             <p>
               <strong>Registro Profissional:</strong>
@@ -73,24 +73,31 @@ const InfoEmployee = () => {
             </p>
             <p>
               <strong>Estado Civil:</strong>
-              {" " + selectedEmployee.estadoCivil}
+              {selectedEmployee && selectedEmployee.estadoCivil
+                ? " " + selectedEmployee.estadoCivil
+                : " - "}
             </p>
             <p>
               <strong>Cargo:</strong>
               {" " + selectedEmployee.cargo}
             </p>
             <p>
-              <strong>Status:</strong> {" " + selectedEmployee.status}
+              <strong>Status:</strong>
+              {selectedEmployee && selectedEmployee.status
+                ? " " + selectedEmployee.status
+                : " - "}
             </p>
             <p>
               <strong>Contato:</strong>
               {selectedEmployee && selectedEmployee.contato
                 ? " " + formatContact(selectedEmployee.contato)
-                : " -"}
+                : " - "}
             </p>
             <p>
               <strong>Endereço:</strong>
-              {" " + selectedEmployee.endereco}
+              {selectedEmployee && selectedEmployee.estadoCivil
+                ? " " + selectedEmployee.endereco
+                : " - "}
             </p>
             <p>
               <strong>Jornada:</strong>
