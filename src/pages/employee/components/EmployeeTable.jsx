@@ -1,71 +1,21 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect, useCallback } from "react";
 import Table from "../../../components/Table/Table.jsx";
-import {
-  goRegistration,
-  goEdit,
-  goView,
-} from "../../../components/Table/Table.jsx";
+import { goRegistration, goView, goEdit } from "../../../utils/navigation.jsx";
 import { useGenericContext } from "../../../contexts/GenericContext.jsx";
+import { useTableLogic } from "../../../hooks/useTableLogic.jsx";
 import { Button, LayoutMenu } from "../../../components/index.jsx";
 
 import "./style.scss";
-
-const limit = 30;
 
 function EmployeeTable() {
   const navigate = useNavigate();
   const routeName = "funcionario";
   const { storageObject } = useGenericContext();
 
-  const [filteredAndSortedElements, setFilteredAndSortedElements] = useState([]);
-  const [elementsToDisplay, setElementsToDisplay] = useState([]);
-  const [search, setSearch] = useState("");
-  const [offset, setOffset] = useState(0);
-
-  useEffect(() => {
-    let result = [...storageObject];
-    if (search.trim() !== "") {
-      result = result.filter((employee) =>
-        (employee.nome || "").toLowerCase().includes(search.toLowerCase())
-      );
-    }
-    result.sort((a, b) => {
-      const nomeA = (a.nome || "").toLowerCase();
-      const nomeB = (b.nome || "").toLowerCase();
-      return nomeA.localeCompare(nomeB, "pt-BR");
-    });
-
-    setFilteredAndSortedElements(result);
-    setOffset(0);
-  }, [search, storageObject]);
-
-  useEffect(() => {
-    const nextBatch = filteredAndSortedElements.slice(0, offset + limit);
-    setElementsToDisplay(nextBatch);
-  }, [filteredAndSortedElements, offset]);
-
-  const handleLoadMore = useCallback(() => {
-    setOffset((prev) => prev + limit);
-  }, [setOffset]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const table = document.querySelector(".table-container");
-      if (!table) return;
-
-      const scrollPosition = window.innerHeight + window.scrollY;
-      const threshold = table.offsetHeight - 100;
-
-      if (scrollPosition >= threshold) {
-        if (elementsToDisplay.length < filteredAndSortedElements.length) {
-          handleLoadMore();
-        }
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [handleLoadMore, elementsToDisplay.length, filteredAndSortedElements.length]);
+  const { search, setSearch, elementsToDisplay } = useTableLogic(
+    storageObject,
+    "nome"
+  );
 
   return (
     <LayoutMenu>
