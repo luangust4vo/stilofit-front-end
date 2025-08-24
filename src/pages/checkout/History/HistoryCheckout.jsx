@@ -3,7 +3,7 @@ import {
   useGenericContext,
   GenericContextProvider,
 } from "../../../contexts/GenericContext";
-import { Button, LayoutMenu, MonetaryInput } from "../../../components";
+import { Button, MonetaryInput } from "../../../components";
 import { useForm, FormProvider } from "react-hook-form";
 import { useState, useEffect, useMemo } from "react";
 import { DialogBox, Select } from "../../../components";
@@ -171,7 +171,6 @@ function HistoryCheckout() {
   }
 
   return (
-    <LayoutMenu>
       <FormProvider {...methods}>
         <form>
           <Table
@@ -260,7 +259,6 @@ function HistoryCheckout() {
           </Table>
         </form>
       </FormProvider>
-    </LayoutMenu>
   );
 }
 
