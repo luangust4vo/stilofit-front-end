@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "../../../components";
 import { useGenericContext } from "../../../contexts/GenericContext";
-import { LayoutMenu } from "../../../components/index.jsx";
 import "./style.scss";
 
 function formatCPF(cpf) {
@@ -39,7 +38,7 @@ const InfoEmployee = () => {
       {selectedEmployee ? (
         <div className="info-grid">
           <div className="column-personal">
-            <h2>Pessoal</h2>
+            <h2>Dados Pessoais</h2>
             <p>
               <strong>Nome:</strong> {" " + selectedEmployee.nome}
             </p>
@@ -80,7 +79,7 @@ const InfoEmployee = () => {
           </div>
 
           <div className="column-professional">
-            <h2>Profissional</h2>
+            <h2>Dados Profissionais</h2>
             <p>
               <strong>Email:</strong> {" " + selectedEmployee.email}
             </p>

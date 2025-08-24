@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, LayoutMenu } from "../../../components";
+import { Button } from "../../../components";
 import { useGenericContext } from "../../../contexts/GenericContext";
 import { useTableLogic } from "../../../hooks/useTableLogic.jsx";
 import Table from "../../../components/Table/Table";
@@ -30,7 +30,7 @@ function ClassTable() {
   };
 
   return (
-    <LayoutMenu>
+    <>
       <Table
         data={elementsToDisplay}
         headerComponent={() => (
@@ -136,7 +136,7 @@ function ClassTable() {
           </div>
         </div>
       )}
-    </LayoutMenu>
+    </>
   );
 }
 

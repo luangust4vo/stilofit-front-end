@@ -4,7 +4,7 @@ import { goRegistration, goEdit } from "../../../utils/navigation.jsx";
 import { useGenericContext } from "../../../contexts/GenericContext.jsx";
 import { useTableLogic } from "../../../hooks/useTableLogic.jsx";
 import InfoContract from "../Info/index";
-import { Button, LayoutMenu } from "../../../components";
+import { Button } from "../../../components";
 
 import "./styles.scss";
 
@@ -19,7 +19,6 @@ function ContractTable() {
   );
 
   return (
-    <LayoutMenu>
       <Table
         data={elementsToDisplay}
         headerComponent={() => (
@@ -106,7 +105,6 @@ function ContractTable() {
           </>
         )}
       </Table>
-    </LayoutMenu>
   );
 }
 
