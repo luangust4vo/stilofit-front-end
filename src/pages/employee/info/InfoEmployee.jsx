@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "../../../components";
+import { useGenericContext } from "../../../contexts/GenericContext";
 import { LayoutMenu } from "../../../components/index.jsx";
 import "./style.scss";
 
@@ -23,27 +24,24 @@ const InfoEmployee = () => {
   const { id } = useParams();
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const navigate = useNavigate();
+  const { getStorageObjectById } = useGenericContext();
 
   useEffect(() => {
-    const employees = JSON.parse(localStorage.getItem("funcionarios")) || [];
-    const foundEmployee = employees.find((c) => String(c.id) === id);
-    setSelectedEmployee(foundEmployee);
-  }, [id]);
+    setSelectedEmployee(getStorageObjectById(id));
+  }, [id, getStorageObjectById]);
 
   return (
-    <LayoutMenu>
-      <div className="container-employee-info">
-        <Button onClick={() => navigate("/funcionario")}>
-          <i className="bi bi-arrow-left"></i>
-          Voltar
-        </Button>
-        {selectedEmployee ? (
-          <>
+    <div className="container-employee-info">
+      <Button onClick={() => navigate("/funcionario")}>
+        <i className="bi bi-arrow-left"></i>
+        Voltar
+      </Button>
+      {selectedEmployee ? (
+        <div className="info-grid">
+          <div className="column-personal">
+            <h2>Pessoal</h2>
             <p>
               <strong>Nome:</strong> {" " + selectedEmployee.nome}
-            </p>
-            <p>
-              <strong>Email:</strong> {" " + selectedEmployee.email}
             </p>
             <p>
               <strong>Data de Nascimento:</strong>{" "}
@@ -68,14 +66,33 @@ const InfoEmployee = () => {
                 : " - "}
             </p>
             <p>
-              <strong>Registro Profissional:</strong>
-              {" " + selectedEmployee.registroProfissional}
+              <strong>Endereço:</strong>
+              {selectedEmployee && selectedEmployee.estadoCivil
+                ? " " + selectedEmployee.endereco
+                : " - "}
             </p>
             <p>
               <strong>Estado Civil:</strong>
               {selectedEmployee && selectedEmployee.estadoCivil
                 ? " " + selectedEmployee.estadoCivil
                 : " - "}
+            </p>
+          </div>
+
+          <div className="column-professional">
+            <h2>Profissional</h2>
+            <p>
+              <strong>Email:</strong> {" " + selectedEmployee.email}
+            </p>
+            <p>
+              <strong>Contato:</strong>
+              {selectedEmployee && selectedEmployee.contato
+                ? " " + formatContact(selectedEmployee.contato)
+                : " - "}
+            </p>
+            <p>
+              <strong>Registro Profissional:</strong>
+              {" " + selectedEmployee.registroProfissional}
             </p>
             <p>
               <strong>Cargo:</strong>
@@ -88,18 +105,6 @@ const InfoEmployee = () => {
                 : " - "}
             </p>
             <p>
-              <strong>Contato:</strong>
-              {selectedEmployee && selectedEmployee.contato
-                ? " " + formatContact(selectedEmployee.contato)
-                : " - "}
-            </p>
-            <p>
-              <strong>Endereço:</strong>
-              {selectedEmployee && selectedEmployee.estadoCivil
-                ? " " + selectedEmployee.endereco
-                : " - "}
-            </p>
-            <p>
               <strong>Jornada: </strong>
               {selectedEmployee && selectedEmployee.jornada
                 ? selectedEmployee.jornada.inicio +
@@ -107,12 +112,12 @@ const InfoEmployee = () => {
                   selectedEmployee.jornada.fim
                 : " - "}
             </p>
-          </>
-        ) : (
-          "Nenhuma Informação encontrada"
-        )}
-      </div>
-    </LayoutMenu>
+          </div>
+        </div>
+      ) : (
+        "Nenhuma Informação encontrada"
+      )}
+    </div>
   );
 };
 

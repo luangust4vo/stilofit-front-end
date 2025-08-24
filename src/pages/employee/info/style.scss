@@ -3,23 +3,36 @@
 .container-employee-info {
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: 1.5rem;
   font-size: 20px;
   height: 100%;
-
-  .btn-icon {
-  width: auto;
-  min-width: unset;
-  padding: 6px 16px;
-  border-radius: 6px;
-  align-self: flex-start;
-  background: vars.$btn-bg-icon;
-  color: vars.$text-header;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s;
-  display: flex;
-  align-items: center;
+  padding: 20px 40px;
 }
+
+.info-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  width: 100%;
+
+  h2 {
+    font-size: 1.5rem;
+    color: vars.$text;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid vars.$table-border;
+    padding-bottom: 0.5rem;
+  }
+
+  p {
+    margin: 0.5rem 0;
+  }
+}
+
+.column-personal,
+.column-professional {
+  flex: 1;
+  padding: 1.5rem;
+  background-color: vars.$bg-list;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
