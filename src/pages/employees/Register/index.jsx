@@ -4,8 +4,9 @@ import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { fetchAddressByCEP } from "../../../services/viaCep";
 import { toast } from "react-toastify";
-import { contractValidationSchema } from "../../../schemas";
+import { employeeValidationSchema } from "../../../schemas/employeeSchema";
 import {
+  MaskedInput,
   Button,
   Input,
   Select,
@@ -26,9 +27,10 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   const navigate = useNavigate();
   const [cep, setCep] = useState("");
   const methods = useForm({
-    resolver: yupResolver(contractValidationSchema),
+    resolver: yupResolver(employeeValidationSchema),
     defaultValues: initialData || {},
   });
+
 
   const { handleSubmit, setValue, watch, reset } = methods;
   const { addStorageObject, updateStorageObject } = useGenericContext();
@@ -162,7 +164,12 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
                   </Select>
                 </div>
                 <div className='row'>
-                  <Input label="CPF" name="cpf" required />
+                  <MaskedInput
+                    label="CPF"
+                    name="cpf"
+                    mask="000.000.000-00"
+                    required
+                  />
                   <Input label="RG" name="rg" />
                   <Input label="Registro Profissional" name="professionalRegister" required />
                 </div>
@@ -192,14 +199,14 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
                     onBlur={handlerBlur}
                   />
 
-                  <Input label="Rua" name="street" />
+                  <Input label="Rua" name="street" disabled />
                   <Input label="Número" name="number" />
                 </div>
                 <div className="row">
                   <Input label="Complemento" name="complement" />
-                  <Input label="Bairro" name="neighborhood" />
-                  <Input label="Cidade" name="city" />
-                  <Input label="Estado" name="state" />
+                  <Input label="Bairro" name="neighborhood" disabled />
+                  <Input label="Cidade" name="city" disabled />
+                  <Input label="Estado" name="state" disabled />
                 </div>
               </div>
 
