@@ -4,8 +4,9 @@ import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { fetchAddressByCEP } from "../../../services/viaCep";
 import { toast } from "react-toastify";
-import { contractValidationSchema } from "../../../schemas";
+import { employeeValidationSchema } from "../../../schemas/employeeSchema";
 import {
+  MaskedInput,
   Button,
   Input,
   Select,
@@ -24,32 +25,26 @@ import "react-toastify/dist/ReactToastify.css";
 
 const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   const navigate = useNavigate();
-  const [cep, setCep] = useState("");
   const methods = useForm({
-    resolver: yupResolver(contractValidationSchema),
+    resolver: yupResolver(employeeValidationSchema),
     defaultValues: initialData || {},
   });
+
 
   const { handleSubmit, setValue, watch, reset } = methods;
   const { addStorageObject, updateStorageObject } = useGenericContext();
   const installmentable = watch("installmentable");
   const typeExpire = watch("typeExpire");
 
-  useEffect(() => {
-    if (installmentable === "aVista") {
-      setValue("installments", undefined);
-    }
-  }, [installmentable, setValue]);
 
-  let expireLabel = "Validade por ";
-  let expirePlaceHolder = "";
-  if (typeExpire === "por Seções") {
-    expireLabel += "Seções";
-    expirePlaceHolder += "Aulas";
-  } else if (typeExpire === "por Tempo") {
-    expireLabel += "Tempo";
-    expirePlaceHolder += "Meses";
-  }
+  const employee = watch();
+  const [editableFields, setEditableFields] = useState({
+    address: true,
+    district: true,
+    city: true,
+    state: true,
+  });
+
 
   const [classRoms, setClassRoms] = useState([]);
   useEffect(() => {
@@ -112,16 +107,28 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
     }
   };
 
-  const handlerBlur = async () => {
-    if (cep && cep.length >= 8) {
-      const address = await fetchAddressByCEP(cep.replace(/\D/g, ""));
-      if (address) {
-        setValue("street", address.logradouro || "");
-        setValue("neighborhood", address.bairro || "");
-        setValue("city", address.localidade || "");
-        setValue("state", address.uf || "");
+  const searchAddress = async () => {
+    const cep = employee.cep?.replace(/\D/g, "");
+    if (cep?.length === 8) {
+      const data = await fetchAddressByCEP(cep);
+      if (data) {
+        setValue("address", data.logradouro || "");
+        setValue("district", data.bairro || "");
+        setValue("city", data.localidade || "");
+        setValue("state", data.uf || "");
+        setEditableFields({
+          address: false,
+          district: false,
+          city: false,
+          state: false,
+        });
       } else {
-        toast.error("CEP não encontrado!");
+        setEditableFields({
+          address: true,
+          district: true,
+          city: true,
+          state: true,
+        });
       }
     }
   };
@@ -162,15 +169,27 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
                   </Select>
                 </div>
                 <div className='row'>
-                  <Input label="CPF" name="cpf" required />
+                  <MaskedInput
+                    label="CPF"
+                    name="cpf"
+                    mask="000.000.000-00"
+                    required
+                  />
                   <Input label="RG" name="rg" />
                   <Input label="Registro Profissional" name="professionalRegister" required />
                 </div>
 
                 <div className='row'>
-                  <Input label="Telefone" name="phone" />
-                  <Input label="Celular" name="cellphone" />
-
+                <MaskedInput
+                label="Telefone"
+                name="guardianPhone"
+                mask="(00) 00000-0000"
+              />
+                  <MaskedInput
+                    label="Celular"
+                    name="cellphone"
+                    mask="(00) 00000-0000"
+                  />
                   <Select label="Cargo" name="role" required>
                     <option value="">Selecione</option>
                     <option value="Administrador">Administrador</option>
@@ -187,22 +206,33 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
               <div className="block">
                 <h3>Endereço</h3>
                 <div className="row">
-                  <Input label="CEP" name="cep"
-                    onChange={(e) => setCep(e.target.value)}
-                    onBlur={handlerBlur}
-                  />
-
-                  <Input label="Rua" name="street" />
-                  <Input label="Número" name="number" />
-                </div>
-                <div className="row">
-                  <Input label="Complemento" name="complement" />
-                  <Input label="Bairro" name="neighborhood" />
-                  <Input label="Cidade" name="city" />
-                  <Input label="Estado" name="state" />
-                </div>
+                <MaskedInput
+                label="CEP"
+                name="cep"
+                mask="00000-000"
+                onBlur={searchAddress}
+              />
+              <Input
+                label="Endereço"
+                name="address"
+                disabled={!editableFields.address}
+              />
+              <Input
+                label="Bairro"
+                name="district"
+                disabled={!editableFields.district}
+              />
+              <Input
+                label="Cidade"
+                name="city"
+                disabled={!editableFields.city}
+              />
+              <Input label="UF" name="state" disabled={!editableFields.state} />
+              <Input label="Número" name="number" />
+              <Input label="Complemento" name="complement" />
               </div>
-
+              </div>
+              
               <div className="block">
                 <h3>Jornada</h3>
                 <div className="row">
