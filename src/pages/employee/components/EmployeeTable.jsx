@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import Table from "../../../components/Table/Table.jsx";
-import { goRegistration, goView, goEdit } from "../../../utils/navigation.jsx";
+import { goRegistration, goView, goEdit } from "../../../utils/navigation.js";
 import { useGenericContext } from "../../../contexts/GenericContext.jsx";
 import { useTableLogic } from "../../../hooks/useTableLogic.jsx";
-import { Button, LayoutMenu } from "../../../components/index.jsx";
+import { Button } from "../../../components/index.jsx";
 
 import "./style.scss";
 

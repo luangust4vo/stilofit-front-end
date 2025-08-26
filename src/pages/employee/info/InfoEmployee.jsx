@@ -2,22 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "../../../components";
 import { useGenericContext } from "../../../contexts/GenericContext";
+import { formatCPF, formatRG, formatContact} from "../../../utils/helpers.js"
 import "./style.scss";
-
-function formatCPF(cpf) {
-  const cpfNumbers = cpf.replace(/\D/g, "");
-  return cpfNumbers.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-}
-
-function formatRG(rg) {
-  const rgNumbers = rg.replace(/\D/g, "");
-  return rgNumbers.replace(/(\d{2})(\d{3})(\d{3})(\d{1})/, "$1.$2.$3-$4");
-}
-
-function formatContact(contact) {
-  const contactNumbers = contact.replace(/\D/g, "");
-  return contactNumbers.replace(/(\d{2})(\d{5})(\d{4})/, "($1)$2-$3");
-}
 
 const InfoEmployee = () => {
   const { id } = useParams();

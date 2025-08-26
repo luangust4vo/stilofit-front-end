@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Table from "../../../components/Table/Table";
-import { goRegistration, goEdit } from "../../../utils/navigation.jsx";
+import { goRegistration, goEdit } from "../../../utils/navigation.js";
 import { useGenericContext } from "../../../contexts/GenericContext.jsx";
 import { useTableLogic } from "../../../hooks/useTableLogic.jsx";
 import InfoContract from "../Info/index";
