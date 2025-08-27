@@ -5,7 +5,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { fetchAddressByCEP } from "../../../services/viaCep";
 import { toast } from "react-toastify";
 import { employeeValidationSchema } from "../../../schemas/employeeSchema";
+import { employeeValidationSchema } from "../../../schemas/employeeSchema";
 import {
+  MaskedInput,
   MaskedInput,
   Button,
   Input,
@@ -27,8 +29,10 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   const navigate = useNavigate();
   const methods = useForm({
     resolver: yupResolver(employeeValidationSchema),
+    resolver: yupResolver(employeeValidationSchema),
     defaultValues: initialData || {},
   });
+
 
 
   const { handleSubmit, setValue, watch, reset } = methods;
@@ -169,6 +173,12 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
                   </Select>
                 </div>
                 <div className='row'>
+                  <MaskedInput
+                    label="CPF"
+                    name="cpf"
+                    mask="000.000.000-00"
+                    required
+                  />
                   <MaskedInput
                     label="CPF"
                     name="cpf"
