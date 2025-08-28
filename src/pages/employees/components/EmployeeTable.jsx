@@ -30,7 +30,7 @@ function EmployeeTable() {
                   className="btn-icon-table"
                   onClick={() => goRegistration(navigate, routeName)}
                 >
-                  Criar Contrato
+                  Cadastrar Funcionário
                   <i className="bi-plus"></i>
                 </Button>
               </div>

@@ -32,7 +32,17 @@ export const employeeValidationSchema = yup.object().shape({
         .required("O CPF é obrigatório")
         .matches(/^\d{11}$/, "CPF deve ter 11 dígitos numéricos"),
 
-    rg: yup.string().nullable(),
+    rg: yup
+        .string()
+        .nullable()
+        .matches(/^[A-Za-z0-9]+$/, "O RG deve conter apenas letras e números")
+        .test("numero-positivo", "O RG não pode conter número zero ou negativo", (value) => {
+            if (!value) return true; 
+            const numeros = value.replace(/[^0-9]/g, ""); 
+            if (!numeros) return true; 
+            return Number(numeros) > 0;
+        }),
+        
 
     professionalRegister: yup
         .string()
@@ -74,5 +84,5 @@ export const employeeValidationSchema = yup.object().shape({
     timeMin: yup.string().nullable(),
     timeMax: yup.string().nullable(),
 
-    weekdays: yup.array().of(yup.string()).nullable(),
+    weekdays: yup.array().of(yup.string()).nullable().required("Escolha ao menos um dia da semana"),
 });

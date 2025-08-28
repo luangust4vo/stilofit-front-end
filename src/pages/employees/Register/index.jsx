@@ -5,9 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { fetchAddressByCEP } from "../../../services/viaCep";
 import { toast } from "react-toastify";
 import { employeeValidationSchema } from "../../../schemas/employeeSchema";
-import { employeeValidationSchema } from "../../../schemas/employeeSchema";
 import {
-  MaskedInput,
   MaskedInput,
   Button,
   Input,
@@ -139,7 +137,7 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   return (
     <LayoutMenu>
       <div className="container-contract-register">
-        <Button onClick={() => navigate("/contrato")}>
+        <Button onClick={() => navigate("/funcionario")}>
           <i className="bi bi-arrow-left"></i>
           Voltar
         </Button>
@@ -179,12 +177,7 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
                     mask="000.000.000-00"
                     required
                   />
-                  <MaskedInput
-                    label="CPF"
-                    name="cpf"
-                    mask="000.000.000-00"
-                    required
-                  />
+
                   <Input label="RG" name="rg" />
                   <Input label="Registro Profissional" name="professionalRegister" required />
                 </div>
