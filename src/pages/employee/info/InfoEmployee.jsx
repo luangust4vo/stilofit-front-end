@@ -90,6 +90,18 @@ const InfoEmployee = () => {
                 : " - "}
             </p>
             <p>
+              <strong>Dias da Semana: </strong>
+              {selectedEmployee && selectedEmployee.dias
+                ? selectedEmployee.dias
+                : " - "}
+            </p>
+            <p>
+              <strong>Turno: </strong>
+              {selectedEmployee && selectedEmployee.turno
+                ? selectedEmployee.turno
+                : " - "}
+            </p>
+            <p>
               <strong>Jornada: </strong>
               {selectedEmployee && selectedEmployee.jornada
                 ? selectedEmployee.jornada.inicio +
