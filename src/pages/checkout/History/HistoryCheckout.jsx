@@ -3,7 +3,7 @@ import {
   useGenericContext,
   GenericContextProvider,
 } from "../../../contexts/GenericContext";
-import { Button, LayoutMenu, MonetaryInput } from "../../../components";
+import { Button, MonetaryInput } from "../../../components";
 import { useForm, FormProvider } from "react-hook-form";
 import { useState, useEffect, useMemo } from "react";
 import { DialogBox, Select } from "../../../components";
@@ -171,96 +171,94 @@ function HistoryCheckout() {
   }
 
   return (
-    <LayoutMenu>
-      <FormProvider {...methods}>
-        <form>
-          <Table
-            headerComponent={() => (
+    <FormProvider {...methods}>
+      <form>
+        <Table
+          headerComponent={() => (
+            <>
+              <div></div>
+              <div className="dialog-trigger-wrapper">
+                <Select
+                  className="select"
+                  name="select-mes"
+                  onChange={(e) => {
+                    const value = Number(e.target.value);
+                    setMonthSelected(value);
+                  }}
+                  value={monthSelected}
+                >
+                  {months.map((month, index) => (
+                    <option key={index} value={index + 1}>
+                      {month}
+                    </option>
+                  ))}
+                </Select>
+                <Select
+                  className="select"
+                  name="select-ano"
+                  onChange={(e) => {
+                    const value = Number(e.target.value);
+                    setYearSelected(value);
+                  }}
+                  value={yearSelected}
+                >
+                  {years.map((year) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </Select>
+                <Button type="button" onClick={() => setShowInput(true)}>
+                  Abrir Caixa
+                </Button>
+                {showInput && (
+                  <DialogBox
+                    title="Abrir Novo Caixa"
+                    methods={methods}
+                    onConfirm={methods.handleSubmit(handleOpenNewCash)}
+                    onCancel={() => setShowInput(false)}
+                    dialogClassName="modal--history-cash"
+                  >
+                    <MonetaryInput
+                      placeholder="Informe o troco inicial"
+                      name="initialChange"
+                    />
+                  </DialogBox>
+                )}
+              </div>
+            </>
+          )}
+          headerCells={[
+            "Data",
+            "Hora Abertura",
+            "Hora Fechamento",
+            "Responsável",
+            "Status",
+            "",
+          ]}
+          data={filteredAndSortedCashHistory}
+        >
+          {(element) => {
+            return (
               <>
-                <div></div>
-                <div className="dialog-trigger-wrapper">
-                  <Select
-                    className="select"
-                    name="select-mes"
-                    onChange={(e) => {
-                      const value = Number(e.target.value);
-                      setMonthSelected(value);
-                    }}
-                    value={monthSelected}
+                <td>{element.dataAbertura}</td>
+                <td>{element.horaAbertura}</td>
+                <td>{element.horaFechamento || "-"}</td>
+                <td>{element.responsavel}</td>
+                <td>{element.status}</td>
+                <td>
+                  <Button
+                    onClick={() => navigate(`movimentacao/${element.id}`)}
                   >
-                    {months.map((month, index) => (
-                      <option key={index} value={index + 1}>
-                        {month}
-                      </option>
-                    ))}
-                  </Select>
-                  <Select
-                    className="select"
-                    name="select-ano"
-                    onChange={(e) => {
-                      const value = Number(e.target.value);
-                      setYearSelected(value);
-                    }}
-                    value={yearSelected}
-                  >
-                    {years.map((year) => (
-                      <option key={year} value={year}>
-                        {year}
-                      </option>
-                    ))}
-                  </Select>
-                  <Button type="button" onClick={() => setShowInput(true)}>
-                    Abrir Caixa
+                    Ver
                   </Button>
-                  {showInput && (
-                    <DialogBox
-                      title="Abrir Novo Caixa"
-                      methods={methods}
-                      onConfirm={methods.handleSubmit(handleOpenNewCash)}
-                      onCancel={() => setShowInput(false)}
-                      dialogClassName="modal--history-cash"
-                    >
-                      <MonetaryInput
-                        placeholder="Informe o troco inicial"
-                        name="initialChange"
-                      />
-                    </DialogBox>
-                  )}
-                </div>
+                </td>
               </>
-            )}
-            headerCells={[
-              "Data",
-              "Hora Abertura",
-              "Hora Fechamento",
-              "Responsável",
-              "Status",
-              "",
-            ]}
-            data={filteredAndSortedCashHistory}
-          >
-            {(element) => {
-              return (
-                <>
-                  <td>{element.dataAbertura}</td>
-                  <td>{element.horaAbertura}</td>
-                  <td>{element.horaFechamento || "-"}</td>
-                  <td>{element.responsavel}</td>
-                  <td>{element.status}</td>
-                  <td>
-                    <Button
-                      onClick={() => navigate(`movimentacao/${element.id}`)}
-                    >
-                      Ver
-                    </Button>
-                  </td>
-                </>
-              );
-            }}
-          </Table>
-        </form>
-      </FormProvider>
-    </LayoutMenu>
+            );
+          }}
+        </Table>
+      </form>
+    </FormProvider>
   );
 }
 
