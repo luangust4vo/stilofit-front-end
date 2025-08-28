@@ -1,10 +1,12 @@
 import { Route } from "react-router-dom";
-import Class from "../pages/class";
+import ClassTable from "../pages/class/components/ClassTable";
 
 const ClassRoutes = () => {
-    return (
-        <Route path="/turma" element={<Class />} />
-    );
-}
+  return (
+    <Route path="/turma">
+      <Route index element={<ClassTable />} />
+    </Route>
+  );
+};
 
 export default ClassRoutes;

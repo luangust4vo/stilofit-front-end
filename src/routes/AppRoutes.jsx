@@ -4,6 +4,7 @@ import ClientRoutes from "./ClientRoutes";
 import ContractRoutes from "./ContractRoutes";
 import ClassRoutes from "./ClassRoutes";
 import EmployeesRoutes from "./EmployeesRoute";
+import LoginRoutes from "./LoginRoutes";
 
 const AppRoutes = () => {
   return (
@@ -14,6 +15,7 @@ const AppRoutes = () => {
         {CheckoutRoutes()}
         {ClassRoutes()}
         {EmployeesRoutes()}
+        {LoginRoutes()}
       </Routes>
     </BrowserRouter>
   );

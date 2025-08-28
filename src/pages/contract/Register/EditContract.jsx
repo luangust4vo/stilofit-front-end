@@ -22,7 +22,7 @@ const EditContract = () => {
   }, [id, getStorageObjectById, storageObject]);
 
   if (loading) return <p>Carregando contrato...</p>;
-  if (!contractData) return <p>Contrado não encontrado.</p>;
+  if (!contractData) return <p>Contrato não encontrado.</p>;
 
   return <RegisterContract initialData={contractData} />;
 };

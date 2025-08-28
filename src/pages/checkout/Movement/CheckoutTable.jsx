@@ -12,6 +12,7 @@ import { Button, MonetaryInput, DialogBox, LayoutMenu } from "../../../component
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
 import { formatCurrency } from "../../../utils/helpers";
+import { toast } from "react-toastify";
 
 function CheckoutTable() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -71,14 +72,32 @@ function CheckoutTable() {
   };
 
   const exitCash = () => {
+    const changeCurrent = calculateCashBack(cash);
+
+    if (changeCurrent > 0) {
+      const exitFinal = {
+        venda: "Fechamento",
+        tipo: MovementType.DINHEIRO,
+        movement: "Saida",
+        data: new Date().toLocaleDateString("pt-BR"),
+        hora: new Date().toLocaleTimeString("pt-BR", {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        valor: changeCurrent,
+      };
+
+      addStorageObject(exitFinal);
+    }
+
     const history = JSON.parse(localStorage.getItem("historicoCaixa")) || [];
     const updatedHistory = history.map((c) =>
       c.id === Number(id)
         ? {
-          ...c,
-          horaFechamento: new Date().toLocaleTimeString(),
-          status: "fechado",
-        }
+            ...c,
+            horaFechamento: new Date().toLocaleTimeString(),
+            status: "fechado",
+          }
         : c
     );
     localStorage.setItem("historicoCaixa", JSON.stringify(updatedHistory));
@@ -99,7 +118,7 @@ function CheckoutTable() {
   const handleAddMovement = () => {
     const sanitizedValue = value.replace(/[^\d,]/g, "").replace(",", ".");
     const parsedValue = parseFloat(sanitizedValue);
-    if (isNaN(parsedValue) || parsedValue <= 0) return alert("Valor inválido.");
+    if (isNaN(parsedValue) || parsedValue <= 0) return toast.warn("Valor inválido.");
 
     const newMovement = {
       venda: modalOpen,
@@ -154,7 +173,7 @@ function CheckoutTable() {
                   <DialogBox
                     title="Fechar Caixa"
                     onConfirm={() => {
-                      alert(`Caixa fechado em: ${date}`);
+                      toast.success(`Caixa fechado em: ${date}`);
                       exitCash();
                       setDate(null);
                       navigate(`/caixa`);
