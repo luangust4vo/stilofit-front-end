@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "../../../components";
 import { useGenericContext } from "../../../contexts/GenericContext";
-import { formatCPF, formatRG, formatContact} from "../../../utils/helpers.js"
+import { formatCPF, formatRG, formatContact } from "../../../utils/helpers.js";
 import "./style.scss";
 
 const InfoEmployee = () => {
