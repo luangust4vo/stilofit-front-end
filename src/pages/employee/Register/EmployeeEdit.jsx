@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import RegisterContract from ".";
+import Registeremployee from ".";
 import { useGenericContext } from "../../../contexts/GenericContext";
 
-const EditContract = () => {
+const EditEmployee = () => {
   const { id } = useParams();
-  const [contractData, setContractData] = useState(null);
+  const [employeeData, setEmployeeData] = useState(null);
   const [loading, setLoading] = useState(true);
   const { storageObject, getStorageObjectById } = useGenericContext();
 
@@ -14,14 +14,14 @@ const EditContract = () => {
       return;
     }
     const found = getStorageObjectById(id);
-    setContractData(found);
+    setEmployeeData(found);
     setLoading(false);
   }, [id, getStorageObjectById, storageObject]);
 
-  if (loading) return <p>Carregando contrato...</p>;
-  if (!contractData) return <p>Contrato não encontrado.</p>;
+  if (loading) return <p>Carregando funcionário...</p>;
+  if (!employeeData) return <p>Funcionário não encontrado.</p>;
 
-  return <RegisterContract initialData={contractData} />;
+  return <Registeremployee initialData={employeeData} />;
 };
 
-export default EditContract;
+export default EditEmployee;
