@@ -11,12 +11,8 @@ import {
   CheckboxPanel,
   MonetaryInput,
   MultiSelect,
-  LayoutMenu,
 } from "../../../components";
-import {
-  GenericContextProvider,
-  useGenericContext,
-} from "../../../contexts/GenericContext";
+import { useGenericContext } from "../../../contexts/GenericContext";
 
 import "./styles.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -112,104 +108,98 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   };
 
   return (
-    <LayoutMenu>
-      <div className="container-contract-register">
-        <Button onClick={() => navigate("/contrato")}>
-          <i className="bi bi-arrow-left"></i>
-          Voltar
-        </Button>
+    <div className="container-contract-register">
+      <Button onClick={() => navigate("/contrato")}>
+        <i className="bi bi-arrow-left"></i>
+        Voltar
+      </Button>
 
-        <main className="form">
-          <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="block">
-                <h3>Dados Gerais do Contrato</h3>
-                <Input label="Nome do Contrato" name="name" required />
-                <Select label="Status" name="status">
-                  <option value="Disponível">Disponível</option>
-                  <option value="Não Disponível">Não Disponível</option>
-                </Select>
-                <Select label="Template" name="template">
-                  <option value="">Selecione</option>
-                  <option value="Template Azul">Template Azul</option>
-                  <option value="Template Verde">Template Verde</option>
-                  <option value="Template Amarelo">Template Amarelo</option>
-                </Select>
-              </div>
+      <main className="form">
+        <FormProvider {...methods}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="block">
+              <h3>Dados Gerais do Contrato</h3>
+              <Input label="Nome do Contrato" name="name" required />
+              <Select label="Status" name="status">
+                <option value="Disponível">Disponível</option>
+                <option value="Não Disponível">Não Disponível</option>
+              </Select>
+              <Select label="Template" name="template">
+                <option value="">Selecione</option>
+                <option value="Template Azul">Template Azul</option>
+                <option value="Template Verde">Template Verde</option>
+                <option value="Template Amarelo">Template Amarelo</option>
+              </Select>
+            </div>
 
-              <div className="block">
-                <h3>Parcelamento</h3>
-                <Select label="Parcelamento" name="installmentable">
-                  <option value="">Selecione</option>
-                  <option value="Parcelável">Parcelável</option>
-                  <option value="à Vista">À vista</option>
-                </Select>
-                {installmentable === "Parcelável" && (
-                  <Input
-                    label="Nº de parcelas"
-                    name="installments"
-                    type="number"
-                  />
-                )}
-                <MonetaryInput name="totalValue" label="Valor Total" required />
-              </div>
-
-              <div className="block">
-                <h3>Vencimento</h3>
-                <Select label="Tipo de Vencimento" name="typeExpire" required>
-                  <option value="">Selecione</option>
-                  <option value="por Seção">Por Seção</option>
-                  <option value="por Tempo">Por Tempo</option>
-                </Select>
+            <div className="block">
+              <h3>Parcelamento</h3>
+              <Select label="Parcelamento" name="installmentable">
+                <option value="">Selecione</option>
+                <option value="Parcelável">Parcelável</option>
+                <option value="à Vista">À vista</option>
+              </Select>
+              {installmentable === "Parcelável" && (
                 <Input
-                  label={expireLabel}
-                  name="expire"
+                  label="Nº de parcelas"
+                  name="installments"
                   type="number"
-                  placeholder={expirePlaceHolder}
-                  disabled={typeExpire === ""}
-                  required
                 />
-              </div>
+              )}
+              <MonetaryInput name="totalValue" label="Valor Total" required />
+            </div>
 
-              <div className="block">
-                <h3>Turma</h3>
-                <MultiSelect
-                  name="classRoms"
-                  label="Turmas"
-                  labelKey={"class"}
-                  options={classRoms}
-                />
-                <div className="side">
-                  <Input label="Horário" name="timeMin" type="time" />
-                  <span className="arrow-time">-</span>
-                  <Input label="." name="timeMax" type="time" />
-                </div>
-                <CheckboxPanel
-                  name="weekdays"
-                  label="Dias da Semana"
-                  options={[
-                    { value: "domingo", label: "Dom" },
-                    { value: "segunda", label: "Seg" },
-                    { value: "terca", label: "Ter" },
-                    { value: "quarta", label: "Qua" },
-                    { value: "quinta", label: "Qui" },
-                    { value: "sexta", label: "Sex" },
-                    { value: "sabado", label: "Sáb" },
-                  ]}
-                />
-              </div>
+            <div className="block">
+              <h3>Vencimento</h3>
+              <Select label="Tipo de Vencimento" name="typeExpire" required>
+                <option value="">Selecione</option>
+                <option value="por Seção">Por Seção</option>
+                <option value="por Tempo">Por Tempo</option>
+              </Select>
+              <Input
+                label={expireLabel}
+                name="expire"
+                type="number"
+                placeholder={expirePlaceHolder}
+                disabled={typeExpire === ""}
+                required
+              />
+            </div>
 
-              <Button>{initialData ? "Atualizar" : "Salvar"}</Button>
-            </form>
-          </FormProvider>
-        </main>
-      </div>
-    </LayoutMenu>
+            <div className="block">
+              <h3>Turma</h3>
+              <MultiSelect
+                name="classRoms"
+                label="Turmas"
+                labelKey={"class"}
+                options={classRoms}
+              />
+              <div className="side">
+                <Input label="Horário" name="timeMin" type="time" />
+                <span className="arrow-time">-</span>
+                <Input label="." name="timeMax" type="time" />
+              </div>
+              <CheckboxPanel
+                name="weekdays"
+                label="Dias da Semana"
+                options={[
+                  { value: "domingo", label: "Dom" },
+                  { value: "segunda", label: "Seg" },
+                  { value: "terca", label: "Ter" },
+                  { value: "quarta", label: "Qua" },
+                  { value: "quinta", label: "Qui" },
+                  { value: "sexta", label: "Sex" },
+                  { value: "sabado", label: "Sáb" },
+                ]}
+              />
+            </div>
+
+            <Button>{initialData ? "Atualizar" : "Salvar"}</Button>
+          </form>
+        </FormProvider>
+      </main>
+    </div>
   );
 };
 
-export default (props) => (
-  <GenericContextProvider lSName="contratos">
-    <RegisterContract {...props} />
-  </GenericContextProvider>
-);
+export default RegisterContract;
