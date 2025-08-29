@@ -19,48 +19,47 @@
   }
 
   .form {
-    flex:1;
+    flex: 1;
     overflow-y: auto;
     margin-bottom: 40px;
 
     .block {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-    
-        .row {
-          display: flex;
-          gap: 16px;
-          width: 100%;
-    
-          >* {
-            flex: 1 1 0;
-            min-width: 0;
-          }
-        }
-    
-        .row-3 {
-          display: flex;
-          gap: 16px;
-          width: 100%;
-    
-          >* {
-            flex: 1 1 0;
-            min-width: 0;
-          }
-        }
-    
-        .full-width {
-          width: 100%;
-        }
+      background-color: vars.$bg-form;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+
+      h3 {
+        background-color: vars.$table-header;
+        color: vars.$text-header;
+        padding: 8px 12px;
+        margin: -20px -20px 20px -20px;
+        font-size: 16px;
+        border-radius: 10px 10px 0 0;
       }
+            .row {
+              display: flex;
+              gap: 16px;
+              width: 100%;
+      
+              >* {
+                flex: 1 1 0;
+                min-width: 0;
+              }
+            }
+      
+            .full-width {
+              width: 100%;
+            }
+            
+    }
 
     .side {
       display: flex;
       gap: 16px;
       width: 100%;
 
-      > * {
+      >* {
         flex: 1 1 0;
         min-width: 0;
       }
