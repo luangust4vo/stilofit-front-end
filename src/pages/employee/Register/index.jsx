@@ -23,8 +23,11 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
   const navigate = useNavigate();
   const methods = useForm({
     resolver: yupResolver(employeeValidationSchema),
-    defaultValues: initialData || {},
-     shouldFocusError: false,
+    defaultValues: {
+      weekdays: [],
+      ...(initialData || {}),
+    },
+    shouldFocusError: false,
   });
 
   const { handleSubmit, setValue, watch, reset } = methods;
