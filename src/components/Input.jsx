@@ -14,12 +14,13 @@ const Input = ({ name, label, required, ...rest }) => {
         <label htmlFor={name}>
           {label}
           {required && <span className="required-asterisk">*</span>}
-          {errors[name] && (
-            <span className="error-message"> {errors[name].message}</span>
-          )}
+         
         </label>
       )}
       <input id={name} {...register(name)} {...rest} />
+      {errors[name] && (
+        <span className="error-message"> {errors[name].message}</span>
+      )}
     </div>
   );
 };
