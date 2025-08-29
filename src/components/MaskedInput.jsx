@@ -12,9 +12,7 @@ const MaskedInput = ({ name, label, mask, required, ...rest }) => {
       <label htmlFor={name}>
         {label}
         {required && <span className="required-asterisk">*</span>}
-        {errors[name] && (
-          <span className="error-message">{errors[name].message}</span>
-        )}
+        
       </label>
       <Controller
         name={name}
@@ -29,6 +27,9 @@ const MaskedInput = ({ name, label, mask, required, ...rest }) => {
           />
         )}
       />
+      {errors[name] && (
+        <span className="error-message">{errors[name].message}</span>
+      )}
     </div>
   );
 };

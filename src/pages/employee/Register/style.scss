@@ -1,0 +1,77 @@
+@use "../../../styles/vars.scss" as vars;
+
+.container-employee-register {
+  padding: 20px;
+  display: flex;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+  width: 100%;
+  flex-direction: column;
+
+  .btn-icon {
+    border: none;
+    color: vars.$btn-bg-icon;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.3rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+
+  .form {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 40px;
+
+    .block {
+      background-color: vars.$bg-form;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+
+      h3 {
+        background-color: vars.$table-header;
+        color: vars.$text-header;
+        padding: 8px 12px;
+        margin: -20px -20px 20px -20px;
+        font-size: 16px;
+        border-radius: 10px 10px 0 0;
+      }
+            .row {
+              display: flex;
+              gap: 16px;
+              width: 100%;
+      
+              >* {
+                flex: 1 1 0;
+                min-width: 0;
+              }
+            }
+      
+            .full-width {
+              width: 100%;
+            }
+            
+    }
+
+    .side {
+      display: flex;
+      gap: 16px;
+      width: 100%;
+
+      >* {
+        flex: 1 1 0;
+        min-width: 0;
+      }
+
+      .arrow-time {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        flex: 0 0 auto;
+        padding: 16px 4px 0px 4px;
+      }
+    }
+  }
+}
