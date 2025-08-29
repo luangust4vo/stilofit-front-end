@@ -30,19 +30,19 @@ export const employeeValidationSchema = yup.object().shape({
     cpf: yup
         .string()
         .required("O CPF é obrigatório")
-        .matches(/^\d{11}$/, "CPF deve ter 11 dígitos numéricos"),
+        .matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, "CPF deve estar no formato 000.000.000-00"),
 
     rg: yup
         .string()
         .nullable()
         .matches(/^[A-Za-z0-9]+$/, "O RG deve conter apenas letras e números")
         .test("numero-positivo", "O RG não pode conter número zero ou negativo", (value) => {
-            if (!value) return true; 
-            const numeros = value.replace(/[^0-9]/g, ""); 
-            if (!numeros) return true; 
+            if (!value) return true;
+            const numeros = value.replace(/[^0-9]/g, "");
+            if (!numeros) return true;
             return Number(numeros) > 0;
         }),
-        
+
 
     professionalRegister: yup
         .string()
@@ -57,7 +57,7 @@ export const employeeValidationSchema = yup.object().shape({
     cellphone: yup
         .string()
         .nullable()
-        .matches(/^\d{10,11}$/, "Celular inválido")
+        .matches(/^(\(\d{2}\)\s?\d{4,5}-\d{4}|\d{10,11})$/, "Celular inválido")
         .notRequired(),
 
     role: yup
@@ -71,7 +71,7 @@ export const employeeValidationSchema = yup.object().shape({
     cep: yup
         .string()
         .nullable()
-        .matches(/^\d{8}$/, "CEP deve ter 8 dígitos"),
+        .matches(/^(\d{5}-\d{3}|\d{8})$/, "CEP deve ter 8 dígitos ou estar no formato 00000-000"),
 
     street: yup.string().nullable(),
     number: yup.string().nullable(),
