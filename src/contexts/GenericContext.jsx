@@ -25,7 +25,7 @@ const GenericContextProvider = ({ lSName, children }) => {
   };
 
   const addStorageObject = (contractData) => {
-    const newObj = { ...contractData, id: Date.now() };
+    const newObj = { ...contractData, id: crypto.randomUUID() };
     const updated = [...storageObject, newObj];
     saveToStorage(updated);
     return newObj;
