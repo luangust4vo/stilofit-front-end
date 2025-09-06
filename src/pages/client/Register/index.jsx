@@ -4,11 +4,18 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
 import { clientValidationSchema } from "../../../schemas";
 import { fetchAddressByCEP } from "../../../services/viaCep";
-import { MaskedInput, Button, Input, Textarea, Select } from "../../../components";
-import { useGenericContext } from "../../../contexts/GenericContext";
+import {
+  MaskedInput,
+  Button,
+  Input,
+  Textarea,
+  Select,
+} from "../../../components";
+// import { useGenericContext } from "../../../contexts/GenericContext";
 
 import "./styles.scss";
 import "react-toastify/dist/ReactToastify.css";
+import ClientService from "../../../services/ClientService";
 
 const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
   const methods = useForm({
@@ -17,8 +24,9 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
   });
 
   const { handleSubmit, setValue, watch } = methods;
-  const { addStorageObject, updateStorageObject } = useGenericContext();
+  // const { addStorageObject, updateStorageObject } = useGenericContext();
 
+  const clientService = new ClientService();
   const client = watch();
 
   const [editableFields, setEditableFields] = useState({
@@ -60,18 +68,24 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
     }
   }, [initialData]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    const payload = Object.fromEntries(
+      Object.entries(data).map(([key, value]) => [
+        key,
+        value === "" ? null : value,
+      ])
+    );
+
     if (externalSubmit) {
       externalSubmit(data);
       return;
     }
 
-
     if (initialData && initialData.id) {
-      updateStorageObject(initialData.id, data);
+      await clientService.update(initialData.id, payload);
       toast.success("Cliente atualizado!");
     } else {
-      addStorageObject(data);
+      await clientService.create(payload);
       toast.success("Cliente cadastrado!");
       methods.reset();
     }
@@ -94,8 +108,8 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
               />
               <Select label="Sexo" name="gender" required>
                 <option value="">Selecione</option>
-                <option value="M">Masculino</option>
-                <option value="F">Feminino</option>
+                <option value="MASCULINO">Masculino</option>
+                <option value="FEMININO">Feminino</option>
               </Select>
               <MaskedInput
                 label="CPF"
@@ -106,11 +120,11 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
               <MaskedInput label="RG" name="rg" />
               <Select label="Estado Civil" name="maritalStatus">
                 <option value="">Selecione</option>
-                <option value="Solteiro">Solteiro</option>
-                <option value="Casado">Casado</option>
-                <option value="Divorciado">Divorciado</option>
-                <option value="Viúvo">Viúvo</option>
-                <option value="Separado">Separado</option>
+                <option value="SOLTEIRO">Solteiro</option>
+                <option value="CASADO">Casado</option>
+                <option value="DIVORCIADO">Divorciado</option>
+                <option value="VIÚVO">Viúvo</option>
+                <option value="SEPARADO">Separado</option>
               </Select>
               <MaskedInput
                 label="Vencimento Exame Médico"
@@ -159,8 +173,8 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
               <h3>Dados de Residência</h3>
               <Select label="Tipo de Residência" name="residenceType">
                 <option value="">Selecione</option>
-                <option value="Residential">Residencial</option>
-                <option value="Commercial">Comercial</option>
+                <option value="RESIDENCIAL">Residencial</option>
+                <option value="COMERCIAL">Comercial</option>
               </Select>
               <MaskedInput
                 label="CEP"

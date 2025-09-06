@@ -1,5 +1,4 @@
-import 'api';
-
+import api from '../services/api'
 class BaseService{
 
     constructor(endPoint){
