@@ -14,6 +14,7 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
   const methods = useForm({
     resolver: yupResolver(clientValidationSchema),
     defaultValues: initialData || {},
+    mode: "onChange",
   });
 
   const { handleSubmit, setValue, watch } = methods;

@@ -4,15 +4,19 @@ export const employeeValidationSchema = yup.object().shape({
     name: yup
         .string()
         .required("O nome do funcionário é obrigatório")
-        .min(3, "O nome deve ter pelo menos 3 caracteres"),
+        .min(3, "O nome deve ter pelo menos 3 caracteres")
+        .max(100, "Máximo de 100 caracteres"),
     email: yup
         .string()
         .required("O email é obrigatório")
-        .email("Formato de email inválido"),
+        .email("Formato de email inválido")
+        .min(3, "O e-mail deve ter no mínimo 3 caracteres")
+        .max(100, "O e-mail deve ter no máximo 100 caracteres"),
     password: yup
         .string()
         .required("A senha é obrigatória")
-        .min(6, "A senha deve ter no mínimo 6 caracteres"),
+        .min(8, "A senha deve ter no mínimo 6 caracteres")
+        .max(30, "A senha deve ter no máximo 30 caracteres"),
     birthDate: yup
         .date()
         .required("A data de nascimento é obrigatória")
@@ -45,7 +49,8 @@ export const employeeValidationSchema = yup.object().shape({
         }),
     professionalRegister: yup
         .string()
-        .required("O registro profissional é obrigatório"),
+        .required("O registro profissional é obrigatório")
+        .max(100, "Máximo de 100 caracteres"),
     phone: yup
         .string()
         .nullable()
@@ -66,12 +71,12 @@ export const employeeValidationSchema = yup.object().shape({
         .string()
         .nullable()
         .min(8, "CEP deve ter 8 dígitos"),
-    street: yup.string().nullable(),
-    number: yup.string().nullable(),
-    complement: yup.string().nullable(),
-    neighborhood: yup.string().nullable(),
-    city: yup.string().nullable(),
-    state: yup.string().nullable(),
+    street: yup.string().nullable().max(300, "Máximo de 300 caracteres"),
+    number: yup.string().nullable().max(10, "Máximo de 10 caracteres"),
+    complement: yup.string().nullable().max(100, "Máximo de 100 caracteres"),
+    neighborhood: yup.string().nullable().max(100, "Máximo de 100 caracteres"),
+    city: yup.string().nullable().max(100, "Máximo de 100 caracteres"),
+    state: yup.string().nullable().max(2, "Máximo de 2 caracteres"),
     shift: yup.string().nullable(),
     timeMin: yup.string().nullable(),
     timeMax: yup.string().nullable(),

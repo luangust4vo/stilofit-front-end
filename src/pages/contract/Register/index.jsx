@@ -23,6 +23,7 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
   const methods = useForm({
     resolver: yupResolver(contractValidationSchema),
     defaultValues: initialData || {},
+    mode: "onChange",
   });
 
   const { handleSubmit, setValue, watch, reset } = methods;

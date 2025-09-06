@@ -49,6 +49,7 @@ const ClassModal = ({ onClose, onSuccess, id = null }) => {
   const methods = useForm({
     resolver: yupResolver(classValidationSchema),
     defaultValues,
+    mode: "onChange",
   });
 
   const { handleSubmit, reset } = methods;

@@ -27,6 +27,7 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
       weekdays: [],
       ...(initialData || {}),
     },
+    mode: "onChange",
     shouldFocusError: false,
   });
 
