@@ -117,7 +117,7 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
 
       <main className="form">
         <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} noValidate>
             <div className="block">
               <h3>Dados Gerais do Contrato</h3>
               <Input label="Nome do Contrato" name="name" required />

@@ -4,7 +4,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
 import { clientValidationSchema } from "../../../schemas";
 import { fetchAddressByCEP } from "../../../services/viaCep";
-import { MaskedInput, Button, Input, Textarea, Select } from "../../../components";
+import {
+  MaskedInput,
+  Button,
+  Input,
+  Textarea,
+  Select,
+} from "../../../components";
 import { useGenericContext } from "../../../contexts/GenericContext";
 
 import "./styles.scss";
@@ -67,7 +73,6 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
       return;
     }
 
-
     if (initialData && initialData.id) {
       updateStorageObject(initialData.id, data);
       toast.success("Cliente atualizado!");
@@ -82,15 +87,15 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
     <div className="container">
       <main className="form">
         <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} noValidate>
             <div className="block">
               <h3>Dados do Cliente</h3>
               <Input label="Nome" name="name" required />
               <Input label="Email" name="email" />
-              <MaskedInput
+              <Input
                 label="Data de Nascimento"
                 name="birthDate"
-                mask="00/00/0000"
+                type="date"
                 required
               />
               <Select label="Sexo" name="gender" required>
@@ -113,9 +118,10 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
                 <option value="Viúvo">Viúvo</option>
                 <option value="Separado">Separado</option>
               </Select>
-              <MaskedInput
+              <Input
                 label="Vencimento Exame Médico"
                 name="medicalExamDueDate"
+                type="date"
                 mask="00/00/0000"
               />
             </div>

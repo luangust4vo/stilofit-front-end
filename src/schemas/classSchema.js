@@ -10,13 +10,15 @@ export const classValidationSchema = yup.object().shape({
     .typeError("Deve ser um número")
     .required("Número de vagas é obrigatório")
     .positive("Deve ser positivo")
-    .integer("Deve ser inteiro"),
+    .integer("Deve ser inteiro")
+    .max(1000, "Máximo de 1000 vagas"),
   tempo: yup
     .number()
     .typeError("Informe a duração em minutos")
     .required("Duração é obrigatória")
     .positive("Deve ser um número positivo")
-    .integer("A duração deve ser em minutos inteiros"),
+    .integer("A duração deve ser em minutos inteiros")
+    .max(1440, "Máximo de 1440 minutos"),
   local: yup.string().required("Local da aula é obrigatório"),
   observacoes: yup.string().max(300, "Máximo de 300 caracteres"),
   cor: yup.string().required("Selecione uma cor"),

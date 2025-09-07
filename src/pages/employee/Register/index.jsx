@@ -53,7 +53,7 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
       endereco: data.city + data.state + data.district + data.address + data.number + data.complement || "",
       estadoCivil: data.maritalStatus || "",
       email: data.email || "",
-      contato: data.guardianPhone || "",
+      contato: data.phone || "",
       cargo: data.role || "",
       status: data.status || "",
       turno: data.shift || "",
@@ -120,7 +120,7 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
       <main className="form">
 
         <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} noValidate>
             <div className="block">
               <h3>Dados Gerais do Funcionário</h3>
               <Input label="Nome Completo" name="name" required className="full-width" />
@@ -160,7 +160,7 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
               <div className='row'>
                 <MaskedInput
                   label="Telefone"
-                  name="guardianPhone"
+                  name="phone"
                   mask="(00) 00000-0000"
                 />
                 <MaskedInput

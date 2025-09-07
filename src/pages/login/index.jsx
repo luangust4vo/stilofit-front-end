@@ -28,7 +28,7 @@ export default function Login() {
         <div className="login-box">
           <img src={xLogo} alt="logo" className="logo" />
           <FormProvider {...methods}>
-            <form className="form" onSubmit={handleSubmit(onSubmit)}>
+            <form className="form" onSubmit={handleSubmit(onSubmit)} noValidate>
               <LoginInput name="email" label="Email" required />
               <LoginInput
                 name="password"

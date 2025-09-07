@@ -84,7 +84,7 @@ const ClassModal = ({ onClose, onSuccess, id = null }) => {
     <div className="class-modal-overlay">
       <div className="modal-content form-class">
         <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} noValidate>
             <h1>{id ? "Editar Turma" : "Cadastro de Turma"}</h1>
             <Input
               name="turma"
