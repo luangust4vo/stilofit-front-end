@@ -68,23 +68,23 @@
 
   .scroller {
     overflow: hidden;
-  
+
     &::-webkit-scrollbar-button {
       display: none;
     }
-  
+
     &:hover {
       overflow-y: auto;
-  
+
       &::-webkit-scrollbar {
         width: 8px;
       }
-  
+
       &::-webkit-scrollbar-thumb {
         background: vars.$btn-primary;
         border-radius: 10px;
       }
-  
+
       &::-webkit-scrollbar-track {
         background: transparent;
       }
@@ -127,4 +127,11 @@
       text-overflow: ellipsis;
     }
   }
+}
+
+.truncate-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 400px;
 }
