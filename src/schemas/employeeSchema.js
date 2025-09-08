@@ -68,7 +68,7 @@ export const employeeValidationSchema = yup.object().shape({
   role: yup.string().required("O cargo é obrigatório"),
   status: yup.string().required("O status é obrigatório"),
   cep: yup.string().nullable().min(9, "CEP incompleto"),
-  street: yup.string().nullable().max(300, "Máximo de 300 caracteres"),
+  address: yup.string().nullable().max(300, "Máximo de 300 caracteres"),
   number: yup.string().nullable().max(10, "Máximo de 10 caracteres"),
   complement: yup.string().nullable().max(100, "Máximo de 100 caracteres"),
   neighborhood: yup.string().nullable().max(100, "Máximo de 100 caracteres"),

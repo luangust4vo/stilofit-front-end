@@ -66,7 +66,7 @@ const InfoEmployee = () => {
 
           <div className="column-professional">
             <h2>Dados Profissionais</h2>
-            <p>
+            <p className="break-word-container">
               <strong>Email:</strong> {" " + selectedEmployee.email}
             </p>
             <p>
