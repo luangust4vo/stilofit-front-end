@@ -58,8 +58,8 @@ function ContractTable() {
       })}
       visualize={({ selectedId, setSelectedId }) =>
         selectedId !== null && (
-          <div className="center-modal-overlay">
-            <div className="center-modal-content">
+          <div className="center-modal-overlay-contract">
+            <div className="center-modal-content-contract">
               <InfoContract
                 id={selectedId}
                 onClose={() => setSelectedId(null)}

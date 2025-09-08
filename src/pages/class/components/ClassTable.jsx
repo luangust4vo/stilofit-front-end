@@ -76,7 +76,9 @@ function ClassTable() {
       >
         {(element) => (
           <>
-            <td className="truncate-text" style={{ textAlign: "center" }}>{element.turma || "-"}</td>
+            <td className="truncate-text" style={{ textAlign: "center" }}>
+              {element.turma || "-"}
+            </td>
             <td>{element.vagas || "-"}</td>
             <td>{element.tempo || "-"}</td>
             <td className="truncate-text">{element.local || "-"}</td>
@@ -127,8 +129,8 @@ function ClassTable() {
         />
       )}
       {showInfoModal && (
-        <div className="center-modal-overlay">
-          <div className="center-modal-content">
+        <div className="center-modal-overlay-class">
+          <div className="center-modal-content-class">
             <InfoTurma
               id={selectedInfoId}
               onClose={() => setShowInfoModal(false)}
