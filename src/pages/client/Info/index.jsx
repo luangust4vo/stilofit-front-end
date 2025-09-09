@@ -12,6 +12,15 @@ const Info = () => {
     navigate(`/cliente/${id}/editar`);
   };
 
+  const convertDateToHTML = (dateString) => {
+    if (!dateString) return "";
+    const parts = dateString.split("-");
+    if (parts.length === 3) {
+      return `${parts[2]}/${parts[1]}/${parts[0]}`;
+    }
+    return dateString;
+  };
+
   useEffect(() => {
     const clients = JSON.parse(localStorage.getItem("clientes")) || [];
     const foundClient = clients.find((c) => String(c.id) === id);
@@ -60,7 +69,7 @@ const Info = () => {
                 </p>
                 <p>
                   <strong>Data de nascimento:</strong>{" "}
-                  {selectedClient.birthDate}
+                  {convertDateToHTML(selectedClient.birthDate)}
                 </p>
                 <p>
                   <strong>CPF:</strong> {selectedClient.cpf}

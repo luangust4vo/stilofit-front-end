@@ -122,7 +122,6 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
                 label="Vencimento Exame Médico"
                 name="medicalExamDueDate"
                 type="date"
-                mask="00/00/0000"
               />
             </div>
 
