@@ -15,15 +15,39 @@
   overflow: hidden;
   border-radius: 0 5px 0 0;
 
+  .btn-bar {
+    display: inline-block;
+    width: 40px;
+    border-color: transparent;
+    background-color:vars.$bg-form; 
+    margin: 10px auto 0;
+
+    i {
+      font-size: 24px;
+      color: vars.$btn-bg-icon;
+    }
+  }
+
+  .top-bar .field-search,
+  .top-bar .btn-icon {
+    display: none;
+  }
+
+  .user .username {
+    display: none;
+  }
+
   &:hover {
     width: 280px;
     overflow-y: auto;
 
-    .top-bar {
-      .field-search,
-      .btn-icon {
-        display: inline-block;
-      }
+    .btn-bar {
+      display: none;
+    }
+
+    .top-bar .field-search,
+    .top-bar .btn-icon {
+      display: inline-block;
     }
 
     .user .username {
@@ -37,11 +61,6 @@
     align-items: center;
     margin-top: 12px;
     margin-bottom: 5px;
-
-    .field-search,
-    .btn-icon {
-      display: none;
-    }
 
     .search-row {
       display: flex;
@@ -68,23 +87,23 @@
 
   .scroller {
     overflow: hidden;
-  
+
     &::-webkit-scrollbar-button {
       display: none;
     }
-  
+
     &:hover {
       overflow-y: auto;
-  
+
       &::-webkit-scrollbar {
         width: 8px;
       }
-  
+
       &::-webkit-scrollbar-thumb {
         background: vars.$btn-primary;
         border-radius: 10px;
       }
-  
+
       &::-webkit-scrollbar-track {
         background: transparent;
       }
@@ -121,7 +140,6 @@
     }
 
     .username {
-      display: none;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
