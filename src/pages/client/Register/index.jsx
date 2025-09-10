@@ -11,7 +11,6 @@ import {
   Textarea,
   Select,
 } from "../../../components";
-// import { useGenericContext } from "../../../contexts/GenericContext";
 
 import "./styles.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,7 +23,6 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
   });
 
   const { handleSubmit, setValue, watch } = methods;
-  // const { addStorageObject, updateStorageObject } = useGenericContext();
 
   const clientService = new ClientService();
   const client = watch();
