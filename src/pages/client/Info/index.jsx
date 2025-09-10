@@ -2,20 +2,32 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "../../../components";
 import "./styles.scss";
+import ClientService from "../../../services/ClientService";
 
 const Info = () => {
   const { id } = useParams();
   const [selectedClient, setSelectedClient] = useState(null);
   const navigate = useNavigate();
+  const clientService = new ClientService;
 
   const goEdit = () => {
     navigate(`/cliente/${id}/editar`);
   };
 
-  useEffect(() => {
-    const clients = JSON.parse(localStorage.getItem("clientes")) || [];
-    const foundClient = clients.find((c) => String(c.id) === id);
-    setSelectedClient(foundClient);
+    useEffect(() => {
+    const fetchClient = async () => {
+      try {
+        const clients = await clientService.findById(id);
+        setSelectedClient(clients);
+      } catch (error) {
+        console.error("Erro ao buscar cliente:", error);
+        setSelectedClient(null);
+      }
+    };
+
+    if (id) {
+      fetchClient();
+    }
   }, [id]);
 
   return (
