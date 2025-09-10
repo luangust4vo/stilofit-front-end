@@ -95,7 +95,7 @@ const ClassModal = ({ onClose, onSuccess, id = null }) => {
               <Input
                 name="vagas"
                 type="number"
-                label="Quantidade de vagas"
+                label="Qtde. de vagas"
                 required
                 placeholder="Ex: 30"
               />
@@ -106,14 +106,16 @@ const ClassModal = ({ onClose, onSuccess, id = null }) => {
                 required
                 placeholder="Ex: 50"
               />
-              <Select name="local" label="Local da aula" required>
-                <option value="">Selecione o local</option>
-                {predefinedPlaces.map((loc) => (
-                  <option key={loc} value={loc}>
-                    {loc}
-                  </option>
-                ))}
-              </Select>
+              <div className="select-place">
+                <Select name="local" label="Local da aula" required>
+                  <option value="">Selecione o local</option>
+                  {predefinedPlaces.map((loc) => (
+                    <option key={loc} value={loc}>
+                      {loc}
+                    </option>
+                  ))}
+                </Select>
+              </div>
             </div>
             <Textarea
               name="observacoes"

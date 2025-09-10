@@ -94,10 +94,10 @@ function CheckoutTable() {
     const updatedHistory = history.map((c) =>
       c.id === Number(id)
         ? {
-            ...c,
-            horaFechamento: new Date().toLocaleTimeString(),
-            status: "fechado",
-          }
+          ...c,
+          horaFechamento: new Date().toLocaleTimeString(),
+          status: "fechado",
+        }
         : c
     );
     localStorage.setItem("historicoCaixa", JSON.stringify(updatedHistory));
@@ -122,6 +122,7 @@ function CheckoutTable() {
       return toast.warn("Valor inválido.");
 
     const newMovement = {
+      id: crypto.randomUUID(),
       venda: modalOpen,
       tipo: typeMovement,
       movement: modalOpen,
@@ -149,6 +150,7 @@ function CheckoutTable() {
           onClick: () => setSelectedId(element.id),
           style: { cursor: "pointer" },
         })}
+        data={storageObject || []}
       >
         {(element) => (
           <>

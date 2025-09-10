@@ -58,11 +58,11 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
     const installments = data.installments ? Number(data.installments) : "";
     const totalValue = data.totalValue
       ? Number(
-          String(data.totalValue)
-            .replace("R$ ", "")
-            .replace(/\./g, "")
-            .replace(",", ".")
-        )
+        String(data.totalValue)
+          .replace("R$ ", "")
+          .replace(/\./g, "")
+          .replace(",", ".")
+      )
       : "";
     const installmentsValue =
       installments && totalValue
@@ -80,8 +80,8 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
       classRoms: Array.isArray(data.classRoms)
         ? data.classRoms
         : data.classRoms
-        ? [data.classRoms]
-        : [],
+          ? [data.classRoms]
+          : [],
       timeMin: data.timeMin || "",
       timeMax: data.timeMax || "",
       weekdays: Array.isArray(data.weekdays) ? data.weekdays : [],

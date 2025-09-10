@@ -154,6 +154,7 @@ function HistoryCheckout() {
       `movimentacao-${id}`,
       JSON.stringify([
         {
+          id: crypto.randomUUID(),
           venda: "Abertura",
           tipo: "dinheiro",
           movement: "Entrada",

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import {Button} from "../../../components"
+import { Button } from "../../../components"
 import "./styles.scss";
 
 const InfoContract = ({ id: propId, onClose }) => {

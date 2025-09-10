@@ -28,7 +28,15 @@ export const employeeValidationSchema = yup.object().shape({
     rg: yup
         .string()
         .nullable()
-        .matches(/^[A-Za-z0-9]+$/, "O RG deve conter apenas letras e números")
+        .test(
+            "rg-format",
+            "O RG deve conter apenas letras e números",
+            (value) => {
+                if (!value) return true;
+
+                return /^[A-Za-z0-9]+$/.test(value);
+            }
+        )
         .test("numero-positivo", "O RG não pode conter número zero ou negativo", (value) => {
             if (!value) return true;
             const numeros = value.replace(/[^0-9]/g, "");
