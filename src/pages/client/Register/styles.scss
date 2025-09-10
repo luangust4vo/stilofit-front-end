@@ -7,7 +7,7 @@
   width: 100%;
 
   .form {
-    flex:1;
+    flex: 1;
     overflow-y: scroll;
     margin-bottom: 40px;
     scrollbar-width: none;
@@ -17,6 +17,18 @@
       padding: 20px;
       margin-bottom: 20px;
       border-radius: 10px;
+      width: 100%;
+
+      .row {
+        display: flex;
+        gap: 16px;
+        width: 100%;
+
+        > * {
+          flex: 1 1 0;
+          min-width: 0;
+        }
+      }
 
       h3 {
         background-color: vars.$table-header;
@@ -24,7 +36,7 @@
         padding: 8px 12px;
         margin: -20px -20px 20px -20px;
         font-size: 16px;
-        border-radius:10px 10px 0 0;
+        border-radius: 10px 10px 0 0;
       }
     }
   }
