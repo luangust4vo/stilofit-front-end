@@ -15,12 +15,15 @@ const Select = ({ name, label, children, required, ...rest }) => {
         <label htmlFor={name}>
           {label}
           {required && <span className="required-asterisk">*</span>}
-          {errors[name] && <span className="error-message"> {errors[name].message}</span>}
+          
         </label>
       )}
       <select id={name} {...register(name)} {...rest}>
         {children}
       </select>
+      {errors[name] && (
+        <span className="error-message">{errors[name].message}</span>
+      )}
     </div>
   );
 };

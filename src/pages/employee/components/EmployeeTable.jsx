@@ -1,21 +1,20 @@
 import { useNavigate } from "react-router-dom";
-import Table from "../../../components/Table/Table";
-import { goRegistration, goEdit } from "../../../utils/navigation.js";
+import Table from "../../../components/Table/Table.jsx";
+import { goRegistration, goView, goEdit } from "../../../utils/navigation.js";
 import { useGenericContext } from "../../../contexts/GenericContext.jsx";
 import { useTableLogic } from "../../../hooks/useTableLogic.jsx";
-import InfoContract from "../Info/index";
-import { Button } from "../../../components";
+import { Button } from "../../../components/index.jsx";
 
-import "./styles.scss";
+import "./style.scss";
 
-function ContractTable() {
+function EmployeeTable() {
   const navigate = useNavigate();
-  const routeName = "contrato";
+  const routeName = "funcionario";
   const { storageObject } = useGenericContext();
 
   const { search, setSearch, elementsToDisplay } = useTableLogic(
     storageObject,
-    "name"
+    "nome"
   );
 
   return (
@@ -36,59 +35,29 @@ function ContractTable() {
               className="btn-icon-table"
               onClick={() => goRegistration(navigate, routeName)}
             >
-              Criar Contrato
+              Cadastrar Funcionário
               <i className="bi-plus"></i>
             </Button>
           </div>
         </>
       )}
-      headerCells={[
-        "Nome",
-        "Valor Total",
-        "Parcelas",
-        "Valor da Parcela",
-        "Vencimento",
-        "",
-      ]}
-      getRowProps={({ element, setSelectedId }) => ({
+      headerCells={["Nome", "Cargo", "Status", "Jornada", ""]}
+      getRowProps={({ element }) => ({
         onClick: () => {
-          setSelectedId(element.id);
+          goView(navigate, routeName, element.id);
         },
         style: { cursor: "pointer" },
       })}
-      visualize={({ selectedId, setSelectedId }) =>
-        selectedId !== null && (
-          <div className="center-modal-overlay">
-            <div className="center-modal-content">
-              <InfoContract
-                id={selectedId}
-                onClose={() => setSelectedId(null)}
-              />
-            </div>
-          </div>
-        )
-      }
     >
       {(element) => (
         <>
-          <td>{element.name}</td>
+          <td>{element.nome}</td>
+          <td>{element.cargo}</td>
+          <td>{element.status}</td>
           <td>
-            {"R$ " + Number(element.totalValue).toFixed(2).replace(".", ",")}
-          </td>
-          <td>{element.installments ? element.installments : "-"}</td>
-          <td>
-            {element.installmentsValue
-              ? "R$ " +
-              Number(element.installmentsValue).toFixed(2).replace(".", ",")
-              : "-"}
-          </td>
-          <td>
-            {element.expire}
-            {element.typeExpire === "por Seção"
-              ? " aulas"
-              : element.typeExpire === "por Tempo"
-                ? " meses"
-                : ""}
+            {element && element.jornada
+              ? element.jornada.inicio + " - " + element.jornada.fim
+              : " - "}
           </td>
           <td className="buttons">
             <Button
@@ -108,4 +77,4 @@ function ContractTable() {
   );
 }
 
-export default ContractTable;
+export default EmployeeTable;

@@ -1,7 +1,13 @@
 import Select from "react-select";
 import { Controller, useFormContext } from "react-hook-form";
 
-const MultiSelect = ({ name, label, options = [], required }) => {
+const MultiSelect = ({
+  labelKey = "name",
+  name,
+  label,
+  options = [],
+  required,
+}) => {
   const {
     control,
     formState: { errors },
@@ -9,7 +15,7 @@ const MultiSelect = ({ name, label, options = [], required }) => {
 
   const selectOptions = options.map((opt) => ({
     value: opt.id,
-    label: opt.name,
+    label: opt[labelKey],
   }));
 
   return (
