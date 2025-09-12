@@ -106,6 +106,12 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
     }
   };
 
+  //////////////////////////////////////////////////////////////
+  const watchedTimeMin = watch("timeMin");
+  useEffect(() => {
+    console.log("Valor atual do timeMin:", watchedTimeMin);
+  }, [watchedTimeMin]);
+
   return (
     <div className="container-contract-register">
       <Button onClick={() => navigate("/contrato")}>

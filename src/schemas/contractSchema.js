@@ -40,5 +40,6 @@ export const contractValidationSchema = yup.object().shape({
     .string()
     .transform((value, originalValue) => (originalValue === "" ? null : value))
     .nullable()
-    .notRequired(),
+    .notRequired()
+    .matches(/^(\d{2}):(\d{2})$/, "O formato do horário deve ser 'hh:mm'"),
 });
