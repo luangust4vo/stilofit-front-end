@@ -6,18 +6,20 @@ export const contractValidationSchema = yup.object().shape({
     .required("Nome do Contrato é obrigatório")
     .max(100, "Máximo de 100 caracteres"),
   totalValue: yup
-  .number()
-  .typeError("O valor deve ser um número")
-  .required("Valor Total é obrigatório")
-  .transform((value, originalValue) => {
-    if (typeof originalValue === "string") {
-      const cleanedValue = originalValue.replace(/[R$\s.]/g, "").replace(",", ".");
-      return parseFloat(cleanedValue) || null;
-    }
-    return value;
-  })
-  .positive("O valor deve ser positivo")
-  .max(1000000, "O valor máximo permitido é R$ 1.000.000,00"),
+    .number()
+    .typeError("O valor deve ser um número")
+    .required("Valor Total é obrigatório")
+    .transform((value, originalValue) => {
+      if (typeof originalValue === "string") {
+        const cleanedValue = originalValue
+          .replace(/[R$\s.]/g, "")
+          .replace(",", ".");
+        return parseFloat(cleanedValue) || null;
+      }
+      return value;
+    })
+    .positive("O valor deve ser positivo")
+    .max(1000000, "O valor máximo permitido é R$ 1.000.000,00"),
   typeExpire: yup.string().required("Tipo de Validade é obrigatório"),
   expire: yup
     .number()
@@ -36,7 +38,7 @@ export const contractValidationSchema = yup.object().shape({
     .max(1000, "No máximo 1000 parcelas"),
   timeMin: yup
     .string()
+    .transform((value, originalValue) => (originalValue === "" ? null : value))
     .nullable()
-    .min(5, "Horário Incompleto")
     .notRequired(),
 });
