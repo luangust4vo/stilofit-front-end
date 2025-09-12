@@ -12,6 +12,10 @@ import {
   Select,
 } from "../../../components";
 import { useGenericContext } from "../../../contexts/GenericContext";
+import {
+  toInternationalFormat,
+  toBrazilianFormat,
+} from "../../../utils/convertDate";
 
 import "./styles.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,7 +27,7 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
     mode: "onChange",
   });
 
-  const { handleSubmit, setValue, watch } = methods;
+  const { handleSubmit, setValue, watch, reset } = methods;
   const { addStorageObject, updateStorageObject } = useGenericContext();
 
   const client = watch();
@@ -63,23 +67,37 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
 
   useEffect(() => {
     if (initialData) {
-      methods.reset(initialData);
+      const transformedData = {
+        ...initialData,
+        birthDate: toInternationalFormat(initialData.birthDate),
+        medicalExamDueDate: toInternationalFormat(
+          initialData.medicalExamDueDate
+        ),
+      };
+      reset(transformedData);
     }
-  }, [initialData]);
+  }, [initialData, reset]);
 
   const onSubmit = (data) => {
+    const dataToSave = {
+      ...data,
+      birthDate: toBrazilianFormat(data.birthDate),
+      medicalExamDueDate: toBrazilianFormat(data.medicalExamDueDate),
+    };
+    console.log(dataToSave); ////////////////////////////////////////
+
     if (externalSubmit) {
-      externalSubmit(data);
+      externalSubmit(dataToSave);
       return;
     }
 
     if (initialData && initialData.id) {
-      updateStorageObject(initialData.id, data);
+      updateStorageObject(initialData.id, dataToSave);
       toast.success("Cliente atualizado!");
     } else {
-      addStorageObject(data);
+      addStorageObject(dataToSave);
       toast.success("Cliente cadastrado!");
-      methods.reset();
+      reset();
     }
   };
 
