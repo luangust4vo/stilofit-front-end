@@ -31,9 +31,7 @@ const InfoEmployee = () => {
             <p>
               <strong>Data de Nascimento:</strong>{" "}
               {selectedEmployee && selectedEmployee.dataNascimento
-                ? new Intl.DateTimeFormat("pt-BR").format(
-                    new Date(selectedEmployee.dataNascimento)
-                  )
+                ? " " + selectedEmployee.dataNascimento
                 : " - "}
             </p>
             <p>
@@ -52,7 +50,7 @@ const InfoEmployee = () => {
             </p>
             <p>
               <strong>Endereço:</strong>
-              {selectedEmployee && selectedEmployee.estadoCivil
+              {selectedEmployee && selectedEmployee.endereco
                 ? " " + selectedEmployee.endereco
                 : " - "}
             </p>

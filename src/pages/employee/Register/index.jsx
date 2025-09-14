@@ -27,7 +27,6 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
     resolver: yupResolver(employeeValidationSchema),
     defaultValues: initialData || {},
     mode: "onChange",
-    //shouldFocusError: false,
   });
 
   const { handleSubmit, setValue, watch, reset } = methods;

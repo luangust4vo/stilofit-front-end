@@ -106,7 +106,6 @@ const RegisterContract = ({ initialData = null, onSubmit: externalSubmit }) => {
     }
   };
 
-  //////////////////////////////////////////////////////////////
   const watchedTimeMin = watch("timeMin");
   useEffect(() => {
     console.log("Valor atual do timeMin:", watchedTimeMin);
