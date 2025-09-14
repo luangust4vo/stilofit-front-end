@@ -15,7 +15,7 @@ export const employeeValidationSchema = yup.object().shape({
   password: yup
     .string()
     .required("A senha é obrigatória")
-    .min(8, "A senha deve ter no mínimo 6 caracteres")
+    .min(8, "A senha deve ter no mínimo 8 caracteres")
     .max(30, "A senha deve ter no máximo 30 caracteres"),
   birthDate: yup
     .date()
@@ -58,13 +58,13 @@ export const employeeValidationSchema = yup.object().shape({
     .nullable()
     .transform((value) => (value === "" ? null : value))
     .notRequired()
-    .min(16, "Telefone incompleto"),
+    .min(15, "Telefone incompleto"),
   cellphone: yup
     .string()
     .nullable()
     .transform((value) => (value === "" ? null : value))
     .notRequired()
-    .min(16, "Telefone incompleto"),
+    .min(15, "Celular incompleto"),
   role: yup.string().required("O cargo é obrigatório"),
   status: yup.string().required("O status é obrigatório"),
   cep: yup.string().nullable().min(9, "CEP incompleto"),

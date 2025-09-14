@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -13,6 +13,10 @@ import {
   CheckboxPanel,
 } from "../../../components";
 import { useGenericContext } from "../../../contexts/GenericContext";
+import {
+  toInternationalFormat,
+  toBrazilianFormat,
+} from "../../../utils/convertDate";
 
 import "./style.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,12 +25,9 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
   const navigate = useNavigate();
   const methods = useForm({
     resolver: yupResolver(employeeValidationSchema),
-    defaultValues: {
-      weekdays: [],
-      ...(initialData || {}),
-    },
+    defaultValues: initialData || {},
     mode: "onChange",
-    shouldFocusError: false,
+    //shouldFocusError: false,
   });
 
   const { handleSubmit, setValue, watch, reset } = methods;
@@ -40,11 +41,21 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
     state: true,
   });
 
+  useEffect(() => {
+    if (initialData) {
+      const transformedData = {
+        ...initialData,
+        dataNascimento: toInternationalFormat(initialData.dataNascimento),
+      };
+      reset(transformedData);
+    }
+  }, [initialData, reset]);
+
   const prepareData = (data) => {
     const parsedData = {
       ...data,
       nome: data.name || "",
-      dataNascimento: data.birthDate || "",
+      dataNascimento: toBrazilianFormat(data.dataNascimento),
       cpf: data.cpf || "",
       rg: data.rg || "",
       endereco:
@@ -138,7 +149,7 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
               <div className="row">
                 <Input
                   label="Data de Nascimento"
-                  name="birthDate"
+                  name="dataNascimento"
                   type="date"
                   required
                 />

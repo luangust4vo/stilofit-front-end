@@ -84,7 +84,6 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
       birthDate: toBrazilianFormat(data.birthDate),
       medicalExamDueDate: toBrazilianFormat(data.medicalExamDueDate),
     };
-    console.log(dataToSave); ////////////////////////////////////////
 
     if (externalSubmit) {
       externalSubmit(dataToSave);
