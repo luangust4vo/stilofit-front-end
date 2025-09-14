@@ -87,8 +87,16 @@ export const employeeValidationSchema = yup.object().shape({
     .max(2, "Máximo de 2 letras")
     .matches(/^[a-zA-Z]+$/, "Deve conter apenas letras"),
   shift: yup.string().nullable(),
-  timeMin: yup.string().nullable().min(5, "Horário Incompleto"),
-  timeMax: yup.string().nullable().min(5, "Horário Incompleto"),
+  timeMin: yup
+    .string()
+    .transform((value, originalValue) => (originalValue === "" ? null : value))
+    .required("Horário de entrada é obrigatório")
+    .matches(/^(\d{2}):(\d{2})$/, "O formato do horário deve ser 'hh:mm'"),
+  timeMax: yup
+    .string()
+    .transform((value, originalValue) => (originalValue === "" ? null : value))
+    .required("Horário de saída é obrigatório")
+    .matches(/^(\d{2}):(\d{2})$/, "O formato do horário deve ser 'hh:mm'"),
   weekdays: yup
     .array()
     .of(yup.string())
