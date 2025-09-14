@@ -70,7 +70,7 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
       cargo: data.role || "",
       status: data.status || "",
       turno: data.shift || "",
-      dias: Array.isArray(data.weekdays) ? data.weekdays : [],
+      dias: Array.isArray(data.dias) ? data.dias : [],
       jornada: {
         inicio: data.timeMin || "",
         fim: data.timeMax || "",
@@ -263,7 +263,7 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
                 />
               </div>
               <CheckboxPanel
-                name="weekdays"
+                name="dias"
                 label="Dias da Semana"
                 required
                 options={[

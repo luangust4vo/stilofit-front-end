@@ -36,7 +36,7 @@ const InfoEmployee = () => {
             </p>
             <p>
               <strong>Sexo:</strong>
-              {" " + selectedEmployee.sexo}
+              {" " + selectedEmployee.gender}
             </p>
             <p>
               <strong>CPF:</strong>
@@ -75,7 +75,7 @@ const InfoEmployee = () => {
             </p>
             <p>
               <strong>Registro Profissional:</strong>
-              {" " + selectedEmployee.registroProfissional}
+              {" " + selectedEmployee.professionalRegister}
             </p>
             <p>
               <strong>Cargo:</strong>
@@ -90,7 +90,7 @@ const InfoEmployee = () => {
             <p>
               <strong>Dias da Semana: </strong>
               {selectedEmployee && selectedEmployee.dias
-                ? selectedEmployee.dias
+                ? selectedEmployee.dias.join(", ")
                 : " - "}
             </p>
             <p>
