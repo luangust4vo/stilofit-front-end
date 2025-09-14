@@ -66,7 +66,29 @@ const Info = () => {
                   <strong>CPF:</strong> {selectedClient.cpf}
                 </p>
                 <p>
-                  <strong>Endereço:</strong> {selectedClient.address}
+                  <strong>Endereço:</strong>
+                  {selectedClient &&
+                  [
+                    selectedClient.address,
+                    selectedClient.number,
+                    selectedClient.complement,
+                    selectedClient.district,
+                    selectedClient.city,
+                    selectedClient.state,
+                  ]
+                    .filter(Boolean)
+                    .join(", ").length > 0
+                    ? [
+                        selectedClient.address,
+                        selectedClient.number,
+                        selectedClient.complement,
+                        selectedClient.district,
+                        selectedClient.city,
+                        selectedClient.state,
+                      ]
+                        .filter(Boolean)
+                        .join(", ")
+                    : " - "}
                 </p>
               </>
             ) : (

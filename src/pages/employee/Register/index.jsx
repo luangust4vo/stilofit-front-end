@@ -57,13 +57,12 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
       dataNascimento: toBrazilianFormat(data.dataNascimento),
       cpf: data.cpf || "",
       rg: data.rg || "",
-      endereco:
-        data.city +
-          data.state +
-          data.district +
-          data.address +
-          data.number +
-          data.complement || "",
+      cidade: data.city || "",
+      estado: data.state || "",
+      bairro: data.district || "",
+      endereco: data.address || "",
+      numero: data.number || "",
+      complemento: data.complement || "",
       estadoCivil: data.maritalStatus || "",
       email: data.email || "",
       contato: data.phone || "",

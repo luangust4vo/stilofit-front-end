@@ -49,9 +49,28 @@ const InfoEmployee = () => {
                 : " - "}
             </p>
             <p>
-              <strong>Endereço:</strong>
-              {selectedEmployee && selectedEmployee.endereco
-                ? " " + selectedEmployee.endereco
+              <strong>Endereço:</strong>{" "}
+              {selectedEmployee &&
+              [
+                selectedEmployee.endereco,
+                selectedEmployee.numero,
+                selectedEmployee.complemento,
+                selectedEmployee.bairro,
+                selectedEmployee.cidade,
+                selectedEmployee.estado,
+              ]
+                .filter(Boolean)
+                .join(", ").length > 0
+                ? [
+                    selectedEmployee.endereco,
+                    selectedEmployee.numero,
+                    selectedEmployee.complemento,
+                    selectedEmployee.bairro,
+                    selectedEmployee.cidade,
+                    selectedEmployee.estado,
+                  ]
+                    .filter(Boolean)
+                    .join(", ")
                 : " - "}
             </p>
             <p>
