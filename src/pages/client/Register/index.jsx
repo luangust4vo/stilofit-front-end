@@ -12,7 +12,7 @@ import {
   Select,
 } from "../../../components";
 
-import "./styles.scss";
+import "./registerClient.scss";
 import "react-toastify/dist/ReactToastify.css";
 import ClientService from "../../../services/ClientService";
 

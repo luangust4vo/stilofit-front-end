@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ClientService from "../../../services/ClientService";
-import "./styles.scss";
+import "./listClient.scss";
 
 const ListClient = ({ onClientSelect }) => {
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded] = React.useState(false);
   const [filteredClients, setFilteredClients] = useState([]);
   const [search, setSearch] = useState("");
   const [offset, setOffset] = useState(0);

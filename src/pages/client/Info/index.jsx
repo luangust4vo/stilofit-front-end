@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "../../../components";
-import "./styles.scss";
+import "./infoClient.scss";
 import ClientService from "../../../services/ClientService";
 
 const Info = () => {
