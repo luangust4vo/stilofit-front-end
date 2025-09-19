@@ -53,10 +53,12 @@ const Info = () => {
                   <strong>Nome:</strong> {selectedClient.name}
                 </p>
                 <p>
-                  <strong>Email:</strong> {selectedClient.email}
+                  <strong>Email:</strong>{" "}
+                  {selectedClient.email ? selectedClient.email : "-"}
                 </p>
                 <p>
-                  <strong>Telefone:</strong> {selectedClient.cellphone}
+                  <strong>Telefone:</strong>{" "}
+                  {selectedClient.cellphone ? selectedClient.cellphone : "-"}
                 </p>
                 <p>
                   <strong>Data de nascimento:</strong>{" "}
@@ -66,7 +68,29 @@ const Info = () => {
                   <strong>CPF:</strong> {selectedClient.cpf}
                 </p>
                 <p>
-                  <strong>Endereço:</strong> {selectedClient.address}
+                  <strong>Endereço:</strong>
+                  {selectedClient &&
+                  [
+                    selectedClient.address,
+                    selectedClient.number,
+                    selectedClient.complement,
+                    selectedClient.district,
+                    selectedClient.city,
+                    selectedClient.state,
+                  ]
+                    .filter(Boolean)
+                    .join(", ").length > 0
+                    ? [
+                        selectedClient.address,
+                        selectedClient.number,
+                        selectedClient.complement,
+                        selectedClient.district,
+                        selectedClient.city,
+                        selectedClient.state,
+                      ]
+                        .filter(Boolean)
+                        .join(", ")
+                    : " - "}
                 </p>
               </>
             ) : (
@@ -77,7 +101,8 @@ const Info = () => {
             {selectedClient ? (
               <>
                 <p>
-                  <strong>Contrato:</strong> {selectedClient.contrato}
+                  <strong>Contrato:</strong>{" "}
+                  {selectedClient.contrato ? selectedClient.contrato : "-"}
                 </p>
               </>
             ) : (
@@ -88,7 +113,10 @@ const Info = () => {
             {selectedClient ? (
               <>
                 <p>
-                  <strong>Observações:</strong> {selectedClient.additionalInfo}
+                  <strong>Observações:</strong>{" "}
+                  {selectedClient.additionalInfo
+                    ? selectedClient.additionalInfo
+                    : "-"}
                 </p>
               </>
             ) : (

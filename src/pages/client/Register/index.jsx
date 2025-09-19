@@ -4,8 +4,18 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
 import { clientValidationSchema } from "../../../schemas";
 import { fetchAddressByCEP } from "../../../services/viaCep";
-import { MaskedInput, Button, Input, Textarea, Select } from "../../../components";
+import {
+  MaskedInput,
+  Button,
+  Input,
+  Textarea,
+  Select,
+} from "../../../components";
 import { useGenericContext } from "../../../contexts/GenericContext";
+import {
+  toInternationalFormat,
+  toBrazilianFormat,
+} from "../../../utils/convertDate";
 
 import "./styles.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,9 +24,10 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
   const methods = useForm({
     resolver: yupResolver(clientValidationSchema),
     defaultValues: initialData || {},
+    mode: "onChange",
   });
 
-  const { handleSubmit, setValue, watch } = methods;
+  const { handleSubmit, setValue, watch, reset } = methods;
   const { addStorageObject, updateStorageObject } = useGenericContext();
 
   const client = watch();
@@ -56,24 +67,36 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
 
   useEffect(() => {
     if (initialData) {
-      methods.reset(initialData);
+      const transformedData = {
+        ...initialData,
+        birthDate: toInternationalFormat(initialData.birthDate),
+        medicalExamDueDate: toInternationalFormat(
+          initialData.medicalExamDueDate
+        ),
+      };
+      reset(transformedData);
     }
-  }, [initialData]);
+  }, [initialData, reset]);
 
   const onSubmit = (data) => {
+    const dataToSave = {
+      ...data,
+      birthDate: toBrazilianFormat(data.birthDate),
+      medicalExamDueDate: toBrazilianFormat(data.medicalExamDueDate),
+    };
+
     if (externalSubmit) {
-      externalSubmit(data);
+      externalSubmit(dataToSave);
       return;
     }
 
-
     if (initialData && initialData.id) {
-      updateStorageObject(initialData.id, data);
+      updateStorageObject(initialData.id, dataToSave);
       toast.success("Cliente atualizado!");
     } else {
-      addStorageObject(data);
+      addStorageObject(dataToSave);
       toast.success("Cliente cadastrado!");
-      methods.reset();
+      reset();
     }
   };
 
@@ -81,15 +104,15 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
     <div className="container">
       <main className="form">
         <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} noValidate>
             <div className="block">
               <h3>Dados do Cliente</h3>
               <Input label="Nome" name="name" required />
               <Input label="Email" name="email" />
-              <MaskedInput
+              <Input
                 label="Data de Nascimento"
                 name="birthDate"
-                mask="00/00/0000"
+                type="date"
                 required
               />
               <Select label="Sexo" name="gender" required>
@@ -112,10 +135,10 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
                 <option value="Viúvo">Viúvo</option>
                 <option value="Separado">Separado</option>
               </Select>
-              <MaskedInput
+              <Input
                 label="Vencimento Exame Médico"
                 name="medicalExamDueDate"
-                mask="00/00/0000"
+                type="date"
               />
             </div>
 
