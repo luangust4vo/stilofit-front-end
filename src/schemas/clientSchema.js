@@ -87,14 +87,14 @@ export const clientValidationSchema = yup.object().shape({
     .nullable()
     .notRequired()
     .max(100, "Máximo de 100 caracteres")
-    .matches(/^[a-zA-Z ]+$/, "Deve conter apenas letras"),
+    .matches(/^[\p{L} ]+$/u, "Deve conter apenas letras"),
   state: yup
     .string()
     .transform((value) => (value === "" ? null : value))
     .nullable()
     .notRequired()
     .max(2, "Máximo de 2 letras")
-    .matches(/^[a-zA-Z]+$/, "Deve conter apenas letras"),
+    .matches(/^[\p{L} ]+$/u, "Deve conter apenas letras"),
   number: yup.string().max(10, "Máximo de 10 caracteres"),
   complement: yup.string().max(100, "Máximo de 100 caracteres"),
   additionalInfo: yup.string().max(300, "Máximo de 300 caracteres"),

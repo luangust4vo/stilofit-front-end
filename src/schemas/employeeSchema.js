@@ -83,14 +83,14 @@ export const employeeValidationSchema = yup.object().shape({
     .nullable()
     .notRequired()
     .max(100, "Máximo de 100 caracteres")
-    .matches(/^[a-zA-Z ]+$/, "Deve conter apenas letras"),
+    .matches(/^[\p{L} ]+$/u, "Deve conter apenas letras"),
   state: yup
     .string()
     .transform((value) => (value === "" ? null : value))
     .nullable()
     .notRequired()
     .max(2, "Máximo de 2 letras")
-    .matches(/^[a-zA-Z]+$/, "Deve conter apenas letras"),
+    .matches(/^[\p{L} ]+$/u, "Deve conter apenas letras"),
   shift: yup.string().nullable(),
   timeMin: yup
     .string()
