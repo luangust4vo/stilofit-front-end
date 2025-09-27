@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGenericContext } from "../../../contexts/GenericContext";
-
-import "./styles.scss";
+import ClientService from "../../../services/ClientService";
+import "./listClient.scss";
 
 const ListClient = ({ onClientSelect }) => {
-  const [expanded, setExpanded] = React.useState(false);
-  const { storageObject } = useGenericContext();
+  const [expanded] = React.useState(false);
   const [filteredClients, setFilteredClients] = useState([]);
   const [search, setSearch] = useState("");
   const [offset, setOffset] = useState(0);
   const limit = 30;
   const navigate = useNavigate();
+  const clientService = new ClientService();
 
   const handleClientClick = (client) => {
     if (onClientSelect) onClientSelect(client);
@@ -22,26 +21,24 @@ const ListClient = ({ onClientSelect }) => {
     navigate("../cliente");
   };
 
-  const changeExpanded = () => {
-    setExpanded(!expanded);
-  };
-
   useEffect(() => {
-    let result = [...storageObject];
-    if (search.trim() !== "") {
-      result = result.filter((client) =>
-        client.name.toLowerCase().includes(search.toLowerCase())
-      );
-    }
-    result.sort((a, b) => {
-      const nameA = a.name ? a.name.toLowerCase() : "";
-      const nameB = b.name ? b.name.toLowerCase() : "";
-      return nameA.localeCompare(nameB);
-    });
-
-    setFilteredClients(result);
-    setOffset(0);
-  }, [search, storageObject]);
+    const fetchClients = async () => {
+      let result = await clientService.findAll();
+      if (search.trim() !== "") {
+        result = result.filter((client) =>
+          client.name.toLowerCase().includes(search.toLowerCase())
+        );
+      }
+      result.sort((a, b) => {
+        const nameA = a.name ? a.name.toLowerCase() : "";
+        const nameB = b.name ? b.name.toLowerCase() : "";
+        return nameA.localeCompare(nameB);
+      });
+      setFilteredClients(result);
+      setOffset(0);
+    };
+    fetchClients();
+  }, [search]);
 
   useEffect(() => {
     const scroller = document.querySelector(".scroller");
@@ -65,6 +62,9 @@ const ListClient = ({ onClientSelect }) => {
 
   return (
     <div className="sidebar">
+      <button className="btn-bar">
+        <i className="bi bi-list"></i>
+      </button>
       <div className="top-bar">
         <div className="search-row">
           <input
