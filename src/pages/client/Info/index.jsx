@@ -8,13 +8,13 @@ const Info = () => {
   const { id } = useParams();
   const [selectedClient, setSelectedClient] = useState(null);
   const navigate = useNavigate();
-  const clientService = new ClientService;
+  const clientService = new ClientService();
 
   const goEdit = () => {
     navigate(`/cliente/${id}/editar`);
   };
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchClient = async () => {
       try {
         const clients = await clientService.findById(id);
