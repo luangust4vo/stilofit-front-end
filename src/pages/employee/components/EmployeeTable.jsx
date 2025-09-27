@@ -51,8 +51,8 @@ function EmployeeTable() {
     >
       {(element) => (
         <>
-          <td>{element.nome}</td>
-          <td>{element.cargo}</td>
+          <td className="truncate-text">{element.nome}</td>
+          <td className="truncate-text">{element.cargo}</td>
           <td>{element.status}</td>
           <td>
             {element && element.jornada

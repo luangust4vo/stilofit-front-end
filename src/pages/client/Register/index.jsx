@@ -11,6 +11,10 @@ import {
   Textarea,
   Select,
 } from "../../../components";
+import {
+  toInternationalFormat,
+  toBrazilianFormat,
+} from "../../../utils/convertDate";
 
 import "./registerClient.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,9 +24,9 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
   const methods = useForm({
     resolver: yupResolver(clientValidationSchema),
     defaultValues: initialData || {},
+    mode: "onChange",
   });
-
-  const { handleSubmit, setValue, watch } = methods;
+  const { handleSubmit, setValue, watch, reset } = methods;
 
   const clientService = new ClientService();
   const client = watch();
@@ -62,9 +66,16 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
 
   useEffect(() => {
     if (initialData) {
-      methods.reset(initialData);
+      const transformedData = {
+        ...initialData,
+        birthDate: toInternationalFormat(initialData.birthDate),
+        medicalExamDueDate: toInternationalFormat(
+          initialData.medicalExamDueDate
+        ),
+      };
+      reset(transformedData);
     }
-  }, [initialData]);
+  }, [initialData, reset]);
 
   const onSubmit = async (data) => {
     const payload = Object.fromEntries(
@@ -75,7 +86,7 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
     );
 
     if (externalSubmit) {
-      externalSubmit(data);
+      externalSubmit(dataToSave);
       return;
     }
 
@@ -85,7 +96,7 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
     } else {
       await clientService.create(payload);
       toast.success("Cliente cadastrado!");
-      methods.reset();
+      reset();
     }
   };
 
@@ -93,7 +104,7 @@ const Register = ({ initialData = null, onSubmit: externalSubmit }) => {
     <div className="container">
       <main className="form">
         <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} noValidate>
             <div className="block">
               <h3>Dados do Cliente</h3>
               <div className="row">

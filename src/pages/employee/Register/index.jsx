@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -12,9 +12,11 @@ import {
   Select,
   CheckboxPanel,
 } from "../../../components";
+import { useGenericContext } from "../../../contexts/GenericContext";
 import {
-  useGenericContext,
-} from "../../../contexts/GenericContext";
+  toInternationalFormat,
+  toBrazilianFormat,
+} from "../../../utils/convertDate";
 
 import "./style.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,11 +25,8 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
   const navigate = useNavigate();
   const methods = useForm({
     resolver: yupResolver(employeeValidationSchema),
-    defaultValues: {
-      weekdays: [],
-      ...(initialData || {}),
-    },
-    shouldFocusError: false,
+    defaultValues: initialData || {},
+    mode: "onChange",
   });
 
   const { handleSubmit, setValue, watch, reset } = methods;
@@ -41,26 +40,40 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
     state: true,
   });
 
-  const prepareData = (data) => {
+  useEffect(() => {
+    if (initialData) {
+      const transformedData = {
+        ...initialData,
+        dataNascimento: toInternationalFormat(initialData.dataNascimento),
+      };
+      reset(transformedData);
+    }
+  }, [initialData, reset]);
 
+  const prepareData = (data) => {
     const parsedData = {
       ...data,
       nome: data.name || "",
-      dataNascimento: data.birthDate || "",
+      dataNascimento: toBrazilianFormat(data.dataNascimento),
       cpf: data.cpf || "",
       rg: data.rg || "",
-      endereco: data.city + data.state + data.district + data.address + data.number + data.complement || "",
+      cidade: data.city || "",
+      estado: data.state || "",
+      bairro: data.district || "",
+      endereco: data.address || "",
+      numero: data.number || "",
+      complemento: data.complement || "",
       estadoCivil: data.maritalStatus || "",
       email: data.email || "",
-      contato: data.guardianPhone || "",
+      contato: data.phone || "",
       cargo: data.role || "",
       status: data.status || "",
       turno: data.shift || "",
-      dias: Array.isArray(data.weekdays) ? data.weekdays : [],
+      dias: Array.isArray(data.dias) ? data.dias : [],
       jornada: {
         inicio: data.timeMin || "",
         fim: data.timeMax || "",
-      }
+      },
     };
     return parsedData;
   };
@@ -109,7 +122,6 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
     }
   };
   return (
-
     <div className="container-employee-register">
       <Button onClick={() => navigate("/funcionario")}>
         <i className="bi bi-arrow-left"></i>
@@ -117,19 +129,28 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
       </Button>
 
       <main className="form">
-
         <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} noValidate>
             <div className="block">
               <h3>Dados Gerais do Funcionário</h3>
-              <Input label="Nome Completo" name="name" required className="full-width" />
-              <div className='row'>
+              <Input
+                label="Nome Completo"
+                name="name"
+                required
+                className="full-width"
+              />
+              <div className="row">
                 <Input label="Email" name="email" type="email" required />
                 <Input label="Senha" name="password" type="password" required />
               </div>
 
-              <div className='row'>
-                <Input label="Data de Nascimento" name="birthDate" type="date" required />
+              <div className="row">
+                <Input
+                  label="Data de Nascimento"
+                  name="dataNascimento"
+                  type="date"
+                  required
+                />
                 <Select label="Sexo" name="gender" required>
                   <option value="">Selecione</option>
                   <option value="Masculino">Masculino</option>
@@ -144,7 +165,7 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
                   <option value="Viúvo">Viúvo</option>
                 </Select>
               </div>
-              <div className='row'>
+              <div className="row">
                 <MaskedInput
                   label="CPF"
                   name="cpf"
@@ -153,13 +174,17 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
                 />
 
                 <Input label="RG" name="rg" />
-                <Input label="Registro Profissional" name="professionalRegister" required />
+                <Input
+                  label="Registro Profissional"
+                  name="professionalRegister"
+                  required
+                />
               </div>
 
-              <div className='row'>
+              <div className="row">
                 <MaskedInput
                   label="Telefone"
-                  name="guardianPhone"
+                  name="phone"
                   mask="(00) 00000-0000"
                 />
                 <MaskedInput
@@ -204,7 +229,11 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
                   name="city"
                   disabled={!editableFields.city}
                 />
-                <Input label="UF" name="state" disabled={!editableFields.state} />
+                <Input
+                  label="UF"
+                  name="state"
+                  disabled={!editableFields.state}
+                />
                 <Input label="Número" name="number" />
                 <Input label="Complemento" name="complement" />
               </div>
@@ -213,18 +242,29 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
             <div className="block">
               <h3>Jornada</h3>
               <div className="row">
-                <Select label="Turno" name="shift">
+                <Select label="Turno" name="shift" required>
                   <option value="">Selecione</option>
                   <option value="Manhã">Manhã</option>
                   <option value="Tarde">Tarde</option>
                   <option value="Noite">Noite</option>
                 </Select>
-                <Input label="Horário de Entrada" name="timeMin" type="time" />
-                <Input label="Horário de Saída" name="timeMax" type="time" />
+                <Input
+                  label="Horário de Entrada"
+                  name="timeMin"
+                  type="time"
+                  required
+                />
+                <Input
+                  label="Horário de Saída"
+                  name="timeMax"
+                  type="time"
+                  required
+                />
               </div>
               <CheckboxPanel
-                name="weekdays"
+                name="dias"
                 label="Dias da Semana"
+                required
                 options={[
                   { value: "domingo", label: "Dom" },
                   { value: "segunda", label: "Seg" },
@@ -235,7 +275,6 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
                   { value: "sabado", label: "Sáb" },
                 ]}
               />
-
             </div>
 
             <Button>{initialData ? "Atualizar" : "Salvar"}</Button>
@@ -243,7 +282,6 @@ const RegisterEmployee = ({ initialData = null, onSubmit: externalSubmit }) => {
         </FormProvider>
       </main>
     </div>
-
   );
 };
 

@@ -94,7 +94,7 @@ const ListClient = ({ onClientSelect }) => {
             ) : (
               <i className="bi bi-person-fill icon-user"></i>
             )}
-            <span className="username">{client.name}</span>
+            <span className="username truncate-text">{client.name}</span>
           </div>
         ))}
       </div>

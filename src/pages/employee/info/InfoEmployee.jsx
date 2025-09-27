@@ -31,14 +31,12 @@ const InfoEmployee = () => {
             <p>
               <strong>Data de Nascimento:</strong>{" "}
               {selectedEmployee && selectedEmployee.dataNascimento
-                ? new Intl.DateTimeFormat("pt-BR").format(
-                    new Date(selectedEmployee.dataNascimento)
-                  )
+                ? " " + selectedEmployee.dataNascimento
                 : " - "}
             </p>
             <p>
               <strong>Sexo:</strong>
-              {" " + selectedEmployee.sexo}
+              {" " + selectedEmployee.gender}
             </p>
             <p>
               <strong>CPF:</strong>
@@ -51,9 +49,28 @@ const InfoEmployee = () => {
                 : " - "}
             </p>
             <p>
-              <strong>Endereço:</strong>
-              {selectedEmployee && selectedEmployee.estadoCivil
-                ? " " + selectedEmployee.endereco
+              <strong>Endereço:</strong>{" "}
+              {selectedEmployee &&
+              [
+                selectedEmployee.endereco,
+                selectedEmployee.numero,
+                selectedEmployee.complemento,
+                selectedEmployee.bairro,
+                selectedEmployee.cidade,
+                selectedEmployee.estado,
+              ]
+                .filter(Boolean)
+                .join(", ").length > 0
+                ? [
+                    selectedEmployee.endereco,
+                    selectedEmployee.numero,
+                    selectedEmployee.complemento,
+                    selectedEmployee.bairro,
+                    selectedEmployee.cidade,
+                    selectedEmployee.estado,
+                  ]
+                    .filter(Boolean)
+                    .join(", ")
                 : " - "}
             </p>
             <p>
@@ -66,7 +83,7 @@ const InfoEmployee = () => {
 
           <div className="column-professional">
             <h2>Dados Profissionais</h2>
-            <p>
+            <p className="break-word-container">
               <strong>Email:</strong> {" " + selectedEmployee.email}
             </p>
             <p>
@@ -77,7 +94,7 @@ const InfoEmployee = () => {
             </p>
             <p>
               <strong>Registro Profissional:</strong>
-              {" " + selectedEmployee.registroProfissional}
+              {" " + selectedEmployee.professionalRegister}
             </p>
             <p>
               <strong>Cargo:</strong>
@@ -92,7 +109,7 @@ const InfoEmployee = () => {
             <p>
               <strong>Dias da Semana: </strong>
               {selectedEmployee && selectedEmployee.dias
-                ? selectedEmployee.dias
+                ? selectedEmployee.dias.join(", ")
                 : " - "}
             </p>
             <p>
