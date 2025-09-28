@@ -67,7 +67,7 @@ const Info = () => {
             {Object.keys(TABS_CONFIG).map((tabName) => (
               <Button
                 key={tabName}
-                className={activeTab === tabName ? "active" : ""}
+                className={`btn ${activeTab === tabName ? "active" : ""}`}
                 onClick={() => setActiveTab(tabName)}
               >
                 {tabName}
@@ -75,7 +75,7 @@ const Info = () => {
             ))}
           </div>
 
-          <div className="tab-content">{renderContent()}</div>
+          {renderContent()}
         </div>
       </div>
     </div>
