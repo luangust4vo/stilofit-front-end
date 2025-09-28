@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Button } from "../../../components";
 import "./infoClient.scss";
 import ClientService from "../../../services/ClientService";
-import Data from "../components/sections/Data/Data.jsx";
+import { Data } from "../components/sections";
 
 const TABS_CONFIG = {
   Status: () => <div>- Status -</div>,
