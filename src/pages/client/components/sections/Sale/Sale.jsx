@@ -1,7 +1,44 @@
 import ContractService from "../../../../../services/ContractService";
 
-const Sale = ({ selectedClient }) => {
+const Sale = ({ clientId }) => {
   const contractService = new ContractService();
+  const [activeTab, setActiveTab] = useState("Contratos");
+  const [entities, setEntities] = useState([]);
+  const [selectedEntity, setSelectedEntity] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const serviceMap = useMemo(
+    () => ({
+      Contracts: contractService,
+      Products: contractService,
+      Services: contractService,
+    }),
+    []
+  );
+
+  useEffect(() => {
+    const loadEntities = async () => {
+      const service = serviceMap[activeTab];
+      if (!service) return;
+
+      setIsLoading(true);
+      setEntities([]);
+      setSelectedEntity(null);
+      setSearchTerm("");
+
+      try {
+        const data = await service.findAll();
+        setEntities(data);
+      } catch (error) {
+        console.error(`Erro ao carregar ${activeTab}:`, error);
+        setEntities([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadEntities();
+  }, [activeTab, serviceMap]);
 
   return (
     <div className="sale-div">
