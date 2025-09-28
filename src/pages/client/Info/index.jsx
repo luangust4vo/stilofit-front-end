@@ -3,17 +3,17 @@ import { useParams } from "react-router-dom";
 import { Button } from "../../../components";
 import "./infoClient.scss";
 import ClientService from "../../../services/ClientService";
-import { Data } from "../components/sections";
+import { Data, Sale } from "../components/sections";
 
 const TABS_CONFIG = {
   Status: () => <div>- Status -</div>,
-  Dados: Data,
-  Venda: () => <div>- Venda -</div>,
-  Pagamento: () => <div>- Pagamento -</div>,
-  Contrato: () => <div>- Contrato -</div>,
-  Turma: () => <div>- Turma -</div>,
-  Treino: () => <div>- Treino -</div>,
-  Avaliação: () => <div>- Avaliação -</div>,
+  Data: Data,
+  Sale: Sale,
+  Payment: () => <div>- Pagamento -</div>,
+  Contract: () => <div>- Contrato -</div>,
+  ClassRoom: () => <div>- Turma -</div>,
+  Training: () => <div>- Treino -</div>,
+  Evaluation: () => <div>- Avaliação -</div>,
 };
 
 const Info = () => {
