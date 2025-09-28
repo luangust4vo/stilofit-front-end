@@ -3,11 +3,23 @@ import { useParams } from "react-router-dom";
 import { Button } from "../../../components";
 import "./infoClient.scss";
 import ClientService from "../../../services/ClientService";
-import Data from "../components/sections/Data/Data.jsx"
+import Data from "../components/sections/Data/Data.jsx";
+
+const TABS_CONFIG = {
+  Status: () => <div>- Status -</div>,
+  Dados: Data,
+  Venda: () => <div>- Venda -</div>,
+  Pagamento: () => <div>- Pagamento -</div>,
+  Contrato: () => <div>- Contrato -</div>,
+  Turma: () => <div>- Turma -</div>,
+  Treino: () => <div>- Treino -</div>,
+  Avaliação: () => <div>- Avaliação -</div>,
+};
 
 const Info = () => {
   const { id } = useParams();
   const [selectedClient, setSelectedClient] = useState(null);
+  const [activeTab, setActiveTab] = useState("Dados");
   const clientService = new ClientService();
 
   useEffect(() => {
@@ -25,6 +37,14 @@ const Info = () => {
       fetchClient();
     }
   }, [id]);
+
+  const renderContent = () => {
+    const ComponentToRender = TABS_CONFIG[activeTab];
+    if (ComponentToRender) {
+      return <ComponentToRender selectedClient={selectedClient} />;
+    }
+    return <div>Selecione uma aba.</div>;
+  };
 
   return (
     <div className="container">
@@ -44,18 +64,18 @@ const Info = () => {
 
         <div className="client-content">
           <div className="tabs">
-            <Button>Status</Button>
-            <Button>Dados</Button>
-            <Button>Venda</Button>
-            <Button>Pagamento</Button>
-            <Button>Contrato</Button>
-            <Button>Turma</Button>
-            <Button>Treino</Button>
-            <Button>Avaliação</Button>
+            {Object.keys(TABS_CONFIG).map((tabName) => (
+              <Button
+                key={tabName}
+                className={activeTab === tabName ? "active" : ""}
+                onClick={() => setActiveTab(tabName)}
+              >
+                {tabName}
+              </Button>
+            ))}
           </div>
 
-          <Data selectedClient={selectedClient}/>
-          
+          <div className="tab-content">{renderContent()}</div>
         </div>
       </div>
     </div>
