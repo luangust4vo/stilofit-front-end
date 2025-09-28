@@ -1,4 +1,8 @@
+import ContractService from "../../../../../services/ContractService";
+
 const Sale = ({ selectedClient }) => {
+  const contractService = new ContractService();
+
   return (
     <div className="sale-div">
       <div className="tabs-div">
