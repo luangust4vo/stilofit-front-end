@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { Button } from "../../../components";
+import { Button } from "../../../../../components";
 import { goEdit } from "../../../../../utils/navigation.js";
 
 import "./Data.scss";
 
 const Data = ({ selectedClient }) => {
   const navigate = useNavigate();
+  console.log(selectedClient);
 
   return (
     <>
@@ -87,9 +88,11 @@ const Data = ({ selectedClient }) => {
       </div>
 
       <div className="edit">
-        <Button onClick={goEdit(navigate, "cliente", selectedClient.id)}>
-          Editar
-        </Button>
+        {selectedClient && (
+          <Button onClick={goEdit(navigate, "cliente", selectedClient.id)}>
+            Editar
+          </Button>
+        )}
       </div>
     </>
   );

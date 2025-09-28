@@ -1,18 +1,14 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Button } from "../../../components";
 import "./infoClient.scss";
 import ClientService from "../../../services/ClientService";
+import Data from "../components/sections/Data/Data.jsx"
 
 const Info = () => {
   const { id } = useParams();
   const [selectedClient, setSelectedClient] = useState(null);
-  const navigate = useNavigate();
   const clientService = new ClientService();
-
-  const goEdit = () => {
-    navigate(`/cliente/${id}/editar`);
-  };
 
   useEffect(() => {
     const fetchClient = async () => {
@@ -58,87 +54,8 @@ const Info = () => {
             <Button>Avaliação</Button>
           </div>
 
-          <div className="box-info">
-            {selectedClient ? (
-              <>
-                <p>
-                  <strong>Nome:</strong> {selectedClient.name}
-                </p>
-                <p>
-                  <strong>Email:</strong>{" "}
-                  {selectedClient.email ? selectedClient.email : "-"}
-                </p>
-                <p>
-                  <strong>Telefone:</strong>{" "}
-                  {selectedClient.cellphone ? selectedClient.cellphone : "-"}
-                </p>
-                <p>
-                  <strong>Data de nascimento:</strong>{" "}
-                  {selectedClient.birthDate}
-                </p>
-                <p>
-                  <strong>CPF:</strong> {selectedClient.cpf}
-                </p>
-                <p>
-                  <strong>Endereço:</strong>
-                  {selectedClient &&
-                  [
-                    selectedClient.address,
-                    selectedClient.number,
-                    selectedClient.complement,
-                    selectedClient.district,
-                    selectedClient.city,
-                    selectedClient.state,
-                  ]
-                    .filter(Boolean)
-                    .join(", ").length > 0
-                    ? [
-                        selectedClient.address,
-                        selectedClient.number,
-                        selectedClient.complement,
-                        selectedClient.district,
-                        selectedClient.city,
-                        selectedClient.state,
-                      ]
-                        .filter(Boolean)
-                        .join(", ")
-                    : " - "}
-                </p>
-              </>
-            ) : (
-              "Dados"
-            )}
-          </div>
-          <div className="box-info">
-            {selectedClient ? (
-              <>
-                <p>
-                  <strong>Contrato:</strong>{" "}
-                  {selectedClient.contrato ? selectedClient.contrato : "-"}
-                </p>
-              </>
-            ) : (
-              "Informações do contrato"
-            )}
-          </div>
-          <div className="box-info">
-            {selectedClient ? (
-              <>
-                <p>
-                  <strong>Observações:</strong>{" "}
-                  {selectedClient.additionalInfo
-                    ? selectedClient.additionalInfo
-                    : "-"}
-                </p>
-              </>
-            ) : (
-              "Campo de texto de observações"
-            )}
-          </div>
-
-          <div className="edit">
-            <Button onClick={goEdit}>Editar</Button>
-          </div>
+          <Data selectedClient={selectedClient}/>
+          
         </div>
       </div>
     </div>
