@@ -40,6 +40,16 @@ const Sale = ({ clientId }) => {
     loadEntities();
   }, [activeTab, serviceMap]);
 
+  const filteredEntities = useMemo(() => {
+    if (!searchTerm) {
+      return entities;
+    }
+    const lowerCaseSearch = searchTerm.toLowerCase();
+    return entities.filter((entity) =>
+      entity.name.toLowerCase().includes(lowerCaseSearch)
+    );
+  }, [entities, searchTerm]);
+
   return (
     <div className="sale-div">
       <div className="tabs-div">
