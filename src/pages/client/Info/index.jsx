@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Button } from "../../../components";
 import "./infoClient.scss";
 import ClientService from "../../../services/ClientService";
+import SaleService from "../../../services/SaleService";
 import { Data, Sale } from "../components/sections";
 
 const TABS_CONFIG = {
@@ -21,6 +22,7 @@ const Info = () => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [activeTab, setActiveTab] = useState("Dados");
   const clientService = new ClientService();
+  const saleService = new SaleService();
 
   useEffect(() => {
     const fetchClient = async () => {
