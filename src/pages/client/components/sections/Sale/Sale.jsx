@@ -1,4 +1,5 @@
 import ContractService from "../../../../../services/ContractService";
+import { useState, useMemo, useEffect } from "react";
 
 const Sale = ({ clientId }) => {
   const contractService = new ContractService();
@@ -115,7 +116,7 @@ const Sale = ({ clientId }) => {
       </div>
       <div className="button-div">
         <button
-          onClick={handleSell}
+          //onClick={handleSell}
           disabled={!selectedEntity}
           className={`sale-button ${
             selectedEntity ? "button-obj-selected" : "button-obj-not-selected"
