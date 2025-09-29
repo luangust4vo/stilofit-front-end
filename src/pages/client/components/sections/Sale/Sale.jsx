@@ -50,6 +50,17 @@ const Sale = ({ clientId }) => {
     );
   }, [entities, searchTerm]);
 
+  const TabButton = ({ tab }) => (
+    <button
+      onClick={() => setActiveTab(tab)}
+      className={`tab-button ${
+        activeTab === tab ? "active-tab" : "inative-tab"
+      }`}
+    >
+      {tab}
+    </button>
+  );
+
   return (
     <div className="sale-div">
       <div className="tabs-div">
