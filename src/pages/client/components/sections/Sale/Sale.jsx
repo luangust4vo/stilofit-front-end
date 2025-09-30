@@ -2,6 +2,8 @@ import ContractService from "../../../../../services/ContractService";
 import SaleService from "../../../../../services/SaleService";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import "./Sale.scss";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 /************** retirar antes da PR ************/
 const contractsmock = {
@@ -43,8 +45,8 @@ const Sale = ({ clientId }) => {
   const serviceMap = useMemo(
     () => ({
       Contracts: contractService,
-      Products: contractService,
-      Services: contractService,
+      Products: false,
+      Services: false,
     }),
     []
   );
@@ -60,8 +62,8 @@ const Sale = ({ clientId }) => {
       setSearchTerm("");
 
       try {
-        //const data = await service.findAll();
-        const data = contractsmock;
+        //const data = await service.findAll(); // +
+        const data = contractsmock; //////////////// x
         setEntities(data.data.content);
       } catch (error) {
         console.error(`Erro ao carregar ${activeTab}:`, error);
@@ -118,8 +120,6 @@ const Sale = ({ clientId }) => {
       ])
     );
 
-    console.log(payload); /////////////////////////////
-
     try {
       await saleService.create(payload);
       setSelectedEntity(null);
@@ -127,7 +127,7 @@ const Sale = ({ clientId }) => {
         `Venda de ${selectedEntity.name} realizada para o Cliente (ID): ${clientId}!`
       );
     } catch (error) {
-        toast.error("Falha na venda. Verifique a conexão ou os dados.");
+      toast.error("Falha na venda. Verifique a conexão ou os dados.");
     }
   }, [selectedEntity, clientId]);
 
