@@ -1,7 +1,7 @@
 import ContractService from "../../../../../services/ContractService";
 import ClientService from "../../../../../services/ClientService";
 import SaleService from "../../../../../services/SaleService";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import "./Sale.scss";
 
 const Sale = ({ clientId }) => {
@@ -55,6 +55,49 @@ const Sale = ({ clientId }) => {
       entity.name.toLowerCase().includes(lowerCaseSearch)
     );
   }, [entities, searchTerm]);
+
+  const handleSell = useCallback(() => {
+    if (!selectedEntity) {
+      alert("Selecione um item para realizar a venda.");
+      return;
+    }
+
+    const saleData = {
+      clientId: clientId,
+      contractsIDs: [],
+      productsIDs: [],
+      servicesIDs: [],
+      price: selectedEntity.price,
+    };
+
+    switch (selectedEntity.type) {
+      case "Contratos":
+        saleData.contractsIDs.push(selectedEntity.id);
+        break;
+      case "Produtos":
+        saleData.productsIDs.push(selectedEntity.id);
+        break;
+      case "Serviços":
+        saleData.servicesIDs.push(selectedEntity.id);
+        break;
+      default:
+        console.warn(`Tipo de entidade desconhecido: ${selectedEntity.type}`);
+    }
+
+    const payload = Object.fromEntries(
+      Object.entries(saleData).map(([key, value]) => [
+        key,
+        value === "" ? null : value,
+      ])
+    );
+
+    saleService.create(payload);
+
+    setSelectedEntity(null);
+    alert(
+      `Venda de "${selectedEntity.name}" realizada para o Cliente ID: ${clientId}!`
+    );
+  }, [selectedEntity, clientId]);
 
   const TabButton = ({ tab, name }) => (
     <button
@@ -122,7 +165,7 @@ const Sale = ({ clientId }) => {
         </div>
         <div className="button-div">
           <button
-            //onClick={handleSell}
+            onClick={handleSell}
             disabled={!selectedEntity}
             className={`sell-button ${
               selectedEntity ? "button-obj-selected" : "button-obj-not-selected"
