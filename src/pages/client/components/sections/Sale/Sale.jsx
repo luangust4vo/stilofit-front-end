@@ -1,12 +1,38 @@
 import ContractService from "../../../../../services/ContractService";
-import ClientService from "../../../../../services/ClientService";
 import SaleService from "../../../../../services/SaleService";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import "./Sale.scss";
 
+/************** retirar antes da PR ************/
+const contractsmock = {
+  data: {
+    content: [
+      {
+        id: 1,
+        name: "Contrato Premium Anual",
+        type: "Contratos",
+        price: 1200.0,
+      },
+      {
+        id: 2,
+        name: "Plano Trimestral Básico",
+        type: "Contratos",
+        price: 300.0,
+      },
+      { id: 3, name: "Mensalidade Flex", type: "Contratos", price: 120.0 },
+      {
+        id: 4,
+        name: "Contrato Familiar Gold",
+        type: "Contratos",
+        price: 2500.0,
+      },
+    ],
+  },
+};
+/**************************************************/
+
 const Sale = ({ clientId }) => {
   const contractService = new ContractService();
-  const clientService = new ClientService();
   const saleService = new SaleService();
   const [activeTab, setActiveTab] = useState("Contracts");
   const [entities, setEntities] = useState([]);
@@ -16,9 +42,9 @@ const Sale = ({ clientId }) => {
 
   const serviceMap = useMemo(
     () => ({
-      Contracts: clientService,
-      Products: clientService,
-      Services: clientService,
+      Contracts: contractService,
+      Products: contractService,
+      Services: contractService,
     }),
     []
   );
@@ -34,8 +60,9 @@ const Sale = ({ clientId }) => {
       setSearchTerm("");
 
       try {
-        const data = await service.findAll();
-        setEntities(data);
+        //const data = await service.findAll();
+        const data = contractsmock;
+        setEntities(data.data.content);
       } catch (error) {
         console.error(`Erro ao carregar ${activeTab}:`, error);
         setEntities([]);
@@ -56,7 +83,7 @@ const Sale = ({ clientId }) => {
     );
   }, [entities, searchTerm]);
 
-  const handleSell = useCallback(() => {
+  const handleSell = useCallback(async () => {
     if (!selectedEntity) {
       alert("Selecione um item para realizar a venda.");
       return;
@@ -91,12 +118,17 @@ const Sale = ({ clientId }) => {
       ])
     );
 
-    saleService.create(payload);
+    console.log(payload); /////////////////////////////
 
-    setSelectedEntity(null);
-    alert(
-      `Venda de "${selectedEntity.name}" realizada para o Cliente ID: ${clientId}!`
-    );
+    try {
+      await saleService.create(payload);
+      setSelectedEntity(null);
+      toast.success(
+        `Venda de ${selectedEntity.name} realizada para o Cliente (ID): ${clientId}!`
+      );
+    } catch (error) {
+        toast.error("Falha na venda. Verifique a conexão ou os dados.");
+    }
   }, [selectedEntity, clientId]);
 
   const TabButton = ({ tab, name }) => (
@@ -145,7 +177,7 @@ const Sale = ({ clientId }) => {
                 onClick={() => setSelectedEntity(entity)}
               >
                 <span>{entity.name}</span>
-                {/*<span>R$ {entity.price.toFixed(2).replace(".", ",")}</span>*/}
+                <span>R$ {entity.price.toFixed(2).replace(".", ",")}</span>
               </div>
             ))
           )}
@@ -154,7 +186,7 @@ const Sale = ({ clientId }) => {
           {selectedEntity ? (
             <p>
               {selectedEntity.name} ({selectedEntity.type}) - R${" "}
-              {/*{selectedEntity.price.toFixed(2).replace(".", ",")}*/}
+              {selectedEntity.price.toFixed(2).replace(".", ",")}
             </p>
           ) : (
             <p>
