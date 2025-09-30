@@ -1,10 +1,14 @@
 import ContractService from "../../../../../services/ContractService";
+import ClientService from "../../../../../services/ClientService";
+import SaleService from "../../../../../services/SaleService";
 import { useState, useMemo, useEffect } from "react";
 import "./Sale.scss";
 
 const Sale = ({ clientId }) => {
   const contractService = new ContractService();
-  const [activeTab, setActiveTab] = useState("Contratos");
+  const clientService = new ClientService();
+  const saleService = new SaleService();
+  const [activeTab, setActiveTab] = useState("Contracts");
   const [entities, setEntities] = useState([]);
   const [selectedEntity, setSelectedEntity] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -12,9 +16,9 @@ const Sale = ({ clientId }) => {
 
   const serviceMap = useMemo(
     () => ({
-      Contracts: contractService,
-      Products: contractService,
-      Services: contractService,
+      Contracts: clientService,
+      Products: clientService,
+      Services: clientService,
     }),
     []
   );
@@ -52,23 +56,23 @@ const Sale = ({ clientId }) => {
     );
   }, [entities, searchTerm]);
 
-  const TabButton = ({ tab }) => (
+  const TabButton = ({ tab, name }) => (
     <button
       onClick={() => setActiveTab(tab)}
       className={`tab-button ${
         activeTab === tab ? "active-tab" : "inative-tab"
       }`}
     >
-      {tab}
+      {name}
     </button>
   );
 
   return (
     <div className="sale-container">
       <div className="tab-bar">
-        <TabButton tab="Contratos" />
-        <TabButton tab="Produtos" />
-        <TabButton tab="Serviços" />
+        <TabButton tab="Contracts" name="Contratos" />
+        <TabButton tab="Products" name="Produtos" />
+        <TabButton tab="Services" name="Serviços" />
       </div>
       <div className="sale-content">
         <input
@@ -98,7 +102,7 @@ const Sale = ({ clientId }) => {
                 onClick={() => setSelectedEntity(entity)}
               >
                 <span>{entity.name}</span>
-                <span>R$ {entity.price.toFixed(2).replace(".", ",")}</span>
+                {/*<span>R$ {entity.price.toFixed(2).replace(".", ",")}</span>*/}
               </div>
             ))
           )}
@@ -107,7 +111,7 @@ const Sale = ({ clientId }) => {
           {selectedEntity ? (
             <p>
               {selectedEntity.name} ({selectedEntity.type}) - R${" "}
-              {selectedEntity.price.toFixed(2).replace(".", ",")}
+              {/*{selectedEntity.price.toFixed(2).replace(".", ",")}*/}
             </p>
           ) : (
             <p>
