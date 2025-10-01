@@ -253,20 +253,6 @@ const Sale = ({ clientId }) => {
           )}
         </div>
 
-        <div className="selected-info">
-          {selectedEntity ? (
-            <p>
-              {selectedEntity.name} ({selectedEntity.type}) - R${" "}
-              {selectedEntity.price.toFixed(2).replace(".", ",")}
-            </p>
-          ) : (
-            <p>
-              Selecione um {activeTab.toLowerCase().slice(0, -1)} na lista acima
-              para realizar a venda.
-            </p>
-          )}
-        </div>
-
         <div className="button-div">
           <button
             onClick={handleSell}
