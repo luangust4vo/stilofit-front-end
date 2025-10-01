@@ -173,9 +173,7 @@ const Sale = ({ clientId }) => {
   const TabButton = ({ tab, name }) => (
     <button
       onClick={() => setActiveTab(tab)}
-      className={`tab-button ${
-        activeTab === tab ? "active-tab" : "inative-tab"
-      }`}
+      className="tab-button"
     >
       {name}
     </button>
@@ -230,12 +228,7 @@ const Sale = ({ clientId }) => {
               {filteredEntities.map((entity) => (
                 <div
                   key={entity.id}
-                  className={`entity-item 
-                        ${
-                          selectedEntity && selectedEntity.id === entity.id
-                            ? "item-obj-selected"
-                            : "item-obj-not-selected"
-                        }`}
+                  className="entity-item"
                   onClick={() => setSelectedEntity(entity)}
                 >
                   <span>{entity.name}</span>
@@ -272,9 +265,7 @@ const Sale = ({ clientId }) => {
           <button
             onClick={handleSell}
             disabled={!selectedEntity}
-            className={`sell-button ${
-              selectedEntity ? "button-obj-selected" : "button-obj-not-selected"
-            }`}
+            className="sell-button"
           >
             Realizar Venda
           </button>
