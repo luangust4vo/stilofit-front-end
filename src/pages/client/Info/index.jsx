@@ -78,7 +78,7 @@ const Info = () => {
             {Object.keys(TABS_CONFIG).map((tabName) => (
               <Button
                 key={tabName}
-                className={`btn ${activeTab === tabName ? "active" : ""}`}
+                className={`btn menu-btn ${activeTab === tabName ? "active" : ""}`}
                 onClick={() => setActiveTab(tabName)}
               >
                 {TAB_DISPLAY_NAMES[tabName]}

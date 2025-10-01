@@ -60,3 +60,13 @@
     }
   }
 }
+
+.menu-btn {
+  &.active {
+    background-color: vars.$client-menu-active;
+  }
+
+  &:hover {
+    background-color: vars.$client-menu-hover;
+  }
+}
