@@ -97,8 +97,7 @@ const Sale = ({ clientId }) => {
 
   useEffect(() => {
     const currentRef = scrollRef.current;
-    if (!currentRef || isLoading || !hasMore || !serviceMap[activeTab])
-      return;
+    if (!currentRef || isLoading || !hasMore || !serviceMap[activeTab]) return;
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = currentRef;
       if (scrollHeight - scrollTop - clientHeight < 100) {
@@ -112,7 +111,15 @@ const Sale = ({ clientId }) => {
     return () => {
       currentRef.removeEventListener("scroll", handleScroll);
     };
-  }, [isLoading, hasMore, page, applyPagination, allEntitiesData, activeTab, serviceMap]);
+  }, [
+    isLoading,
+    hasMore,
+    page,
+    applyPagination,
+    allEntitiesData,
+    activeTab,
+    serviceMap,
+  ]);
 
   const filteredEntities = useMemo(() => {
     if (!searchTerm) {
@@ -129,7 +136,6 @@ const Sale = ({ clientId }) => {
       alert("Selecione um item para realizar a venda.");
       return;
     }
-
     const saleData = {
       clientId: clientId,
       contractsIDs: [],
@@ -137,7 +143,6 @@ const Sale = ({ clientId }) => {
       servicesIDs: [],
       price: selectedEntity.price,
     };
-
     switch (selectedEntity.type) {
       case "Contratos":
         saleData.contractsIDs.push(selectedEntity.id);
@@ -151,14 +156,12 @@ const Sale = ({ clientId }) => {
       default:
         console.warn(`Tipo de entidade desconhecido: ${selectedEntity.type}`);
     }
-
     const payload = Object.fromEntries(
       Object.entries(saleData).map(([key, value]) => [
         key,
         value === "" ? null : value,
       ])
     );
-
     try {
       await saleService.create(payload);
       setSelectedEntity(null);
@@ -173,7 +176,7 @@ const Sale = ({ clientId }) => {
   const TabButton = ({ tab, name }) => (
     <button
       onClick={() => setActiveTab(tab)}
-      className="tab-button"
+      className={`tab-button ${activeTab === tab ? "active" : ""}`}
     >
       {name}
     </button>
@@ -228,18 +231,21 @@ const Sale = ({ clientId }) => {
               {filteredEntities.map((entity) => (
                 <div
                   key={entity.id}
-                  className="entity-item"
+                  className={`entity-item 
+                        ${
+                          selectedEntity && selectedEntity.id === entity.id
+                            ? "selected"
+                            : ""
+                        }`}
                   onClick={() => setSelectedEntity(entity)}
                 >
                   <span>{entity.name}</span>
                   <span>R$ {entity.price.toFixed(2).replace(".", ",")}</span>
                 </div>
               ))}
-
               {isLoading && entities.length > 0 && (
                 <div className="loading-message">Carregando mais itens...</div>
               )}
-
               {isLoading && entities.length === 0 && (
                 <div className="loading-message">Carregando {activeTab}...</div>
               )}
