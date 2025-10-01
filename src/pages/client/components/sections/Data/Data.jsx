@@ -6,7 +6,6 @@ import "./Data.scss";
 
 const Data = ({ selectedClient }) => {
   const navigate = useNavigate();
-  console.log(selectedClient);
 
   return (
     <>
@@ -89,7 +88,9 @@ const Data = ({ selectedClient }) => {
 
       <div className="edit">
         {selectedClient && (
-          <Button onClick={goEdit(navigate, "cliente", selectedClient.id)}>
+          <Button
+            onClick={() => goEdit(navigate, "cliente", selectedClient.id)}
+          >
             Editar
           </Button>
         )}

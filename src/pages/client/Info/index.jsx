@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { Button } from "../../../components";
 import "./infoClient.scss";
 import ClientService from "../../../services/ClientService";
-import SaleService from "../../../services/SaleService";
 import { Data, Sale } from "../components/sections";
 
 const TABS_CONFIG = {
@@ -20,9 +19,8 @@ const TABS_CONFIG = {
 const Info = () => {
   const { id } = useParams();
   const [selectedClient, setSelectedClient] = useState(null);
-  const [activeTab, setActiveTab] = useState("Dados");
+  const [activeTab, setActiveTab] = useState("Data");
   const clientService = new ClientService();
-  const saleService = new SaleService();
 
   useEffect(() => {
     const fetchClient = async () => {
@@ -46,6 +44,17 @@ const Info = () => {
       return <ComponentToRender selectedClient={selectedClient} />;
     }
     return <div>Selecione uma aba.</div>;
+  };
+
+  const TAB_DISPLAY_NAMES = {
+    Data: "Dados",
+    Status: "Status",
+    Sale: "Venda",
+    Payment: "Pagamento",
+    Contract: "Contrato",
+    ClassRoom: "Turma",
+    Training: "Treino",
+    Evaluation: "Avaliação",
   };
 
   return (
@@ -72,7 +81,7 @@ const Info = () => {
                 className={`btn ${activeTab === tabName ? "active" : ""}`}
                 onClick={() => setActiveTab(tabName)}
               >
-                {tabName}
+                {TAB_DISPLAY_NAMES[tabName]}
               </Button>
             ))}
           </div>
