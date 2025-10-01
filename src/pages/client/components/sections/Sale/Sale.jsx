@@ -1,37 +1,26 @@
 import ContractService from "../../../../../services/ContractService";
 import SaleService from "../../../../../services/SaleService";
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import "./Sale.scss";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-/************** retirar antes da PR ************/
+/************** mock de contratos ************/
 const contractsmock = {
   data: {
-    content: [
-      {
-        id: 1,
-        name: "Contrato Premium Anual",
-        type: "Contratos",
-        price: 1200.0,
-      },
-      {
-        id: 2,
-        name: "Plano Trimestral Básico",
-        type: "Contratos",
-        price: 300.0,
-      },
-      { id: 3, name: "Mensalidade Flex", type: "Contratos", price: 120.0 },
-      {
-        id: 4,
-        name: "Contrato Familiar Gold",
-        type: "Contratos",
-        price: 2500.0,
-      },
-    ],
+    content: Array.from({ length: 100 }, (_, i) => ({
+      id: i + 1,
+      name: `Contrato ${i + 1} - ${
+        i < 4 ? ["Premium", "Básico", "Flex", "Gold"][i] : "Padrão"
+      }`,
+      type: "Contratos",
+      price: 1200.0 + (i % 5) * 50,
+    })),
   },
 };
 /**************************************************/
+
+const ITEMS_PER_PAGE = 30;
 
 const Sale = ({ clientId }) => {
   const contractService = new ContractService();
@@ -41,6 +30,10 @@ const Sale = ({ clientId }) => {
   const [selectedEntity, setSelectedEntity] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [allEntitiesData, setAllEntitiesData] = useState([]);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const scrollRef = useRef(null);
 
   const serviceMap = useMemo(
     () => ({
@@ -51,29 +44,75 @@ const Sale = ({ clientId }) => {
     []
   );
 
-  useEffect(() => {
-    const loadEntities = async () => {
-      const service = serviceMap[activeTab];
-      if (!service) return;
+  const applyPagination = useCallback((pageToLoad, append, rawData) => {
+    if (!rawData || rawData.length === 0) {
+      setEntities([]);
+      setHasMore(false);
+      setIsLoading(false);
+      return;
+    }
+    const start = pageToLoad * ITEMS_PER_PAGE;
+    const end = start + ITEMS_PER_PAGE;
+    const paginatedContent = rawData.slice(start, end);
+    const newHasMore = end < rawData.length;
+    if (append) {
+      setEntities((prev) => [...prev, ...paginatedContent]);
+    } else {
+      setEntities(paginatedContent);
+    }
+    setHasMore(newHasMore);
+    setPage(pageToLoad);
+    setIsLoading(false);
+  }, []);
 
+  useEffect(() => {
+    const fetchAndLoad = async () => {
+      const service = serviceMap[activeTab];
       setIsLoading(true);
       setEntities([]);
       setSelectedEntity(null);
       setSearchTerm("");
-
+      setPage(0);
+      setHasMore(true);
+      if (!service) {
+        setAllEntitiesData([]);
+        setIsLoading(false);
+        return;
+      }
       try {
         //const data = await service.findAll(); // +
-        const data = contractsmock; //////////////// x
-        setEntities(data.data.content);
+        const data = contractsmock; ////////////// x
+        const rawData = data.data.content;
+        setAllEntitiesData(rawData);
+        applyPagination(0, false, rawData);
       } catch (error) {
         console.error(`Erro ao carregar ${activeTab}:`, error);
+        setAllEntitiesData([]);
         setEntities([]);
-      } finally {
         setIsLoading(false);
       }
     };
-    loadEntities();
-  }, [activeTab, serviceMap]);
+    fetchAndLoad();
+  }, [activeTab, serviceMap, applyPagination]);
+
+  useEffect(() => {
+    const currentRef = scrollRef.current;
+    if (!currentRef || isLoading || !hasMore || !serviceMap[activeTab])
+      return;
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = currentRef;
+      if (scrollHeight - scrollTop - clientHeight < 100) {
+        if (!isLoading && hasMore) {
+          setIsLoading(true);
+          applyPagination(page + 1, true, allEntitiesData);
+        }
+      }
+    };
+    currentRef.addEventListener("scroll", handleScroll);
+    return () => {
+      currentRef.removeEventListener("scroll", handleScroll);
+    };
+  }, [isLoading, hasMore, page, applyPagination, allEntitiesData, activeTab, serviceMap]);
 
   const filteredEntities = useMemo(() => {
     if (!searchTerm) {
@@ -142,6 +181,29 @@ const Sale = ({ clientId }) => {
     </button>
   );
 
+  let emptyMessage;
+  if (isLoading && entities.length === 0) {
+    emptyMessage = (
+      <div className="loading-message">Carregando {activeTab}...</div>
+    );
+  } else if (!serviceMap[activeTab]) {
+    emptyMessage = (
+      <div className="empty-message">A aba {activeTab} está desativada.</div>
+    );
+  } else if (searchTerm && filteredEntities.length === 0) {
+    emptyMessage = (
+      <div className="empty-message">
+        Nenhum resultado encontrado para "{searchTerm}".
+      </div>
+    );
+  } else if (entities.length === 0) {
+    emptyMessage = (
+      <div className="empty-message">
+        Nenhum {activeTab.toLowerCase().slice(0, -1)} encontrado.
+      </div>
+    );
+  }
+
   return (
     <div className="sale-container">
       <div className="tab-bar">
@@ -149,39 +211,49 @@ const Sale = ({ clientId }) => {
         <TabButton tab="Products" name="Produtos" />
         <TabButton tab="Services" name="Serviços" />
       </div>
+
       <div className="sale-content">
         <input
           type="text"
           placeholder={`Buscar ${activeTab} por nome...`}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          disabled={!serviceMap[activeTab]}
           className="search-input"
         />
-        <div className="entity-list-container">
-          {isLoading ? (
-            <div className="loading-message">Carregando {activeTab}...</div>
-          ) : filteredEntities.length === 0 ? (
-            <div className="empty-message">
-              Nenhum {activeTab.toLowerCase().slice(0, -1)} encontrado.
-            </div>
+
+        <div ref={scrollRef} className="entity-list-container">
+          {filteredEntities.length === 0 && !isLoading ? (
+            emptyMessage
           ) : (
-            filteredEntities.map((entity) => (
-              <div
-                key={entity.id}
-                className={`entity-item 
-                  ${
-                    selectedEntity && selectedEntity.id === entity.id
-                      ? "item-obj-selected"
-                      : "item-obj-not-selected"
-                  }`}
-                onClick={() => setSelectedEntity(entity)}
-              >
-                <span>{entity.name}</span>
-                <span>R$ {entity.price.toFixed(2).replace(".", ",")}</span>
-              </div>
-            ))
+            <>
+              {filteredEntities.map((entity) => (
+                <div
+                  key={entity.id}
+                  className={`entity-item 
+                        ${
+                          selectedEntity && selectedEntity.id === entity.id
+                            ? "item-obj-selected"
+                            : "item-obj-not-selected"
+                        }`}
+                  onClick={() => setSelectedEntity(entity)}
+                >
+                  <span>{entity.name}</span>
+                  <span>R$ {entity.price.toFixed(2).replace(".", ",")}</span>
+                </div>
+              ))}
+
+              {isLoading && entities.length > 0 && (
+                <div className="loading-message">Carregando mais itens...</div>
+              )}
+
+              {isLoading && entities.length === 0 && (
+                <div className="loading-message">Carregando {activeTab}...</div>
+              )}
+            </>
           )}
         </div>
+
         <div className="selected-info">
           {selectedEntity ? (
             <p>
@@ -195,6 +267,7 @@ const Sale = ({ clientId }) => {
             </p>
           )}
         </div>
+
         <div className="button-div">
           <button
             onClick={handleSell}
