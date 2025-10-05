@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 const ITEMS_PER_PAGE = 30;
 
 const Sale = ({ clientId }) => {
-  const contractService = new ContractService();
+  const contractService = new SaleService();
   const saleService = new SaleService();
   const [activeTab, setActiveTab] = useState("Contracts");
   const [entities, setEntities] = useState([]);
@@ -65,7 +65,7 @@ const Sale = ({ clientId }) => {
         return;
       }
       try {
-        const data = await contractService.findAll();
+        const data = await service.findAll();
         setAllEntitiesData(data);
         applyPagination(0, false, data);
       } catch (error) {
@@ -163,7 +163,7 @@ const Sale = ({ clientId }) => {
   let emptyMessage;
   if (isLoading && entities.length === 0) {
     emptyMessage = (
-      <div className="loading-message">Carregando {activeTab}...</div>
+      <div className="empty-message">Carregando {activeTab}...</div>
     );
   } else if (!serviceMap[activeTab]) {
     emptyMessage = (
@@ -217,16 +217,11 @@ const Sale = ({ clientId }) => {
                         }`}
                   onClick={() => setSelectedEntity(entity)}
                 >
-                  <span>{entity.name}</span>
-                  <span>R$ {entity.totalValue.toFixed(2).replace(".", ",")}</span>
+                  <span>{entity.id}</span>
+                  {/*<span>{entity.name}</span>
+                  <span>R$ {entity.totalValue.toFixed(2).replace(".", ",")}</span>*/}
                 </div>
               ))}
-              {isLoading && entities.length > 0 && (
-                <div className="loading-message">Carregando mais itens...</div>
-              )}
-              {isLoading && entities.length === 0 && (
-                <div className="loading-message">Carregando {activeTab}...</div>
-              )}
             </>
           )}
         </div>

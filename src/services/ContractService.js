@@ -6,7 +6,7 @@ class ContractService extends BaseService{
     }
 
     async findAll(){
-        const response = await this.api.get(`${this.endPoint}`); // `${this.endPoint}/list-all-contracts` não existe ainda no back
+        const response = await this.api.get(`${this.endPoint}`); // `${this.endPoint}/list-all-contracts` não existe no back
         return response.data.content;
     }
 }
