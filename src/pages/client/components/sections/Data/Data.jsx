@@ -1,11 +1,31 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { Button } from "../../../../../components";
 import { goEdit } from "../../../../../utils/navigation.js";
 
 import "./Data.scss";
+import ClientService from "../../../../../services/ClientService.js";
 
-const Data = ({ selectedClient }) => {
+const Data = ({ clientId }) => {
   const navigate = useNavigate();
+  const clientService = new ClientService();
+  const [selectedClient, setSelectedClient] = useState(null);
+
+  useEffect(() => {
+    const fetchClient = async () => {
+      try {
+        const client = await clientService.findById(clientId);
+        setSelectedClient(client);
+      } catch (error) {
+        console.error("Erro ao buscar cliente:", error);
+        setSelectedClient(null);
+      }
+    };
+
+    if (clientId) {
+      fetchClient();
+    }
+  }, [clientId]);
 
   return (
     <>

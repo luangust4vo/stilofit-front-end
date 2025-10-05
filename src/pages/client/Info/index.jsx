@@ -41,7 +41,7 @@ const Info = () => {
   const renderContent = () => {
     const ComponentToRender = TABS_CONFIG[activeTab];
     if (ComponentToRender) {
-      return <ComponentToRender selectedClient={selectedClient} />;
+      return <ComponentToRender clientId={id} />;
     }
     return <div>Selecione uma aba.</div>;
   };

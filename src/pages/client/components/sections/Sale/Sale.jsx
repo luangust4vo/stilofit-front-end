@@ -5,21 +5,6 @@ import "./Sale.scss";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-/************** mock de contratos ************/
-const contractsmock = {
-  data: {
-    content: Array.from({ length: 100 }, (_, i) => ({
-      id: i + 1,
-      name: `Contrato ${i + 1} - ${
-        i < 4 ? ["Premium", "Básico", "Flex", "Gold"][i] : "Padrão"
-      }`,
-      type: "Contratos",
-      price: 1200.0 + (i % 5) * 50,
-    })),
-  },
-};
-/**************************************************/
-
 const ITEMS_PER_PAGE = 30;
 
 const Sale = ({ clientId }) => {
@@ -80,11 +65,9 @@ const Sale = ({ clientId }) => {
         return;
       }
       try {
-        //const data = await service.findAll(); // +
-        const data = contractsmock; ////////////// x
-        const rawData = data.data.content;
-        setAllEntitiesData(rawData);
-        applyPagination(0, false, rawData);
+        const data = await contractService.findAll();
+        setAllEntitiesData(data);
+        applyPagination(0, false, data);
       } catch (error) {
         console.error(`Erro ao carregar ${activeTab}:`, error);
         setAllEntitiesData([]);
@@ -133,28 +116,22 @@ const Sale = ({ clientId }) => {
 
   const handleSell = useCallback(async () => {
     if (!selectedEntity) {
-      alert("Selecione um item para realizar a venda.");
+      toast.warn("Selecione um item para realizar a venda.");
       return;
     }
     const saleData = {
       clientId: clientId,
-      contractsIDs: [],
-      productsIDs: [],
-      servicesIDs: [],
-      price: selectedEntity.price,
+      contractsIds: [],
+      totalAmount: selectedEntity.totalValue,
     };
-    switch (selectedEntity.type) {
-      case "Contratos":
-        saleData.contractsIDs.push(selectedEntity.id);
-        break;
-      case "Produtos":
-        saleData.productsIDs.push(selectedEntity.id);
-        break;
-      case "Serviços":
-        saleData.servicesIDs.push(selectedEntity.id);
+    switch (activeTab) {
+      case "Contracts":
+        saleData.contractsIds.push(selectedEntity.id);
         break;
       default:
-        console.warn(`Tipo de entidade desconhecido: ${selectedEntity.type}`);
+        console.warn(`Aba ativa desconhecida: ${activeTab}`);
+        toast.error("Tipo de entidade não reconhecido para a venda.");
+        return;
     }
     const payload = Object.fromEntries(
       Object.entries(saleData).map(([key, value]) => [
@@ -163,6 +140,7 @@ const Sale = ({ clientId }) => {
       ])
     );
     try {
+      console.log(payload);
       await saleService.create(payload);
       setSelectedEntity(null);
       toast.success(
@@ -171,7 +149,7 @@ const Sale = ({ clientId }) => {
     } catch (error) {
       toast.error("Falha na venda. Verifique a conexão ou os dados.");
     }
-  }, [selectedEntity, clientId]);
+  }, [selectedEntity, clientId, activeTab, saleService]);
 
   const TabButton = ({ tab, name }) => (
     <button
@@ -240,7 +218,8 @@ const Sale = ({ clientId }) => {
                   onClick={() => setSelectedEntity(entity)}
                 >
                   <span>{entity.name}</span>
-                  <span>R$ {entity.price.toFixed(2).replace(".", ",")}</span>
+                  <span>R$ {entity.totalValue.toFixed(2).replace(".", ",")}</span>
+                  <span>{entity.id}</span>
                 </div>
               ))}
               {isLoading && entities.length > 0 && (
