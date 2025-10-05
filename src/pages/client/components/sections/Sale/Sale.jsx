@@ -219,7 +219,6 @@ const Sale = ({ clientId }) => {
                 >
                   <span>{entity.name}</span>
                   <span>R$ {entity.totalValue.toFixed(2).replace(".", ",")}</span>
-                  <span>{entity.id}</span>
                 </div>
               ))}
               {isLoading && entities.length > 0 && (
