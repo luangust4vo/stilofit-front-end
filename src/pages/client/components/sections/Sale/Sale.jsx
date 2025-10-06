@@ -65,11 +65,10 @@ const Sale = ({ clientId }) => {
         return;
       }
       try {
-        const dataGeneral = await service.findPaginated(2, 30);
+        const dataGeneral = await service.findPaginated(2);
         console.log(dataGeneral.content);
-        data = dataGeneral.content;
-        setAllEntitiesData(data);
-        applyPagination(0, false, data);
+        setAllEntitiesData(dataGeneral.content);
+        applyPagination(0, false, dataGeneral.content);
       } catch (error) {
         console.error(`Erro ao carregar ${activeTab}:`, error);
         setAllEntitiesData([]);
