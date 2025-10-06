@@ -65,7 +65,9 @@ const Sale = ({ clientId }) => {
         return;
       }
       try {
-        const data = await service.findAll();
+        const dataGeneral = await service.findPaginated(2, 30);
+        console.log(dataGeneral.content);
+        data = dataGeneral.content;
         setAllEntitiesData(data);
         applyPagination(0, false, data);
       } catch (error) {
