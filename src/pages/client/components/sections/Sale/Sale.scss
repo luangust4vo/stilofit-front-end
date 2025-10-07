@@ -126,11 +126,11 @@ $color-white: #ffffff;
         }
 
         &:hover {
-          background-color: $color-gray-100;
+          background-color: $color-gray-200;
         }
 
         &.selected {
-          background-color: $color-blue-100;
+          background-color: $color-blue-200;
           font-weight: 600;
           color: $color-blue-800;
           @include shadow-md;
@@ -142,15 +142,6 @@ $color-white: #ffffff;
           text-align: center;
           color: $color-gray-500;
       }
-    }
-
-    .selected-info {
-      padding: 0.75rem;
-      background-color: $color-blue-50;
-      border: 1px solid $color-blue-200;
-      border-radius: 0.5rem;
-      font-size: 0.875rem;
-      color: $color-blue-900;
     }
 
     .sell-button {
