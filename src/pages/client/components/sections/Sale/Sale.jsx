@@ -5,17 +5,14 @@ import "./Sale.scss";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const ITEMS_PER_PAGE = 30;
-
 const Sale = ({ clientId }) => {
-  const contractService = new SaleService();
-  const saleService = new SaleService();
+  const contractService = useMemo(() => new SaleService(), []);
+  const saleService = useMemo(() => new SaleService(), []);
   const [activeTab, setActiveTab] = useState("Contracts");
   const [entities, setEntities] = useState([]);
   const [selectedEntity, setSelectedEntity] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [allEntitiesData, setAllEntitiesData] = useState([]);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const scrollRef = useRef(null);
@@ -26,92 +23,81 @@ const Sale = ({ clientId }) => {
       Products: false,
       Services: false,
     }),
-    []
+    [contractService]
   );
 
-  const applyPagination = useCallback((pageToLoad, append, rawData) => {
-    if (!rawData || rawData.length === 0) {
-      setEntities([]);
-      setHasMore(false);
-      setIsLoading(false);
-      return;
-    }
-    const start = pageToLoad * ITEMS_PER_PAGE;
-    const end = start + ITEMS_PER_PAGE;
-    const paginatedContent = rawData.slice(start, end);
-    const newHasMore = end < rawData.length;
-    if (append) {
-      setEntities((prev) => [...prev, ...paginatedContent]);
-    } else {
-      setEntities(paginatedContent);
-    }
-    setHasMore(newHasMore);
-    setPage(pageToLoad);
-    setIsLoading(false);
-  }, []);
+  const fetchEntities = useCallback(
+    async (pageToLoad) => {
+      const service = serviceMap[activeTab];
+      if (!service) return;
+      if (pageToLoad > 0 && !hasMore) return;
+      setIsLoading(true);
+      try {
+        const dataGeneral = await service.findPaginated(pageToLoad);
+        const newContent = dataGeneral.content || [];
+        const isLastPage = dataGeneral.last;
+        setEntities((prev) =>
+          pageToLoad === 0 ? newContent : [...prev, ...newContent]
+        );
+        setHasMore(!isLastPage);
+      } catch (error) {
+        console.error(
+          `Erro ao carregar página ${pageToLoad} de ${activeTab}:`,
+          error
+        );
+        toast.error(`Falha ao carregar dados. Verifique o console.`, {
+          toastId: "load-error",
+        });
+        setHasMore(false);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [activeTab, serviceMap, hasMore]
+  );
 
   useEffect(() => {
-    const fetchAndLoad = async () => {
-      const service = serviceMap[activeTab];
-      setIsLoading(true);
-      setEntities([]);
-      setSelectedEntity(null);
-      setSearchTerm("");
-      setPage(0);
-      setHasMore(true);
-      if (!service) {
-        setAllEntitiesData([]);
-        setIsLoading(false);
-        return;
-      }
-      try {
-        const dataGeneral = await service.findPaginated(2);
-        console.log(dataGeneral.content);
-        setAllEntitiesData(dataGeneral.content);
-        applyPagination(0, false, dataGeneral.content);
-      } catch (error) {
-        console.error(`Erro ao carregar ${activeTab}:`, error);
-        setAllEntitiesData([]);
-        setEntities([]);
-        setIsLoading(false);
-      }
-    };
-    fetchAndLoad();
-  }, [activeTab, serviceMap, applyPagination]);
+    setEntities([]);
+    setPage(0);
+    setHasMore(true);
+    setSelectedEntity(null);
+    setSearchTerm("");
+    fetchEntities(0);
+  }, [activeTab, serviceMap]);
+
+  useEffect(() => {
+    if (page > 0) {
+      fetchEntities(page);
+    }
+  }, [page, fetchEntities]);
 
   useEffect(() => {
     const currentRef = scrollRef.current;
-    if (!currentRef || isLoading || !hasMore || !serviceMap[activeTab]) return;
+    if (!currentRef || !serviceMap[activeTab]) return;
     const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = currentRef;
-      if (scrollHeight - scrollTop - clientHeight < 100) {
-        if (!isLoading && hasMore) {
-          setIsLoading(true);
-          applyPagination(page + 1, true, allEntitiesData);
-        }
+      const isBottom =
+        currentRef.scrollHeight -
+          currentRef.scrollTop -
+          currentRef.clientHeight <
+        100;
+      if (isBottom && hasMore && !isLoading) {
+        setPage((prevPage) => prevPage + 1);
       }
     };
     currentRef.addEventListener("scroll", handleScroll);
     return () => {
       currentRef.removeEventListener("scroll", handleScroll);
     };
-  }, [
-    isLoading,
-    hasMore,
-    page,
-    applyPagination,
-    allEntitiesData,
-    activeTab,
-    serviceMap,
-  ]);
+  }, [isLoading, hasMore, activeTab, serviceMap]);
 
   const filteredEntities = useMemo(() => {
     if (!searchTerm) {
       return entities;
     }
     const lowerCaseSearch = searchTerm.toLowerCase();
-    return entities.filter((entity) =>
-      entity.name.toLowerCase().includes(lowerCaseSearch)
+    return entities.filter(
+      (entity) =>
+        entity.name && entity.name.toLowerCase().includes(lowerCaseSearch)
     );
   }, [entities, searchTerm]);
 
@@ -123,7 +109,7 @@ const Sale = ({ clientId }) => {
     const saleData = {
       clientId: clientId,
       contractsIds: [],
-      totalAmount: selectedEntity.totalValue,
+      totalAmount: selectedEntity.totalValue || 1, // x
     };
     switch (activeTab) {
       case "Contracts":
@@ -176,7 +162,7 @@ const Sale = ({ clientId }) => {
         Nenhum resultado encontrado para "{searchTerm}".
       </div>
     );
-  } else if (entities.length === 0) {
+  } else if (entities.length === 0 && !isLoading && !hasMore) {
     emptyMessage = (
       <div className="empty-message">
         Nenhum {activeTab.toLowerCase().slice(0, -1)} encontrado.
@@ -203,13 +189,13 @@ const Sale = ({ clientId }) => {
         />
 
         <div ref={scrollRef} className="entity-list-container">
-          {filteredEntities.length === 0 && !isLoading ? (
+          {filteredEntities.length === 0 && !isLoading ? ( // ...
             emptyMessage
           ) : (
             <>
               {filteredEntities.map((entity) => (
                 <div
-                  key={entity.id}
+                  key={`${activeTab}-${entity.id}`}
                   className={`entity-item 
                         ${
                           selectedEntity && selectedEntity.id === entity.id
