@@ -34,7 +34,9 @@ const Sale = ({ clientId }) => {
       if (pageToLoad > 0 && !hasMore) return;
       setIsLoading(true);
       try {
-        const dataGeneral = await service.findPaginated(pageToLoad);
+        const name = "a";
+        const dataGeneral = await service.findByName(pageToLoad, name);
+        console.log(dataGeneral);
         const newContent = dataGeneral.content || [];
         const isLastPage = dataGeneral.last;
         setEntities((prev) =>
@@ -128,7 +130,6 @@ const Sale = ({ clientId }) => {
       ])
     );
     try {
-      console.log(payload);
       await saleService.create(payload);
       setSelectedEntity(null);
       toast.success(
