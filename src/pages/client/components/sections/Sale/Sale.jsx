@@ -12,7 +12,8 @@ const Sale = ({ clientId }) => {
   const [activeTab, setActiveTab] = useState("Contracts");
   const [entities, setEntities] = useState([]);
   const [selectedEntity, setSelectedEntity] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [inputSearchTerm, setInputSearchTerm] = useState("");
+  const [committedSearchTerm, setCommittedSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -20,9 +21,15 @@ const Sale = ({ clientId }) => {
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      //handleSearch();
+      handleSearch();
     }
   };
+
+  const handleSearch = useCallback(() => {
+    if (inputSearchTerm !== committedSearchTerm) {
+      setCommittedSearchTerm(inputSearchTerm);
+    }
+  }, [inputSearchTerm, committedSearchTerm]);
 
   const serviceMap = useMemo(
     () => ({
@@ -34,13 +41,12 @@ const Sale = ({ clientId }) => {
   );
 
   const fetchEntities = useCallback(
-    async (pageToLoad) => {
+    async (pageToLoad, name) => {
       const service = serviceMap[activeTab];
       if (!service) return;
       if (pageToLoad > 0 && !hasMore) return;
       setIsLoading(true);
       try {
-        const name = "a";
         const dataGeneral = await service.findByName(pageToLoad, name);
         const newContent = dataGeneral.content || [];
         const isLastPage = dataGeneral.last;
@@ -69,15 +75,14 @@ const Sale = ({ clientId }) => {
     setPage(0);
     setHasMore(true);
     setSelectedEntity(null);
-    setSearchTerm("");
-    fetchEntities(0);
-  }, [activeTab, serviceMap]);
+    fetchEntities(0, committedSearchTerm);
+  }, [activeTab, committedSearchTerm, fetchEntities]);
 
   useEffect(() => {
     if (page > 0) {
-      fetchEntities(page);
+      fetchEntities(page, committedSearchTerm);
     }
-  }, [page, fetchEntities]);
+  }, [page, fetchEntities, committedSearchTerm]);
 
   useEffect(() => {
     const currentRef = scrollRef.current;
@@ -98,16 +103,7 @@ const Sale = ({ clientId }) => {
     };
   }, [isLoading, hasMore, activeTab, serviceMap]);
 
-  const filteredEntities = useMemo(() => {
-    if (!searchTerm) {
-      return entities;
-    }
-    const lowerCaseSearch = searchTerm.toLowerCase();
-    return entities.filter(
-      (entity) =>
-        entity.name && entity.name.toLowerCase().includes(lowerCaseSearch)
-    );
-  }, [entities, searchTerm]);
+  const displayEntities = entities;
 
   const handleSell = useCallback(async () => {
     if (!selectedEntity) {
@@ -163,16 +159,10 @@ const Sale = ({ clientId }) => {
     emptyMessage = (
       <div className="empty-message">A aba {activeTab} está desativada.</div>
     );
-  } else if (searchTerm && filteredEntities.length === 0) {
+  } else if (displayEntities.length === 0 && !isLoading && !hasMore) {
     emptyMessage = (
       <div className="empty-message">
-        Nenhum resultado encontrado para "{searchTerm}".
-      </div>
-    );
-  } else if (entities.length === 0 && !isLoading && !hasMore) {
-    emptyMessage = (
-      <div className="empty-message">
-        Nenhum {activeTab.toLowerCase().slice(0, -1)} encontrado.
+        Nenhum resultado encontrado para "{committedSearchTerm}".
       </div>
     );
   }
@@ -190,13 +180,14 @@ const Sale = ({ clientId }) => {
           <input
             type="text"
             placeholder={`Buscar ${activeTab} por nome...`}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            value={inputSearchTerm}
+            onChange={(e) => setInputSearchTerm(e.target.value)}
             disabled={!serviceMap[activeTab]}
             className="search-input"
+            onKeyDown={handleKeyDown}
           />
           <button
-            // onClick={handleSearch}
+            onClick={handleSearch}
             disabled={!serviceMap[activeTab] || isLoading}
             className="search-button"
             title="Pesquisar"
@@ -206,11 +197,11 @@ const Sale = ({ clientId }) => {
         </div>
 
         <div ref={scrollRef} className="entity-list-container">
-          {filteredEntities.length === 0 && !isLoading ? ( // ...
+          {displayEntities.length === 0 && !isLoading ? ( // ...
             emptyMessage
           ) : (
             <>
-              {filteredEntities.map((entity) => (
+              {displayEntities.map((entity) => (
                 <div
                   key={`${activeTab}-${entity.id}`}
                   className={`entity-item 
@@ -232,7 +223,7 @@ const Sale = ({ clientId }) => {
 
         <button
           onClick={handleSell}
-          disabled={!selectedEntity}
+          disabled={!selectedEntity || isLoading}
           className="sell-button"
         >
           Realizar Venda
