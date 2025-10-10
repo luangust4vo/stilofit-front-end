@@ -181,14 +181,26 @@ const Sale = ({ clientId }) => {
       </div>
 
       <div className="sale-content">
-        <input
-          type="text"
-          placeholder={`Buscar ${activeTab} por nome...`}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          disabled={!serviceMap[activeTab]}
-          className="search-input"
-        />
+        <div className="actions-bar">
+          <input
+            type="text"
+            placeholder={`Buscar ${activeTab} por nome...`}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            disabled={!serviceMap[activeTab]}
+            className="search-input"
+          />
+          <button
+            // onClick={handleSearch}
+            disabled={!serviceMap[activeTab] || isLoading}
+            className={`search-button ${
+              !serviceMap[activeTab] || isLoading ? "active" : ""
+            }`}
+            title="Pesquisar"
+          >
+            <i className="bi bi-search"></i>
+          </button>
+        </div>
 
         <div ref={scrollRef} className="entity-list-container">
           {filteredEntities.length === 0 && !isLoading ? ( // ...
@@ -215,15 +227,13 @@ const Sale = ({ clientId }) => {
           )}
         </div>
 
-        <div className="button-div">
-          <button
-            onClick={handleSell}
-            disabled={!selectedEntity}
-            className="sell-button"
-          >
-            Realizar Venda
-          </button>
-        </div>
+        <button
+          onClick={handleSell}
+          disabled={!selectedEntity}
+          className="sell-button"
+        >
+          Realizar Venda
+        </button>
       </div>
     </div>
   );
