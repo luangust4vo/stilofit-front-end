@@ -18,6 +18,12 @@ const Sale = ({ clientId }) => {
   const [hasMore, setHasMore] = useState(true);
   const scrollRef = useRef(null);
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      //handleSearch();
+    }
+  };
+
   const serviceMap = useMemo(
     () => ({
       Contracts: contractService,
@@ -36,7 +42,6 @@ const Sale = ({ clientId }) => {
       try {
         const name = "a";
         const dataGeneral = await service.findByName(pageToLoad, name);
-        console.log(dataGeneral);
         const newContent = dataGeneral.content || [];
         const isLastPage = dataGeneral.last;
         setEntities((prev) =>
@@ -193,9 +198,7 @@ const Sale = ({ clientId }) => {
           <button
             // onClick={handleSearch}
             disabled={!serviceMap[activeTab] || isLoading}
-            className={`search-button ${
-              !serviceMap[activeTab] || isLoading ? "active" : ""
-            }`}
+            className="search-button"
             title="Pesquisar"
           >
             <i className="bi bi-search"></i>
