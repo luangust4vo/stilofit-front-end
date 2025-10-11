@@ -173,14 +173,13 @@
       border-radius: 0.5rem;
       @include shadow-xl;
       transition: all 300ms;
-      transform: scale(1);
+      cursor: pointer;
 
       background-color: vars.$color-green-600;
       color: vars.$color-white;
 
       &:hover:not(:disabled) {
         background-color: vars.$color-green-700;
-        transform: scale(1.01);
       }
       &:active:not(:disabled) {
         background-color: vars.$color-green-800;
