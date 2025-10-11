@@ -67,7 +67,7 @@ const Sale = ({ clientId }) => {
         setIsLoading(false);
       }
     },
-    [activeTab, serviceMap, hasMore]
+    [activeTab, serviceMap]
   );
 
   useEffect(() => {
