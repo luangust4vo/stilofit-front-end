@@ -141,6 +141,14 @@ const Sale = ({ clientId }) => {
     }
   }, [selectedEntity, clientId, activeTab, saleService]);
 
+  const handleSelectEntity = (entity) => {
+    if (selectedEntity && selectedEntity.id === entity.id) {
+        setSelectedEntity(null);
+    } else {
+        setSelectedEntity(entity);
+    }
+  };
+
   const TabButton = ({ tab, name }) => (
     <button
       onClick={() => setActiveTab(tab)}
@@ -210,7 +218,7 @@ const Sale = ({ clientId }) => {
                             ? "selected"
                             : ""
                         }`}
-                  onClick={() => setSelectedEntity(entity)}
+                  onClick={() => handleSelectEntity(entity)}
                 >
                   <span>{entity.id}</span>
                   <span>{entity.name}</span>
