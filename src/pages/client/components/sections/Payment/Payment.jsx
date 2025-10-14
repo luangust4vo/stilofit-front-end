@@ -32,7 +32,11 @@ const Payment = ({ clientId, saleId }) => {
     }
   }, [saleId, clientId, saleService]);
 
-  return <></>;
+  return (
+    <>
+      <div>- Pagamento -</div>
+    </>
+  );
 };
 
 export default Payment;
