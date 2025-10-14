@@ -14,9 +14,6 @@ const Payment = ({ clientId, saleId }) => {
         try {
           const sale = await saleService.findById(saleId);
           if (sale) {
-            console.log(sale);
-            console.log(sale.client.id);
-            console.log(clientId);
             if (sale.client.id == clientId) {
               setFetchedSale(sale);
               console.log("Venda e Cliente Validados:", sale);
