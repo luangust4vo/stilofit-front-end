@@ -11,11 +11,13 @@ const Payment = ({ clientId, saleId }) => {
     if (saleId && clientId) {
       const fetchSaleAndValidate = async () => {
         setFetchedSale(null);
-        setValidationMessage(null);
         try {
           const sale = await saleService.findById(saleId);
           if (sale) {
-            if (sale.clientId === clientId) {
+            console.log(sale);
+            console.log(sale.client.id);
+            console.log(clientId);
+            if (sale.client.id == clientId) {
               setFetchedSale(sale);
               console.log("Venda e Cliente Validados:", sale);
             } else {

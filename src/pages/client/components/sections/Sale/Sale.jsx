@@ -6,7 +6,7 @@ import "./Sale.scss";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Sale = ({ clientId }) => {
+const Sale = ({ clientId, onSaleSuccess }) => {
   const contractService = useMemo(() => new ClientService(), []);
   const saleService = useMemo(() => new SaleService(), []);
   const [activeTab, setActiveTab] = useState("Contracts");
@@ -27,6 +27,9 @@ const Sale = ({ clientId }) => {
 
   const handleSearch = useCallback(() => {
     if (inputSearchTerm !== committedSearchTerm) {
+      setCommittedSearchTerm(inputSearchTerm);
+      setPage(0);
+      setHasMore(true);
       setCommittedSearchTerm(inputSearchTerm);
     }
   }, [inputSearchTerm, committedSearchTerm]);
@@ -131,21 +134,26 @@ const Sale = ({ clientId }) => {
       ])
     );
     try {
-      await saleService.create(payload);
+      const saleResult = await saleService.create(payload);
+      if (saleResult && saleResult.id && onSaleSuccess) {
+        onSaleSuccess(saleResult.id);
+        toast.success(
+          `Venda de ${selectedEntity.name} realizada para o Cliente (ID): ${saleResult.client.id}!`
+        );
+      } else {
+        toast.error("Falha ao obter ID da venda para prosseguir.");
+      }
       setSelectedEntity(null);
-      toast.success(
-        `Venda de ${selectedEntity.name} realizada para o Cliente (ID): ${clientId}!`
-      );
     } catch (error) {
       toast.error("Falha na venda. Verifique a conexão ou os dados.");
     }
-  }, [selectedEntity, clientId, activeTab, saleService]);
+  }, [selectedEntity, clientId, activeTab, saleService, onSaleSuccess]);
 
   const handleSelectEntity = (entity) => {
     if (selectedEntity && selectedEntity.id === entity.id) {
-        setSelectedEntity(null);
+      setSelectedEntity(null);
     } else {
-        setSelectedEntity(entity);
+      setSelectedEntity(entity);
     }
   };
 
@@ -205,7 +213,7 @@ const Sale = ({ clientId }) => {
         </div>
 
         <div ref={scrollRef} className="entity-list-container">
-          {displayEntities.length === 0 && !isLoading ? ( // ...
+          {displayEntities.length === 0 && !isLoading ? (
             emptyMessage
           ) : (
             <>

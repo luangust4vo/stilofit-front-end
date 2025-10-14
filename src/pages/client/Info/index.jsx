@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "../../../components";
 import "./infoClient.scss";
 import ClientService from "../../../services/ClientService";
-import { Data, Sale } from "../components/sections";
+import { Data, Sale, Payment } from "../components/sections";
 
 const TABS_CONFIG = {
   Status: () => <div>- Status -</div>,
   Data: Data,
   Sale: Sale,
-  Payment: () => <div>- Pagamento -</div>,
+  Payment: Payment,
   Contract: () => <div>- Contrato -</div>,
   ClassRoom: () => <div>- Turma -</div>,
   Training: () => <div>- Treino -</div>,
@@ -20,6 +20,7 @@ const Info = () => {
   const { id } = useParams();
   const [selectedClient, setSelectedClient] = useState(null);
   const [activeTab, setActiveTab] = useState("Data");
+  const [lastSaleIds, setLastSaleIds] = useState(null);
   const clientService = new ClientService();
 
   useEffect(() => {
@@ -38,9 +39,35 @@ const Info = () => {
     }
   }, [id]);
 
+  const handleSaleSuccess = useCallback(
+    (saleId) => {
+      setLastSaleIds({ clientId: id, saleId });
+      setActiveTab("Sale");
+    },
+    [id]
+  );
+
+  const handleBackFromPayment = useCallback(() => {
+    setLastSaleIds(null);
+    setActiveTab("Sale");
+  }, []);
+
   const renderContent = () => {
+    if (lastSaleIds?.saleId && lastSaleIds?.clientId) {
+      return (
+        <Payment
+          clientId={lastSaleIds.clientId}
+          saleId={lastSaleIds.saleId}
+          onBack={handleBackFromPayment}
+        />
+      );
+    }
+
     const ComponentToRender = TABS_CONFIG[activeTab];
     if (ComponentToRender) {
+      if (activeTab === "Sale") {
+        return <Sale clientId={id} onSaleSuccess={handleSaleSuccess} />;
+      }
       return <ComponentToRender clientId={id} />;
     }
     return <div>Selecione uma aba.</div>;
@@ -78,8 +105,13 @@ const Info = () => {
             {Object.keys(TABS_CONFIG).map((tabName) => (
               <Button
                 key={tabName}
-                className={`btn menu-btn ${activeTab === tabName ? "active" : ""}`}
-                onClick={() => setActiveTab(tabName)}
+                className={`btn menu-btn ${
+                  activeTab === tabName ? "active" : ""
+                }`}
+                onClick={() => {
+                  setActiveTab(tabName);
+                  setLastSaleIds(null);
+                }}
               >
                 {TAB_DISPLAY_NAMES[tabName]}
               </Button>
