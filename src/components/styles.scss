@@ -28,7 +28,8 @@
   }
 
   &.has-error select,
-  &.has-error input {
+  &.has-error input,
+  &.has-error textarea {
     border-color: red;
   }
 

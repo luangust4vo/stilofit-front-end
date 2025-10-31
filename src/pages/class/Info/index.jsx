@@ -34,7 +34,8 @@ const InfoTurma = ({ id: propId, onClose }) => {
             <strong>Local:</strong> {selectedClass.local}
           </p>
           <p>
-            <strong>Observações:</strong> {selectedClass.observacoes}
+            <strong>Observações:</strong>{" "}
+            {selectedClass.observacoes ? selectedClass.observacoes : "-"}
           </p>
           <div className="color-info">
             <p>

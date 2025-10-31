@@ -58,8 +58,8 @@ function ContractTable() {
       })}
       visualize={({ selectedId, setSelectedId }) =>
         selectedId !== null && (
-          <div className="center-modal-overlay">
-            <div className="center-modal-content">
+          <div className="center-modal-overlay-contract">
+            <div className="center-modal-content-contract">
               <InfoContract
                 id={selectedId}
                 onClose={() => setSelectedId(null)}
@@ -71,7 +71,7 @@ function ContractTable() {
     >
       {(element) => (
         <>
-          <td>{element.name}</td>
+          <td className="truncate-text">{element.name}</td>
           <td>
             {"R$ " + Number(element.totalValue).toFixed(2).replace(".", ",")}
           </td>
@@ -79,7 +79,7 @@ function ContractTable() {
           <td>
             {element.installmentsValue
               ? "R$ " +
-              Number(element.installmentsValue).toFixed(2).replace(".", ",")
+                Number(element.installmentsValue).toFixed(2).replace(".", ",")
               : "-"}
           </td>
           <td>
@@ -87,8 +87,8 @@ function ContractTable() {
             {element.typeExpire === "por Seção"
               ? " aulas"
               : element.typeExpire === "por Tempo"
-                ? " meses"
-                : ""}
+              ? " meses"
+              : ""}
           </td>
           <td className="buttons">
             <Button

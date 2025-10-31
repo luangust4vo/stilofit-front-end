@@ -28,7 +28,7 @@ export default function Login() {
         <div className="login-box">
           <img src={xLogo} alt="logo" className="logo" />
           <FormProvider {...methods}>
-            <form className="form" onSubmit={handleSubmit(onSubmit)}>
+            <form className="form" onSubmit={handleSubmit(onSubmit)} noValidate>
               <LoginInput name="email" label="Email" required />
               <LoginInput
                 name="password"
@@ -39,7 +39,9 @@ export default function Login() {
               <div className="div-caps">
                 {capsLockAtivo && <p className="msg-caps">CapsLock ATIVADO</p>}
               </div>
-              <Button className="button" aria-label="Entrar">Entrar</Button>
+              <Button className="button" aria-label="Entrar">
+                Entrar
+              </Button>
             </form>
           </FormProvider>
         </div>
