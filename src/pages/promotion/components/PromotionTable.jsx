@@ -13,6 +13,8 @@ function PromotionTable() {
   const [selectedInfoId, setSelectedInfoId] = useState(null);
 
   const [search, setSearch] = useState("");
+  const [query, setQuery] = useState("");
+
   const [data, setData] = useState([]);
   const [totalElements, setTotalElements] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
@@ -24,10 +26,10 @@ function PromotionTable() {
   const fetchPromotions = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await promotionService.findPaginated(
+      const response = await promotionService.findByName(
         currentPage,
-        size,
-        search
+        query,
+        size
       );
       setData(response.content || []);
       setTotalElements(response.totalElements || 0);
@@ -38,11 +40,22 @@ function PromotionTable() {
     } finally {
       setIsLoading(false);
     }
-  }, [currentPage, size, search]);
+  }, [currentPage, size, query, promotionService]);
 
   useEffect(() => {
     fetchPromotions();
   }, [fetchPromotions]);
+
+  const handleSearch = () => {
+    setQuery(search);
+    setCurrentPage(0);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   const handleCadastroSucesso = () => {
     setShowModal(false);
@@ -109,10 +122,10 @@ function PromotionTable() {
                 value={search}
                 onChange={(e) => {
                   setSearch(e.target.value);
-                  setCurrentPage(0);
                 }}
+                onKeyDown={handleKeyDown}
               />
-              <i className="bi bi-funnel-fill"></i>
+              <i className="bi bi-funnel-fill" onClick={handleSearch}></i>
               <Button
                 className="btn-icon-table"
                 onClick={() => {
