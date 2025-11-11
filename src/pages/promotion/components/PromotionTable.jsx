@@ -3,8 +3,8 @@ import { Button } from "../../../components";
 import Table from "../../../components/Table/Table";
 //import PromotionModal from "../Register/index";
 //import InfoPromotion from "../Info/index";
-import { promotionService } from "../../../services/PromotionService"; 
-import "./styles.scss";
+import PromotionService from "../../../services/PromotionService"; 
+import "./promotionTable.scss";
 
 function PromotionTable() {
     const [showModal, setShowModal] = useState(false);
@@ -18,6 +18,8 @@ function PromotionTable() {
     const [currentPage, setCurrentPage] = useState(0);
     const [size, setSize] = useState(10);
     const [isLoading, setIsLoading] = useState(false);
+
+    const promotionService = new PromotionService();
 
     const fetchPromotions = useCallback(async () => {
         setIsLoading(true);
