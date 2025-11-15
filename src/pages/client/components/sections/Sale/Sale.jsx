@@ -216,6 +216,12 @@ const Sale = ({ clientId, onSaleSuccess }) => {
             emptyMessage
           ) : (
             <>
+              <div className="entity-list-header">
+                <span>ID</span>
+                <span>Nome</span>
+                <span>Preço</span>
+              </div>
+
               {displayEntities.map((entity) => (
                 <div
                   key={`${activeTab}-${entity.id}`}
