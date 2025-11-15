@@ -1,5 +1,4 @@
 import ContractService from "../../../../../services/ContractService";
-import ClientService from "../../../../../services/ClientService";
 import SaleService from "../../../../../services/SaleService";
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import "./Sale.scss";
@@ -7,7 +6,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Sale = ({ clientId, onSaleSuccess }) => {
-  const contractService = useMemo(() => new ClientService(), []);
+  const contractService = useMemo(() => new ContractService(), []);
   const saleService = useMemo(() => new SaleService(), []);
   const [activeTab, setActiveTab] = useState("Contracts");
   const [entities, setEntities] = useState([]);
@@ -230,7 +229,9 @@ const Sale = ({ clientId, onSaleSuccess }) => {
                 >
                   <span>{entity.id}</span>
                   <span>{entity.name}</span>
-                  {/*<span>R$ {entity.totalValue.toFixed(2).replace(".", ",")}</span>*/}
+                  <span>
+                    R$ {entity.totalValue.toFixed(2).replace(".", ",")}
+                  </span>
                 </div>
               ))}
             </>
