@@ -5,14 +5,14 @@ class ContractService extends BaseService {
     super("/contracts");
   }
 
-  async findAll() {
-    const response = await this.api.get(`${this.endPoint}`); // `${this.endPoint}/list-all-contracts` não existe no back
-    return response.data.content;
+  async findById(id) {
+    const response = await this.api.get(`${this.endPoint}/find-by-id/${id}`);
+    return response.data;
   }
-
-  async findPaginated(page, size = 30) {
+  
+  async findAll(page, size = 30) {
     const params = { page, size };
-    const response = await this.api.get(`${this.endPoint}`, {
+    const response = await this.api.get(`${this.endPoint}/list-all`, {
       params,
     });
     return response.data;
@@ -20,7 +20,7 @@ class ContractService extends BaseService {
 
   async findByName(page, name, size = 30) {
     const params = { page, name, size };
-    const response = await this.api.get(`${this.endPoint}`, {
+    const response = await this.api.get(`${this.endPoint}/find-by-name`, {
       params,
     });
     return response.data;
