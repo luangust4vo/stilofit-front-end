@@ -114,12 +114,12 @@ const Sale = ({ clientId, onSaleSuccess }) => {
     }
     const saleData = {
       clientId: clientId,
-      contractsIds: [],
-      totalAmount: selectedEntity.totalValue || 1, // x
+      contractId: null,
+      totalAmount: selectedEntity.totalValue,
     };
     switch (activeTab) {
       case "Contracts":
-        saleData.contractsIds.push(selectedEntity.id);
+        saleData.contractId = selectedEntity.id;
         break;
       default:
         console.warn(`Aba ativa desconhecida: ${activeTab}`);
