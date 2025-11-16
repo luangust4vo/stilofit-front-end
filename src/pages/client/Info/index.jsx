@@ -42,7 +42,7 @@ const Info = () => {
   const handleSaleSuccess = useCallback(
     (saleId) => {
       setLastSaleIds({ clientId: id, saleId });
-      setActiveTab("Sale");
+      setActiveTab("Payment");
     },
     [id]
   );
