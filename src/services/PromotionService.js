@@ -5,7 +5,7 @@ class PromotionService extends BaseService {
     super("/promotions");
   }
 
-  async findPaginated(page, size = 30) {
+  async findAll(page, size = 30) {
     const params = { page, size };
     const response = await this.api.get(`${this.endPoint}/list-all`, {
       params,
