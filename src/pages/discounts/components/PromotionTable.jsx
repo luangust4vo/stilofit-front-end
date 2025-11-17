@@ -6,7 +6,7 @@ import Table from "../../../components/Table/Table";
 import PromotionService from "../../../services/PromotionService";
 import "./promotionTable.scss";
 
-function PromotionTable() {
+function PromotionTable({ activeMode, setActiveMode }) {
   const [showModal, setShowModal] = useState(false);
   const [idEdit, setIdEdit] = useState(null);
   const [showInfoModal, setShowInfoModal] = useState(false);
@@ -114,7 +114,24 @@ function PromotionTable() {
         loading={isLoading}
         headerComponent={() => (
           <>
-            <div className="header-left"></div>
+            <div className="header-left">
+              <Button
+                className={`btn-mode ${
+                  activeMode === "Promotion" ? "active" : ""
+                }`}
+                onClick={() => setActiveMode("Promotion")}
+              >
+                Descontos
+              </Button>
+              <Button
+                className={`btn-mode ${
+                  activeMode === "Agreement" ? "active" : ""
+                }`}
+                onClick={() => setActiveMode("Agreement")}
+              >
+                Convênios
+              </Button>
+            </div>
             <div className="header-right">
               <input
                 className="field-search"
