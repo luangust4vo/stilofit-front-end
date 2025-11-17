@@ -2,7 +2,7 @@ import { useState } from "react";
 import PromotionTable from "./promotion/PromotionTable";
 import AgreementTable from "./AgreementTable";
 
-const DiscountsAndAgreements = () => {
+const Discounts = () => {
   const [activeMode, setActiveMode] = useState("Promotion");
 
   const renderTable = () => {
@@ -22,4 +22,4 @@ const DiscountsAndAgreements = () => {
   return <div className="discounts-wrapper">{renderTable()}</div>;
 };
 
-export default DiscountsAndAgreements;
+export default Discounts;

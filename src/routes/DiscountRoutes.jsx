@@ -1,8 +1,8 @@
 import { Route, Outlet } from "react-router-dom";
 import { LayoutMenu } from "../components/index.jsx";
-import PromotionTable from "../pages/promotion/components/PromotionTable";
+import Discounts from "../pages/discounts/Discounts.jsx";
 
-const PromotionRoutes = () => {
+const DiscountsRoutes = () => {
   return (
     <Route
       path="/promocao"
@@ -12,9 +12,9 @@ const PromotionRoutes = () => {
         </LayoutMenu>
       }
     >
-      <Route index element={<PromotionTable />} />
+      <Route index element={<Discounts />} />
     </Route>
   );
 };
 
-export default PromotionRoutes;
+export default DiscountsRoutes;
