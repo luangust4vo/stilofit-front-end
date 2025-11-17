@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { Button } from "../../../components";
 import Table from "../../../components/Table/Table";
 import PromotionService from "../../../services/PromotionService";
@@ -19,7 +19,7 @@ function PromotionTable({ activeMode, setActiveMode }) {
   const [size, setSize] = useState(10);
   const [isLoading, setIsLoading] = useState(false);
 
-  const promotionService = new PromotionService();
+  const promotionService = useMemo(() => new PromotionService(), []);
 
   const fetchPromotions = useCallback(async () => {
     setIsLoading(true);
