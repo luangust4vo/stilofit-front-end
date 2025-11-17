@@ -4,7 +4,7 @@ import Table from "../../../components/Table/Table";
 //import PromotionModal from "../Register/index";
 //import InfoPromotion from "../Info/index";
 import PromotionService from "../../../services/PromotionService";
-import "./promotionTable.scss";
+import "../discountsTables.scss";
 
 function PromotionTable({ activeMode, setActiveMode }) {
   const [showModal, setShowModal] = useState(false);

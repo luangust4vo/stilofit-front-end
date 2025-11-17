@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PromotionTable from "./promotion/PromotionTable";
-import AgreementTable from "./AgreementTable";
+import AgreementTable from "./agreement/AgreementTable";
 
 const Discounts = () => {
   const [activeMode, setActiveMode] = useState("Promotion");
