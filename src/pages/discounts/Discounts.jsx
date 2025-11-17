@@ -1,5 +1,5 @@
 import { useState } from "react";
-import PromotionTable from "./PromotionTable";
+import PromotionTable from "./promotion/PromotionTable";
 import AgreementTable from "./AgreementTable";
 
 const DiscountsAndAgreements = () => {
@@ -19,12 +19,7 @@ const DiscountsAndAgreements = () => {
     return null;
   };
 
-  return (
-    <div className="discounts-wrapper">
-
-      {renderTable()}
-    </div>
-  );
+  return <div className="discounts-wrapper">{renderTable()}</div>;
 };
 
 export default DiscountsAndAgreements;
