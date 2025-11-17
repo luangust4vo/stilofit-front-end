@@ -121,7 +121,7 @@ function PromotionTable({ activeMode, setActiveMode }) {
                 }`}
                 onClick={() => setActiveMode("Promotion")}
               >
-                Descontos
+                Promoções
               </Button>
               <Button
                 className={`btn-mode ${
