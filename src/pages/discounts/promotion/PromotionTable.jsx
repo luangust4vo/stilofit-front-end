@@ -1,8 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "../../../components";
 import Table from "../../../components/Table/Table";
-//import PromotionModal from "../Register/index";
-//import InfoPromotion from "../Info/index";
 import PromotionService from "../../../services/PromotionService";
 import "../discountsTables.scss";
 
@@ -166,28 +164,6 @@ function PromotionTable({ activeMode, setActiveMode }) {
       >
         {renderTableData}
       </Table>
-
-      {/* Adicione um componente de paginação aqui, se necessário, usando currentPage, size e totalElements */}
-      {/* Ex: <Pagination currentPage={currentPage} totalElements={totalElements} onPageChange={setCurrentPage} /> */}
-
-      {showModal &&
-        {
-          /*<PromotionModal
-                    id={idEdit}
-                    onClose={() => setShowModal(false)}
-                    onSuccess={handleCadastroSucesso}
-                />*/
-        }}
-      {showInfoModal && (
-        <div className="center-modal-overlay-class">
-          <div className="center-modal-content-class">
-            {/*<InfoPromotion
-                            id={selectedInfoId}
-                            onClose={() => setShowInfoModal(false)}
-                        />*/}
-          </div>
-        </div>
-      )}
     </>
   );
 }
