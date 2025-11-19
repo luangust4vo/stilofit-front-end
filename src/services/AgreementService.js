@@ -2,7 +2,7 @@ import BaseService from "./BaseService";
 
 class AgreementService extends BaseService {
   constructor() {
-    super("/promotions");
+    super("/agreements");
   }
 
   async findAll(page, size = 30) {
