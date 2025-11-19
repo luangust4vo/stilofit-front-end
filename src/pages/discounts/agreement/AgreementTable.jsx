@@ -21,7 +21,7 @@ function AgreementTable({ activeMode, setActiveMode }) {
 
   const agreementService = useMemo(() => new AgreementService(), []);
 
-  const fetchPromotions = useCallback(async () => {
+  const fetchAgreement = useCallback(async () => {
     setIsLoading(true);
     try {
       const response = await agreementService.findByName(
@@ -32,7 +32,7 @@ function AgreementTable({ activeMode, setActiveMode }) {
       setData(response.content || []);
       setTotalElements(response.totalElements || 0);
     } catch (error) {
-      console.error("Erro ao carregar promoções:", error);
+      console.error("Erro ao carregar convenios:", error);
       setData([]);
       setTotalElements(0);
     } finally {
@@ -41,8 +41,8 @@ function AgreementTable({ activeMode, setActiveMode }) {
   }, [currentPage, size, query, agreementService]);
 
   useEffect(() => {
-    fetchPromotions();
-  }, [fetchPromotions]);
+    fetchAgreement();
+  }, [fetchAgreement]);
 
   const handleSearch = () => {
     setQuery(search);
@@ -58,7 +58,7 @@ function AgreementTable({ activeMode, setActiveMode }) {
   const handleCadastroSucesso = () => {
     setShowModal(false);
     setIdEdit(null);
-    fetchPromotions();
+    fetchAgreement();
   };
 
   const handleOpenEditModal = (id) => {
